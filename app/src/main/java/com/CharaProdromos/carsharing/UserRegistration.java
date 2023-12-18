@@ -82,7 +82,7 @@ public class UserRegistration extends AppCompatActivity{
                                 toast.show();
                             }
                             else {
-
+                                setContentView(R.layout.login_screen);
                             }
                         }
                         catch (Exception exception) {
