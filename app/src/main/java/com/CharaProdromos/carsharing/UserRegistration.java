@@ -2,11 +2,15 @@ package com.CharaProdromos.carsharing;
 
 import static android.provider.Settings.System.getString;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -20,23 +24,41 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+
 public class UserRegistration extends AppCompatActivity{
     private Context context;
 //    private Button registerButton = findViewById(R.id.buttonRegister);
+    
+
+    private DatePickerDialog datePickerDialog;
+    private MaterialButton dateButton;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_screen);
+        
+        initDatePicker();
+        dateButton = findViewById(R.id.datePickerButton);
+        dateButton.setText(getTodaysDate());
+        dateButton.setEnabled(true);
 
-        Context context = this;
         EditText editTextUsername =findViewById(R.id.editTextUsername);
         EditText editTextPassword =findViewById(R.id.editTextPassword);
+        EditText editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        EditText editTextName = findViewById(R.id.editTextName);
+        EditText editTextDateofBirth = editTextName;
+        EditText editTextLicenseId = findViewById(R.id.editTextLicenseId);
+        EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         Button registerButton = findViewById(R.id.buttonRegister);
+
         System.out.println("hrenew");
         System.out.println("hrenew");
         registerButton.setEnabled(true);
@@ -47,21 +69,168 @@ public class UserRegistration extends AppCompatActivity{
                 // Get the username and password from EditText fields
                 String username = editTextUsername.getText().toString();
                 String password = editTextPassword.getText().toString();
+                String confirmPassword = editTextConfirmPassword.getText().toString();
+
+                if (password.equals(confirmPassword) == false) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+
+                String name = editTextName.getText().toString();
+                String date = dateButton.getText().toString();
+                String licenseId = editTextLicenseId.getText().toString();
+                String phoneNumber = editTextPhoneNumber.getText().toString();
 
                 // Execute AsyncTask to perform the HTTP request
-                httpRequestRegistration(username, password);
+                httpRequestRegistration(username, password, name, date, licenseId, phoneNumber);
             }
         });
+    }
 
+    private String getTodaysDate() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        month = month + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        return makeDateString(day, month, year);
+    }
+
+    private String makeDateString(int day, int month, int year) {
+        return getMonthFormat(month) + " " + day + " " + year;
     }
 
 
-    private void httpRequestRegistration(String username, String password) {
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                month = month + 1;
+
+                String date = makeDateString(dayOfMonth, month, year);
+                dateButton.setText(date);
+            }
+        };
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        int style = AlertDialog.THEME_HOLO_LIGHT;
+
+        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
+    }
+
+    private String getMonthFormat(int month) {
+        switch (month) {
+            case 1: {
+                return "JAN";
+            }
+            case 2: {
+                return "FEB";
+            }
+            case 3: {
+               return "MAR";
+            }
+            case 4: {
+                return "APR";
+            }
+            case 5: {
+                return "MAY";
+            }
+            case 6: {
+                return "JUN";
+            }
+            case 7: {
+                return "JUL";
+            }
+            case 8: {
+                return "AUG";
+            }
+            case 9: {
+                return "SEP";
+            }
+            case 10: {
+                return "OCT";
+            }
+            case 11: {
+                return "NOV";
+            }
+            case 12: {
+                return "DEC";
+            }
+        }
+
+        return "invalid month";
+    }
+
+    public void openDatePicker(View view) {
+        datePickerDialog.show();
+    }
+
+    private String monthDecode(String monthName) {
+        switch (monthName) {
+            case "JAN": {
+                return "1";
+            }
+            case "FEB": {
+                return "2";
+            }
+            case "MAR": {
+                return "3";
+            }
+            case "APR": {
+                return "4";
+            }
+            case "MAY": {
+                return "5";
+            }
+            case "JUN": {
+                return "6";
+            }
+            case "JUL": {
+                return "7";
+            }
+            case "AUG": {
+                return "8";
+            }
+            case "SEP": {
+                return "9";
+            }
+            case "OCT": {
+                return "10";
+            }
+            case "NOV": {
+                return "11";
+            }
+            case "DEC": {
+                return "12";
+            }
+        }
+        //never gets here
+        return "-1";
+    }
+
+
+    private void httpRequestRegistration(String username, String password, String name, String date, String licenseId, String phoneNumber) {
         //RequestQueue initialized
+        String [] words = date.split("\\s+");
+        words[0] = monthDecode(words[0]).toString();
+        date = words[2]+"-"+words[0]+"-"+words[1];
+
+
+
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("Username", username);
             jsonBody.put("Password", password);
+            jsonBody.put("name", name);
+            jsonBody.put("date", date);
+            jsonBody.put("licenseId", licenseId);
+            jsonBody.put("phoneNumber", phoneNumber);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -82,7 +251,8 @@ public class UserRegistration extends AppCompatActivity{
                                 toast.show();
                             }
                             else {
-                                setContentView(R.layout.login_screen);
+                                Intent intent = new Intent(UserRegistration.this, UserLogin.class);
+                                startActivity(intent);
                             }
                         }
                         catch (Exception exception) {

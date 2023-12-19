@@ -141,17 +141,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editTextLicenseId" />
 
-            <EditText
-                android:id="@+id/editTextDateOfBirth"
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/datePickerButton"
                 android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.85"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:inputType="date"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="JAN 11 2000"
+                app:cornerRadius="10dp"
+                android:textColor="@color/myPrimary"
+                android:backgroundTint="@android:color/white"
+                app:strokeColor="@color/myPrimary"
+                app:layout_constraintTop_toBottomOf="@id/textViewDateOfBirth"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewDateOfBirth" />
+                app:layout_constraintEnd_toEndOf="parent"
+                android:onClick="openDatePicker"
+                app:strokeWidth="2dp"/>
 
             <!-- Phone Number -->
             <TextView
@@ -162,7 +167,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Phone Number"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editTextDateOfBirth" />
+                app:layout_constraintTop_toBottomOf="@id/datePickerButton" />
 
             <EditText
                 android:id="@+id/editTextPhoneNumber"
