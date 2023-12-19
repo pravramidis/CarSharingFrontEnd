@@ -143,7 +143,7 @@
         </RelativeLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRegisterNow"
+            android:id="@+id/RegisterNowButton"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Register Now"

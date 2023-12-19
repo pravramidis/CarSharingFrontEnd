@@ -1,6 +1,7 @@
 package com.CharaProdromos.carsharing;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,15 +28,27 @@ public class UserLogin extends AppCompatActivity{
         EditText loginTextUsername =findViewById(R.id.loginTextUsername);
         EditText loginTextPassword =findViewById(R.id.loginTextPassword);
         Button loginButton = findViewById(R.id.loginButton);
+        Button registerButton = findViewById(R.id.RegisterNowButton);
         System.out.println("hrenew");
         System.out.println("hrenew");
         loginButton.setEnabled(true);
+        registerButton.setEnabled(true);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 String username = loginTextUsername.getText().toString();
                 String password = loginTextPassword.getText().toString();
                 httpRequestAuthenticateUser(username, password);
+            }
+
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(UserLogin.this, UserRegistration.class);
+                startActivity(intent);
+
             }
 
         });
