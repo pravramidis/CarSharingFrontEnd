@@ -70,18 +70,21 @@ public class UserRegistration extends AppCompatActivity{
                 String username = editTextUsername.getText().toString();
                 String password = editTextPassword.getText().toString();
                 String confirmPassword = editTextConfirmPassword.getText().toString();
+                String name = editTextName.getText().toString();
+                String date = dateButton.getText().toString();
+                String licenseId = editTextLicenseId.getText().toString();
+                String phoneNumber = editTextPhoneNumber.getText().toString();
+
+                if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty() || date.isEmpty() || licenseId.isEmpty() || phoneNumber.isEmpty()) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
+                    toast.show();
+                }
 
                 if (password.equals(confirmPassword) == false) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Passwords do not match", Toast.LENGTH_LONG);
                     toast.show();
                     return;
                 }
-
-                String name = editTextName.getText().toString();
-                String date = dateButton.getText().toString();
-                String licenseId = editTextLicenseId.getText().toString();
-                String phoneNumber = editTextPhoneNumber.getText().toString();
-
                 // Execute AsyncTask to perform the HTTP request
                 httpRequestRegistration(username, password, name, date, licenseId, phoneNumber);
             }
