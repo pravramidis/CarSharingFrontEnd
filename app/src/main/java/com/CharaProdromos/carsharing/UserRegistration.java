@@ -31,7 +31,9 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class UserRegistration extends AppCompatActivity{
     private Context context;
@@ -78,6 +80,37 @@ public class UserRegistration extends AppCompatActivity{
                 if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty() || date.isEmpty() || licenseId.isEmpty() || phoneNumber.isEmpty()) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
                     toast.show();
+                    return;
+                }
+
+                try {
+                    String [] words = date.split("\\s+");
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy dd MM");
+                    words[0] = monthDecode(words[0]).toString();
+                    date = words[2]+" "+words[0]+" "+words[1];
+                    String today = getTodaysDate();
+                    words = today.split("\\s+");
+                    words[0] = monthDecode(words[0]).toString();
+                    today = words[2]+" "+words[0]+" "+words[1];
+                    System.out.println("dateofbirth " + date);
+                    System.out.println("today " + getTodaysDate());
+                    Date birthDate = sdf.parse(date);
+                    Date currentDate = sdf.parse(today);
+                    long difference = currentDate.getTime() - birthDate.getTime();
+                    //years in milliseconds
+                    long eighteenYears = 18L * 365 * 24 * 60 * 60 * 1000;
+                    System.out.println("diff" + difference);
+                    System.out.println("target"+eighteenYears);
+
+                    if (difference <= eighteenYears) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "You need to be at least 18 years old", Toast.LENGTH_LONG);
+                        toast.show();
+                        return;
+                    }
+                }
+                catch (Exception ex) {
+                    System.out.println("error in date check");
+                    ex.printStackTrace();
                 }
 
                 if (password.equals(confirmPassword) == false) {
