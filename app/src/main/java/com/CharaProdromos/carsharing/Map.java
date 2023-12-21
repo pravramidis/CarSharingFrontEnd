@@ -1,4 +1,4 @@
-package com.CharaProdromos.carsharing.ui.dashboard;
+package com.CharaProdromos.carsharing;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,9 +21,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
 
-public class DashboardFragment extends Fragment {
+public class Map extends Fragment {
     private MapView map;
     private IMapController mapController;
 
@@ -52,7 +51,6 @@ public class DashboardFragment extends Fragment {
         //inflate and create the map
 
 //        setContentView(R.layout.map);
-        getActivity().setContentView(R.layout.fragment_dashboard);
 
 
         if (Build.VERSION.SDK_INT >= 23) {
@@ -62,23 +60,14 @@ public class DashboardFragment extends Fragment {
         }
 
 
-        map = getActivity().findViewById(R.id.mapView);
+//        map = findViewById(R.id.mapView);
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(15);
-        GeoPoint startPoint = new GeoPoint(39.3666, 22.9507);
+        GeoPoint startPoint = new GeoPoint(51496994, -134733);
         mapController.setCenter(startPoint);
-
-        Marker marker = new Marker(map);
-        marker.setPosition(startPoint);
-        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        int iconResource = R.drawable.lambo;
-        marker.setIcon(getResources().getDrawable(iconResource));
-        marker.setTitle("lamborghini");
-
-        map.getOverlays().add(marker);
     }
 
     public void onResume() {

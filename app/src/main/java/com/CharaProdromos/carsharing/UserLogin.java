@@ -74,6 +74,8 @@ public class UserLogin extends AppCompatActivity{
                                 String text = "Successful login";
                                 Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG);
                                 toast.show();
+                                Intent intent = new Intent(UserLogin.this, MainActivity.class);
+                                startActivity(intent);
                             } else {
                                 String text = "Username and password do not match";
                                 Toast toast = Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG);
