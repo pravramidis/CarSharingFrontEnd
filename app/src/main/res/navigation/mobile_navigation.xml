@@ -14,18 +14,18 @@
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.CharaProdromos.carsharing.ui.search.SearchFragment"
-        android:label="search"
+        android:label="Search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_map"
         android:name="com.CharaProdromos.carsharing.ui.map.MapFragment"
-        android:label="map"
+        android:label="Map"
         tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.CharaProdromos.carsharing.ui.profile.ProfileFragment"
-        android:label="profile"
+        android:label="Profile"
         tools:layout="@layout/fragment_search" />
 </navigation>
