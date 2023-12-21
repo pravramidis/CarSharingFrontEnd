@@ -1,4 +1,4 @@
-package com.CharaProdromos.carsharing.ui.dashboard;
+package com.CharaProdromos.carsharing.ui.map;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -23,7 +21,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-public class DashboardFragment extends Fragment {
+public class MapFragment extends Fragment {
     private MapView map;
     private IMapController mapController;
 
@@ -52,7 +50,7 @@ public class DashboardFragment extends Fragment {
         //inflate and create the map
 
 //        setContentView(R.layout.map);
-        getActivity().setContentView(R.layout.fragment_dashboard);
+        getActivity().setContentView(R.layout.fragment_map);
 
 
         if (Build.VERSION.SDK_INT >= 23) {

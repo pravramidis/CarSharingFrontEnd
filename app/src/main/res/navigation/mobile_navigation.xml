@@ -12,14 +12,20 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.CharaProdromos.carsharing.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_search"
+        android:name="com.CharaProdromos.carsharing.ui.search.SearchFragment"
+        android:label="search"
+        tools:layout="@layout/fragment_search" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.CharaProdromos.carsharing.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_map"
+        android:name="com.CharaProdromos.carsharing.ui.map.MapFragment"
+        android:label="map"
+        tools:layout="@layout/fragment_map" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.CharaProdromos.carsharing.ui.profile.ProfileFragment"
+        android:label="profile"
+        tools:layout="@layout/fragment_search" />
 </navigation>
