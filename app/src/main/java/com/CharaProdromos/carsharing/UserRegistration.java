@@ -59,6 +59,7 @@ public class UserRegistration extends AppCompatActivity{
         EditText editTextDateofBirth = editTextName;
         EditText editTextLicenseId = findViewById(R.id.editTextLicenseId);
         EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+        EditText editTextEmail = findViewById(R.id.editTextEmail);
         Button registerButton = findViewById(R.id.buttonRegister);
 
         System.out.println("hrenew");
@@ -76,6 +77,7 @@ public class UserRegistration extends AppCompatActivity{
                 String date = dateButton.getText().toString();
                 String licenseId = editTextLicenseId.getText().toString();
                 String phoneNumber = editTextPhoneNumber.getText().toString();
+                String email = editTextEmail.getText().toString();
 
                 if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty() || date.isEmpty() || licenseId.isEmpty() || phoneNumber.isEmpty()) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
@@ -119,7 +121,7 @@ public class UserRegistration extends AppCompatActivity{
                     return;
                 }
                 // Execute AsyncTask to perform the HTTP request
-                httpRequestRegistration(username, password, name, date, licenseId, phoneNumber);
+                httpRequestRegistration(username, password, name, date, licenseId, phoneNumber, email);
             }
         });
     }
@@ -251,7 +253,7 @@ public class UserRegistration extends AppCompatActivity{
     }
 
 
-    private void httpRequestRegistration(String username, String password, String name, String date, String licenseId, String phoneNumber) {
+    private void httpRequestRegistration(String username, String password, String name, String date, String licenseId, String phoneNumber, String email) {
         //RequestQueue initialized
         String [] words = date.split("\\s+");
         words[0] = monthDecode(words[0]).toString();
@@ -267,6 +269,7 @@ public class UserRegistration extends AppCompatActivity{
             jsonBody.put("date", date);
             jsonBody.put("licenseId", licenseId);
             jsonBody.put("phoneNumber", phoneNumber);
+            jsonBody.put("email", email);
         } catch (JSONException e) {
             e.printStackTrace();
         }
