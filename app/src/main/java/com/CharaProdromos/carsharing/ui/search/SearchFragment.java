@@ -10,28 +10,29 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-//import com.CharaProdromos.carsharing.databinding.FragmentNotificationsBinding;
+import com.CharaProdromos.carsharing.databinding.FragmentSearchBinding;
+
 
 public class SearchFragment extends Fragment {
-//
-//    private FragmentNotificationsBinding binding;
-//
-//    public View onCreateView(@NonNull LayoutInflater inflater,
-//                             ViewGroup container, Bundle savedInstanceState) {
+
+    private FragmentSearchBinding binding;
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
 //        NotificationsViewModel notificationsViewModel =
 //                new ViewModelProvider(this).get(NotificationsViewModel.class);
-//
-//        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
-//        View root = binding.getRoot();
-//
-//        final TextView textView = binding.textNotifications;
+
+        binding = FragmentSearchBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+//        final TextView textView = binding.;
 //        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-//        return root;
-//    }
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        binding = null;
-//    }
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }

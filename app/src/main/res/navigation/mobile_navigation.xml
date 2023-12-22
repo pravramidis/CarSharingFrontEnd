@@ -8,24 +8,24 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.CharaProdromos.carsharing.ui.home.HomeFragment"
-        android:label="@string/title_home"
+        android:label=""
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_search"
         android:name="com.CharaProdromos.carsharing.ui.search.SearchFragment"
-        android:label="Search"
+        android:label=""
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_map"
         android:name="com.CharaProdromos.carsharing.ui.map.MapFragment"
-        android:label="Map"
+        android:label=""
         tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.CharaProdromos.carsharing.ui.profile.ProfileFragment"
-        android:label="Profile"
+        android:label=""
         tools:layout="@layout/fragment_search" />
 </navigation>
