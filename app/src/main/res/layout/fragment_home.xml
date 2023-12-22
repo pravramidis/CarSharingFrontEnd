@@ -14,31 +14,6 @@
         android:alpha="0"
         android:background="@color/myPrimary" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-
-        android:padding="28dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/car_icon" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="Car Sharing"
-            android:textColor="@color/white"
-            android:textSize="32sp"
-            android:textStyle="bold" />
-
-
-    </LinearLayout>
-
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -63,79 +38,71 @@
                 android:layout_marginBottom="20dp"
                 android:textSize="34sp"
                 android:textStyle="bold"/>
-            <LinearLayout
+
+
+
+
+
+            <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:columnCount="3"
+                android:rowCount="2"
+                android:gravity="center_horizontal"
+                android:padding="10dp">
 
-                <!-- Step 1 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <!-- Row 1: Images -->
+
+                <!-- Image 1 -->
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin = "5dp"
+                    android:src="@drawable/step1"
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- Image 2 -->
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/step2"
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- Image 3 -->
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/step3"
+                    android:layout_marginBottom="20dp"/>
+
+                <!-- Row 2: Texts -->
+
+                <!-- Text 1 -->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
+                    android:text="1. Find a car"
+                    android:textColor="@color/mySecondary"
+                    android:textSize="18sp"/>
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginBottom="5dp"
-                        android:src="@drawable/step1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1.Find a car"
-                        android:textColor="@color/mySecondary"
-                        android:textSize="18sp"/>
-                </LinearLayout>
-
-                <!-- Step 2 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <!-- Text 2 -->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
+                    android:text="2. Unlock the"
+                    android:textColor="@color/mySecondary"
+                    android:textSize="18sp"/>
 
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/step2"
-                        android:layout_marginBottom="20dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2.Unlock the car"
-                        android:textColor="@color/mySecondary"
-                        android:textSize="18sp"/>
-                </LinearLayout>
-
-                <!-- Step 3 -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <!-- Text 3 -->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal">
-
-                    <ImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/step3"
-                        android:layout_marginBottom="20dp"/>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="3.Drop off anywhere"
-                        android:textColor="@color/mySecondary"
-                        android:textSize="18sp"/>
-                </LinearLayout>
-            </LinearLayout>
+                    android:text="3. Drop off "
+                    android:textColor="@color/mySecondary"
+                    android:textSize="18sp"/>
+            </GridLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

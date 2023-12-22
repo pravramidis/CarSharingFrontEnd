@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/log_back1"
+    android:background="@drawable/log_back"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -14,27 +14,26 @@
         android:background="@color/myPrimary" />
 
     <LinearLayout
+        android:id="@+id/topLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/card_view"
         android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="28dp"
-        app:layout_constraintBottom_toTopOf="@id/card_view"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.27"
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/car_icon" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/logo5" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="Car Sharing"
+            android:text="ShareWheel"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
@@ -42,15 +41,24 @@
 
     </LinearLayout>
 
+    <androidx.constraintlayout.widget.Guideline
+    android:id="@+id/bottom_guideline"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.95" />
+
     <androidx.cardview.widget.CardView
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
+
     android:layout_width="330dp"
     android:layout_height="500dp"
     android:layout_centerHorizontal="true"
     app:cardCornerRadius="28dp"
-    android:layout_marginTop="200dp"
+
+
     android:id="@+id/card_view"
     >
 
