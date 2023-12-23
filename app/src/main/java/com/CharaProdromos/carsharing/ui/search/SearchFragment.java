@@ -9,10 +9,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.CharaProdromos.carsharing.R;
+import com.CharaProdromos.carsharing.databinding.FragmentFiltersBinding;
 import com.CharaProdromos.carsharing.databinding.FragmentSearchBinding;
 import com.google.android.material.button.MaterialButton;
 
@@ -23,27 +27,53 @@ public class SearchFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        NotificationsViewModel notificationsViewModel =
-//                new ViewModelProvider(this).get(NotificationsViewModel.class);
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+
         MaterialButton searchButton = root.findViewById(R.id.searchButton);
-        LinearLayout checkboxContainer = root.findViewById(R.id.checkboxContainer);
+
+        MaterialButton type = root.findViewById(R.id.typeButton);
+        MaterialButton model = root.findViewById(R.id.modelButton);
+        MaterialButton color = root.findViewById(R.id.colorButton);
+        MaterialButton brand = root.findViewById(R.id.brandButton);
+        MaterialButton gearbox = root.findViewById(R.id.gearboxButton);
+        MaterialButton capacity = root.findViewById(R.id.capacityButton);
+        clickFiltersListerner(type);
+        clickFiltersListerner(model);
+        clickFiltersListerner(color);
+        clickFiltersListerner(brand);
+        clickFiltersListerner(gearbox);
+        clickFiltersListerner(capacity);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckBox checkBox = new CheckBox(requireContext());
-                checkboxContainer.addView(checkBox);
-                inflater.inflate(R.layout.search_filters, container, false);
-
+                FiltersFragment filtersFragment = new FiltersFragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, filtersFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
 
         });
 //        final TextView textView = binding.;
 //        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
+    }
+
+    private void clickFiltersListerner(MaterialButton button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FiltersFragment filtersFragment = new FiltersFragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, filtersFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 
     @Override
