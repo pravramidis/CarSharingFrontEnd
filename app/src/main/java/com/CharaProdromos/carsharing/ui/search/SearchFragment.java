@@ -47,9 +47,11 @@ public class SearchFragment extends Fragment {
         clickFiltersListerner(gearbox);
         clickFiltersListerner(capacity);
 
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 FiltersFragment filtersFragment = new FiltersFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, filtersFragment);
@@ -58,8 +60,6 @@ public class SearchFragment extends Fragment {
             }
 
         });
-//        final TextView textView = binding.;
-//        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -67,6 +67,8 @@ public class SearchFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 FiltersFragment filtersFragment = new FiltersFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, filtersFragment);

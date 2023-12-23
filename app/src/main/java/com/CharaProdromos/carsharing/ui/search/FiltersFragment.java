@@ -28,6 +28,11 @@ public class FiltersFragment extends Fragment {
         binding = FragmentFiltersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+        LinearLayout checkboxContainer = root.findViewById(R.id.checkboxContainer);
+        CheckBox checkBox = new CheckBox(requireContext());
+        checkboxContainer.addView(checkBox);
+
         MaterialButton apply = root.findViewById(R.id.buttonApply);
 
         apply.setOnClickListener(new View.OnClickListener() {

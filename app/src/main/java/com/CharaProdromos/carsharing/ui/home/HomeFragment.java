@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
@@ -18,6 +20,8 @@ import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.UserLogin;
 import com.CharaProdromos.carsharing.UserRegistration;
 import com.CharaProdromos.carsharing.databinding.FragmentHomeBinding;
+import com.CharaProdromos.carsharing.ui.search.SearchFragment;
+import com.google.android.material.button.MaterialButton;
 
 public class HomeFragment extends Fragment {
 
@@ -31,9 +35,6 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Button findMoreButton = root.findViewById(R.id.buttonSearch);
-
-
         String user = GlobalVariables.getInstance().getUsername();
 
         // Find the TextView by its ID
@@ -42,6 +43,31 @@ public class HomeFragment extends Fragment {
         // Set the welcome message with the username
         String welcomeString = "Welcome, " + user + "!";
         welcomeTextView.setText(welcomeString);
+
+        MaterialButton findMoreButton = root.findViewById(R.id.buttonSearch);
+
+        findMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                Fragment searchFragment =fragmentManager.findFragmentByTag("searchFragment");
+
+                if (searchFragment == null) {
+                    searchFragment = new SearchFragment();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.container, searchFragment, "searchFragment");
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    return;
+                }
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                transaction.replace(R.id.container, searchFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+
+        });
 
 
         return root;

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
 
-        Fragment searchFragment = new SearchFragment();
+        System.out.println("init fragments");
         String tagSearch = "searchFragment";
         Fragment homeFragment = new HomeFragment();
         String tagHome = "homeFragment";
@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
                 FragmentManager fragmentManager = getSupportFragmentManager();
+                Fragment searchFragment =fragmentManager.findFragmentByTag("searchFragment");
+
                 if (item.getItemId() == R.id.navigation_home) {
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.container, homeFragment, tagHome);
@@ -79,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 else if (item.getItemId() == R.id.navigation_search) {
+                    if (searchFragment == null) {
+                        searchFragment = new SearchFragment();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.replace(R.id.container, searchFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        return true;
+                    }
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.container, searchFragment, tagSearch);
                     transaction.addToBackStack(null);
