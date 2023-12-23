@@ -36,12 +36,11 @@ public class HomeFragment extends Fragment {
 
         String user = GlobalVariables.getInstance().getUsername();
 
-
         // Find the TextView by its ID
-        TextView welcomeTextView = getActivity().findViewById(R.id.welcomeText);
+        TextView welcomeTextView = root.findViewById(R.id.welcomeText);
 
         // Set the welcome message with the username
-        String welcomeString = "Welcome, \" + user + \"!";
+        String welcomeString = "Welcome, " + user + "!";
         welcomeTextView.setText(welcomeString);
 
 
