@@ -20,6 +20,7 @@ import android.widget.Toast;
 public class UserLogin extends AppCompatActivity{
     private Context context;
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
@@ -39,7 +40,10 @@ public class UserLogin extends AppCompatActivity{
                 String username = loginTextUsername.getText().toString();
                 String password = loginTextPassword.getText().toString();
                 httpRequestAuthenticateUser(username, password);
+
+                GlobalVariables.getInstance().setUsername(username);
             }
+
 
         });
 
