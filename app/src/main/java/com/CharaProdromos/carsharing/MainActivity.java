@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     if (searchFragment == null) {
                         searchFragment = new SearchFragment();
                         FragmentTransaction transaction = fragmentManager.beginTransaction();
-                        transaction.replace(R.id.container, searchFragment);
+                        transaction.replace(R.id.container, searchFragment, tagSearch);
                         transaction.addToBackStack(null);
                         transaction.commit();
                         return true;

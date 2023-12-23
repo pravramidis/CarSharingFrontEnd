@@ -18,9 +18,23 @@ import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.databinding.FragmentFiltersBinding;
 import com.google.android.material.button.MaterialButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
 public class FiltersFragment extends Fragment {
 
     private FragmentFiltersBinding binding;
+    private String request;
+
+    public void setRequestType(String request) {
+        this.request = request;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,10 +42,12 @@ public class FiltersFragment extends Fragment {
         binding = FragmentFiltersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        TextView text = root.findViewById(R.id.FilterOption);
+        text.setText(request);
 
-        LinearLayout checkboxContainer = root.findViewById(R.id.checkboxContainer);
-        CheckBox checkBox = new CheckBox(requireContext());
-        checkboxContainer.addView(checkBox);
+        JSONArray request;
+        request =  httpFiltersRequest("color");
+        createBoxes(request, root);
 
         MaterialButton apply = root.findViewById(R.id.buttonApply);
 
@@ -49,10 +65,36 @@ public class FiltersFragment extends Fragment {
 
         });
 
-
-
-
         return root;
+    }
+
+    private JSONArray httpFiltersRequest(String request) {
+        JSONArray jsonArray = new JSONArray();
+
+        jsonArray.put("Yellow");
+        jsonArray.put("Grey");
+
+        return jsonArray;
+    }
+
+    private void createBoxes(JSONArray jsonArray, View root) {
+        int arrayLen = jsonArray.length();
+        CheckBox checkBoxArray[] = new CheckBox[arrayLen];
+        LinearLayout checkboxContainer = root.findViewById(R.id.checkboxContainer);
+
+        try {
+            for (int i = 0; i < arrayLen; i++) {
+                String text = jsonArray.getString(i);
+                checkBoxArray[i] = new CheckBox(requireContext());
+                checkBoxArray[i].setText(text);
+                checkboxContainer.addView(checkBoxArray[i]);
+            }
+        }
+        catch (Exception ex) {
+            System.out.println("json exception");
+        }
+
+
     }
 }
 
