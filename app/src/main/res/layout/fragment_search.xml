@@ -37,87 +37,71 @@
 
         <!-- First Row of Buttons -->
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button1"
+            android:id="@+id/typeButton"
             android:layout_gravity="fill"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
             android:text="Type"
             android:drawableTop="@drawable/car_icon"
-            app:layout_constraintBottom_toTopOf="@id/button3"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintDimensionRatio="1:1"/>
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button2"
+            android:id="@+id/modelButton"
             android:drawableTop="@drawable/car_icon"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
-            android:text="Model"
-            app:layout_constraintBottom_toTopOf="@id/button4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button1"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="Model"/>
 
         <!-- Second Row of Buttons -->
         <com.google.android.material.button.MaterialButton
             android:drawableTop="@drawable/baseline_palette_24"
-            android:id="@+id/button3"
+            android:id="@+id/colorButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
-            android:text="Color"
-            app:layout_constraintBottom_toTopOf="@id/button5"
-            app:layout_constraintEnd_toStartOf="@+id/button4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button1" />
+            android:text="Color"/>
 
         <com.google.android.material.button.MaterialButton
             android:drawableTop="@drawable/car_icon"
-            android:id="@+id/button4"
+            android:id="@+id/brandButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
-            android:text="Brand"
-            app:layout_constraintBottom_toTopOf="@id/button6"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button3"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            android:text="Brand"/>
 
         <!-- Third Row of Buttons -->
         <com.google.android.material.button.MaterialButton
             android:drawableTop="@drawable/car_icon"
-            android:id="@+id/button5"
+            android:id="@+id/gearboxButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
             android:text="Gearbox"
-            app:layout_constraintBottom_toTopOf="@id/searchButton"
-            app:layout_constraintEnd_toStartOf="@+id/button6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
+             />
 
         <com.google.android.material.button.MaterialButton
             android:drawableTop="@drawable/baseline_people_24"
-            android:id="@+id/button6"
+            android:id="@+id/capacityButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
             android:text="Capacity"
             app:layout_constraintBottom_toTopOf="@id/searchButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button5"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </GridLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id = "@+id/search_guide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.90"/>
 
             <!-- Rectangle Button below the 3 rows -->
             <com.google.android.material.button.MaterialButton
@@ -130,8 +114,7 @@
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gridLayout"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="70dp"
+                app:layout_constraintBottom_toTopOf="@id/search_guide"
                 android:text="Search"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
