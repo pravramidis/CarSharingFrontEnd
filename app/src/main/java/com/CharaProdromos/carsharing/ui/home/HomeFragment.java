@@ -21,6 +21,7 @@ import com.CharaProdromos.carsharing.UserLogin;
 import com.CharaProdromos.carsharing.UserRegistration;
 import com.CharaProdromos.carsharing.databinding.FragmentHomeBinding;
 import com.CharaProdromos.carsharing.ui.search.SearchFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 
 public class HomeFragment extends Fragment {
@@ -58,6 +59,8 @@ public class HomeFragment extends Fragment {
                     transaction.replace(R.id.container, searchFragment, "searchFragment");
                     transaction.addToBackStack(null);
                     transaction.commit();
+                    BottomNavigationView navView = requireActivity().findViewById(R.id.nav_view);
+                    navView.setSelectedItemId(R.id.navigation_search);
                     return;
                 }
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -65,6 +68,10 @@ public class HomeFragment extends Fragment {
                 transaction.replace(R.id.container, searchFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                BottomNavigationView navView = requireActivity().findViewById(R.id.nav_view);
+                navView.setSelectedItemId(R.id.navigation_search);
+
+
             }
 
         });
