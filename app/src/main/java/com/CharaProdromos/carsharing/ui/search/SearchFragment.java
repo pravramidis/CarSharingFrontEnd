@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.databinding.FragmentFiltersBinding;
 import com.CharaProdromos.carsharing.databinding.FragmentSearchBinding;
@@ -31,6 +32,9 @@ public class SearchFragment extends Fragment {
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        if (GlobalVariables.getInstance().getFilters() == null) {
+            GlobalVariables.getInstance().initFilters();
+        }
 
 
         MaterialButton searchButton = root.findViewById(R.id.searchButton);
@@ -52,6 +56,8 @@ public class SearchFragment extends Fragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(GlobalVariables.getInstance().getFilters());
+
                 ResultsFragment resultsFragment = new ResultsFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, resultsFragment);
