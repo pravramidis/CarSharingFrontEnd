@@ -50,14 +50,14 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/modelButton"
+            android:id="@+id/fuelButton"
             android:drawableTop="@drawable/mod2"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
             app:cornerRadius="24dp"
-            android:text="Model"/>
+            android:text="Fuel Type"/>
 
         <!-- Second Row of Buttons -->
         <com.google.android.material.button.MaterialButton
