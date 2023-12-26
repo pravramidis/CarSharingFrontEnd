@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/search1"
     tools:context=".MainActivity">
 
     <TextView
@@ -13,9 +14,9 @@
         android:layout_height="wrap_content"
         android:text="Apply Filters"
         android:textAlignment="center"
-        android:textSize="32dp"
+        android:textSize="32sp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="@color/myPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,49 +44,56 @@
             android:layout_columnWeight="1"
             android:layout_margin="10dp"
             android:text="Type"
-            android:drawableTop="@drawable/car_icon"
+            app:cornerRadius="24dp"
+            android:drawableTop="@drawable/filter_type"
             app:layout_constraintDimensionRatio="1:1"/>
+
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/modelButton"
-            android:drawableTop="@drawable/car_icon"
+            android:drawableTop="@drawable/mod2"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
+            app:cornerRadius="24dp"
             android:text="Model"/>
 
         <!-- Second Row of Buttons -->
         <com.google.android.material.button.MaterialButton
-            android:drawableTop="@drawable/baseline_palette_24"
+            android:drawableTop="@drawable/filter_color"
             android:id="@+id/colorButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
+            app:cornerRadius="24dp"
             android:text="Color"/>
 
         <com.google.android.material.button.MaterialButton
-            android:drawableTop="@drawable/car_icon"
+            android:drawableTop="@drawable/brand3"
             android:id="@+id/brandButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
+            app:cornerRadius="24dp"
             android:text="Brand"/>
 
         <!-- Third Row of Buttons -->
         <com.google.android.material.button.MaterialButton
-            android:drawableTop="@drawable/car_icon"
+            android:drawableTop="@drawable/filter_gearbox"
             android:id="@+id/gearboxButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="10dp"
+            app:cornerRadius="24dp"
             android:text="Gearbox"
              />
 
         <com.google.android.material.button.MaterialButton
-            android:drawableTop="@drawable/baseline_people_24"
+            android:drawableTop="@drawable/filter_capacity"
             android:id="@+id/capacityButton"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -93,7 +101,8 @@
             android:layout_margin="10dp"
             android:text="Capacity"
             app:layout_constraintBottom_toTopOf="@id/searchButton"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cornerRadius="24dp"/>
 
     </GridLayout>
         <androidx.constraintlayout.widget.Guideline
@@ -107,7 +116,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/searchButton"
                 android:layout_width="0dp"
-                app:layout_constraintWidth_percent="0.85"
+                app:layout_constraintWidth_percent="0.7"
                 android:layout_height="60dp"
                 app:cornerRadius="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -115,6 +124,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gridLayout"
                 app:layout_constraintBottom_toTopOf="@id/search_guide"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/mySecondary"
+                app:strokeColor="@color/white"
+                app:strokeWidth="4dp"
+                android:textStyle="bold"
                 android:text="Search"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_background2"
+    android:background="@drawable/home"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -93,7 +93,7 @@
                 android:layout_weight="1"
                 android:layout_column="0"
                 android:layout_row="0"
-                android:src="@drawable/step1"
+                android:src="@drawable/find_car2"
                 android:padding="5dp"/>
 
             <!-- Text 1 -->
@@ -113,7 +113,7 @@
                 android:layout_weight="1"
                 android:layout_column="1"
                 android:layout_row="0"
-                android:src="@drawable/step2"
+                android:src="@drawable/unlock_car"
                 android:padding="5dp"/>
 
             <!-- Text 2 -->
@@ -133,7 +133,7 @@
                 android:layout_weight="1"
                 android:layout_column="2"
                 android:layout_row="0"
-                android:src="@drawable/step3"
+                android:src="@drawable/drop_car"
                 android:padding="5dp"/>
 
             <!-- Text 3 -->
@@ -271,8 +271,8 @@
         android:textColor="@color/myPrimary"
         android:backgroundTint="@android:color/white"
         app:strokeColor="@color/myPrimary"
-        app:strokeWidth="2dp"
-
+        app:strokeWidth="4dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/button_guideline"/>
 
 
