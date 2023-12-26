@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/filter_constraint"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        app:layout_constraintBottom_toTopOf="@id/backToFilters"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/carButtonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id = "@+id/results_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.90"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/backToFilters"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.85"
+        android:layout_height="60dp"
+        android:text="Back To Filters"
+        app:cornerRadius="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/results_guide"
+        android:layout_marginTop="32dp"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

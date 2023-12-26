@@ -14,13 +14,31 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.databinding.FragmentFiltersBinding;
 import com.google.android.material.button.MaterialButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.zip.GZIPOutputStream;
+
 public class FiltersFragment extends Fragment {
 
     private FragmentFiltersBinding binding;
+    private String request;
+    private JSONObject response = null;
+
+    public void setRequestType(String request) {
+        this.request = request;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -28,16 +46,61 @@ public class FiltersFragment extends Fragment {
         binding = FragmentFiltersBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        TextView text = root.findViewById(R.id.FilterOption);
+        text.setText(request);
 
-        LinearLayout checkboxContainer = root.findViewById(R.id.checkboxContainer);
-        CheckBox checkBox = new CheckBox(requireContext());
-        checkboxContainer.addView(checkBox);
+        JSONObject response;
+        response =  httpFiltersRequest(request);
+        updateFilters(response);
+        CheckBox[] checkBoxArray = new CheckBox[0];
+        JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
+        try {
+            System.out.println(response);
+            JSONArray array = currentFilters.getJSONArray(request);
+            checkBoxArray = createBoxes(array, root);
+        }
+        catch (Exception ex) {
+            System.out.println("Failed to get response json array");
+        }
 
         MaterialButton apply = root.findViewById(R.id.buttonApply);
 
+        JSONObject globalResponse = GlobalVariables.getInstance().getFilters();
+
+
+        CheckBox[] finalCheckBoxArray = checkBoxArray;
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (finalCheckBoxArray != null) {
+                    JSONArray array = new JSONArray();
+                    for (int i = 0; i < finalCheckBoxArray.length; i++) {
+                        String text = finalCheckBoxArray[i].getText().toString();
+                        if (finalCheckBoxArray[i].isChecked()) {
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put(text, "True");
+                                array.put(jsonObject);
+                            }
+                            catch (Exception exception) {
+                                System.out.println("Failed to put the check in the array");
+                            }
+                        }
+                        else {
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put(text, "False");
+                                array.put(jsonObject);
+                            }
+                            catch (Exception exception) {
+                                System.out.println("Failed to put the check in the array");
+                            }
+                        }
+                    }
+                    GlobalVariables.getInstance().editFilters(request, array);
+                    System.out.println(GlobalVariables.getInstance().getFilters());
+                }
+
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 Fragment searchFragment =fragmentManager.findFragmentByTag("searchFragment");
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -49,10 +112,106 @@ public class FiltersFragment extends Fragment {
 
         });
 
-
-
-
         return root;
+    }
+
+    private JSONObject httpFiltersRequest(String request) {
+
+        JSONObject response = new JSONObject();
+        System.out.println(response.toString());
+        JSONArray jsonArray = new JSONArray();
+
+        try {
+            JSONObject value1 = new JSONObject();
+            JSONObject value2 = new JSONObject();
+            value1.put("Yellow", "False");
+            value2.put("Grey", "False");
+            jsonArray.put(value1);
+            jsonArray.put(value2);
+            response.put(request, jsonArray);
+        }
+        catch (Exception ex) {
+            System.out.println("Failed to put objects in the json");
+        }
+        return response;
+    }
+
+    private void updateFilters(JSONObject response) {
+        JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
+        JSONObject tempObj = new JSONObject();
+        String tag;
+        try {
+            for (int i = 0; i < response.length(); i++) {
+                String text = response.names().getString(i);
+                JSONArray tempArray = response.getJSONArray(text);
+                if(currentFilters.has(text) == false || currentFilters.optJSONArray(text) == null) {
+                    GlobalVariables.getInstance().editFilters(text,tempArray);
+                   continue;
+                }
+                JSONArray currFilterArray = currentFilters.getJSONArray((text));
+                for (int j = 0; j < tempArray.length(); j++) {
+                    tempObj = tempArray.getJSONObject(j);
+                    tag = tempObj.keys().next().toString();
+
+                    if (findIfChecked(currFilterArray, tag)) {
+                        tempObj.put(tag, "True");
+                        tempArray.put(j,tempObj);
+                    }
+                }
+                GlobalVariables.getInstance().editFilters(text,tempArray);
+            }
+        }
+        catch (Exception exception) {
+            System.out.println("Failed to update");
+            exception.printStackTrace();
+        }
+    }
+
+    private boolean findIfChecked(JSONArray array, String key) {
+        JSONObject jsonObject;
+        try {
+            for (int i = 0; i < array.length(); i++) {
+                jsonObject = array.getJSONObject(i);
+                String text = jsonObject.keys().next();
+                if (key.equals(text) && jsonObject.get(text) == "True") {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch (Exception ex) {
+            System.out.println("json exception");
+        }
+
+        return false;
+    }
+
+    private CheckBox[] createBoxes(JSONArray jsonArray, View root) {
+        int arrayLen = jsonArray.length();
+        CheckBox checkBoxArray[] = new CheckBox[arrayLen];
+        LinearLayout checkboxContainer = root.findViewById(R.id.checkboxContainer);
+        JSONObject jsonObject;
+
+        try {
+            for (int i = 0; i < arrayLen; i++) {
+                jsonObject = jsonArray.getJSONObject(i);
+                String text = jsonObject.keys().next();
+                checkBoxArray[i] = new CheckBox(requireContext());
+                checkBoxArray[i].setText(text);
+                System.out.println(jsonObject.get(text));
+                if (jsonObject.get(text) == "True") {
+                    checkBoxArray[i].setChecked(true);
+                }
+                checkBoxArray[i].setTextSize(20);
+                checkboxContainer.addView(checkBoxArray[i]);
+            }
+        }
+        catch (Exception ex) {
+            System.out.println("json exception");
+        }
+
+        return checkBoxArray;
+
     }
 }
 

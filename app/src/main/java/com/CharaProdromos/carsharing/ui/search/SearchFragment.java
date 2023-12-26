@@ -15,9 +15,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.databinding.FragmentFiltersBinding;
 import com.CharaProdromos.carsharing.databinding.FragmentSearchBinding;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 
 
@@ -30,6 +32,9 @@ public class SearchFragment extends Fragment {
 
         binding = FragmentSearchBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        if (GlobalVariables.getInstance().getFilters() == null) {
+            GlobalVariables.getInstance().initFilters();
+        }
 
 
         MaterialButton searchButton = root.findViewById(R.id.searchButton);
@@ -40,21 +45,22 @@ public class SearchFragment extends Fragment {
         MaterialButton brand = root.findViewById(R.id.brandButton);
         MaterialButton gearbox = root.findViewById(R.id.gearboxButton);
         MaterialButton capacity = root.findViewById(R.id.capacityButton);
-        clickFiltersListerner(type);
-        clickFiltersListerner(model);
-        clickFiltersListerner(color);
-        clickFiltersListerner(brand);
-        clickFiltersListerner(gearbox);
-        clickFiltersListerner(capacity);
+        clickFiltersListener(type);
+        clickFiltersListener(model);
+        clickFiltersListener(color);
+        clickFiltersListener(brand);
+        clickFiltersListener(gearbox);
+        clickFiltersListener(capacity);
 
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println(GlobalVariables.getInstance().getFilters());
 
-                FiltersFragment filtersFragment = new FiltersFragment();
+                ResultsFragment resultsFragment = new ResultsFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.container, filtersFragment);
+                transaction.replace(R.id.container, resultsFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
@@ -63,17 +69,26 @@ public class SearchFragment extends Fragment {
         return root;
     }
 
-    private void clickFiltersListerner(MaterialButton button) {
+    private void clickFiltersListener(MaterialButton button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                String request = button.getText().toString();
+                System.out.println(request);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                Fragment requestFragment =fragmentManager.findFragmentByTag(request+"Fragment");
+                if (requestFragment != null) {
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.container, requestFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
                 FiltersFragment filtersFragment = new FiltersFragment();
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.container, filtersFragment);
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.container, filtersFragment, request+"Fragment");
                 transaction.addToBackStack(null);
                 transaction.commit();
+                filtersFragment.setRequestType(request);
             }
         });
     }
