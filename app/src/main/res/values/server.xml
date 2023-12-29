@@ -2,7 +2,7 @@
 <resources>
 
     <string name="serverAddress">
-        http://10.0.2.2:3000
+        http://100.112.133.110:3000
 
     </string>
 </resources>

@@ -1,4 +1,5 @@
 package com.CharaProdromos.carsharing.ui.search;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -16,6 +18,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
+import com.CharaProdromos.carsharing.UserLogin;
+import com.CharaProdromos.carsharing.UserRegistration;
 import com.CharaProdromos.carsharing.databinding.FragmentFiltersBinding;
 import com.google.android.material.button.MaterialButton;
 
@@ -35,6 +39,7 @@ public class FiltersFragment extends Fragment {
     private FragmentFiltersBinding binding;
     private String request;
     private JSONObject response = null;
+    CheckBox[] checkBoxArray = new CheckBox[0];
 
     public void setRequestType(String request) {
         this.request = request;
@@ -50,18 +55,17 @@ public class FiltersFragment extends Fragment {
         text.setText(request);
 
         JSONObject response;
-        response =  httpFiltersRequest(request);
-        updateFilters(response);
-        CheckBox[] checkBoxArray = new CheckBox[0];
-        JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
-        try {
-            System.out.println(response);
-            JSONArray array = currentFilters.getJSONArray(request);
-            checkBoxArray = createBoxes(array, root);
-        }
-        catch (Exception ex) {
-            System.out.println("Failed to get response json array");
-        }
+        httpFiltersRequest(request, root);
+//        updateFilters(response);
+//        JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
+//        try {
+//            System.out.println(response);
+//            JSONArray array = currentFilters.getJSONArray(request);
+//            checkBoxArray = createBoxes(array, root);
+//        }
+//        catch (Exception ex) {
+//            System.out.println("Failed to get response json array");
+//        }
 
         MaterialButton apply = root.findViewById(R.id.buttonApply);
 
@@ -115,24 +119,50 @@ public class FiltersFragment extends Fragment {
         return root;
     }
 
-    private JSONObject httpFiltersRequest(String request) {
+    private JSONObject httpFiltersRequest(String request, View root) {
+        System.out.println("Filter Request made");
 
-        JSONObject response = new JSONObject();
-        System.out.println(response.toString());
-        JSONArray jsonArray = new JSONArray();
-
+        JSONObject jsonBody = new JSONObject();
         try {
-            JSONObject value1 = new JSONObject();
-            JSONObject value2 = new JSONObject();
-            value1.put("Yellow", "False");
-            value2.put("Grey", "False");
-            jsonArray.put(value1);
-            jsonArray.put(value2);
-            response.put(request, jsonArray);
+            jsonBody.put("request", request);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        catch (Exception ex) {
-            System.out.println("Failed to put objects in the json");
-        }
+
+
+        String serverAddress = this.getString(R.string.serverAddress);
+        System.out.println(jsonBody.toString());
+        String url = serverAddress + "/vehicles/filters";
+        System.out.println(url);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        updateFilters(response);
+                        JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
+                        try {
+                            System.out.println(response);
+                            JSONArray array = currentFilters.getJSONArray(request);
+                            checkBoxArray = createBoxes(array, root);
+                        }
+                        catch (Exception ex) {
+                            System.out.println("Failed to get response json array");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String text = "Fail"+ error.toString();
+                        System.out.println(text);
+                    }
+                });
+
+
+        // Add the request to the RequestQueue
+        Volley.newRequestQueue(root.getContext()).add(jsonObjectRequest);
+        System.out.println("Return filters");
+        System.out.println(response);
         return response;
     }
 
@@ -140,10 +170,12 @@ public class FiltersFragment extends Fragment {
         JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
         JSONObject tempObj = new JSONObject();
         String tag;
+
         try {
             for (int i = 0; i < response.length(); i++) {
                 String text = response.names().getString(i);
                 JSONArray tempArray = response.getJSONArray(text);
+
                 if(currentFilters.has(text) == false || currentFilters.optJSONArray(text) == null) {
                     GlobalVariables.getInstance().editFilters(text,tempArray);
                    continue;
