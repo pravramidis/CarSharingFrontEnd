@@ -141,6 +141,8 @@ public class FiltersFragment extends Fragment {
 
                         updateFilters(response);
                         JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
+                        System.out.println("About to be used filters");
+                        System.out.println(currentFilters);
                         try {
                             System.out.println(response);
                             JSONArray array = currentFilters.getJSONArray(request);
@@ -198,6 +200,10 @@ public class FiltersFragment extends Fragment {
             System.out.println("Failed to update");
             exception.printStackTrace();
         }
+
+        System.out.println("Updated filters");
+
+        System.out.println(GlobalVariables.getInstance().getFilters());
     }
 
     private boolean findIfChecked(JSONArray array, String key) {
