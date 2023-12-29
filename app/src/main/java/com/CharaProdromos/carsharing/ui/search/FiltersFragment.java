@@ -138,6 +138,7 @@ public class FiltersFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+
                         updateFilters(response);
                         JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
                         try {
