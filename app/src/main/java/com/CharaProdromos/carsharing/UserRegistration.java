@@ -212,6 +212,7 @@ public class UserRegistration extends AppCompatActivity{
     }
 
     private String monthDecode(String monthName) {
+        System.out.println(monthName);
         switch (monthName) {
             case "JAN": {
                 return "1";
@@ -257,10 +258,14 @@ public class UserRegistration extends AppCompatActivity{
 
     private void httpRequestRegistration(String username, String password, String name, String date, String licenseId, String phoneNumber, String email) {
         //RequestQueue initialized
+        System.out.println(date);
         String [] words = date.split("\\s+");
-        words[0] = monthDecode(words[0]).toString();
-        date = words[2]+"-"+words[0]+"-"+words[1];
+        System.out.println(words[0]);
+        System.out.println(words[1]);
+        System.out.println(words[2]);
+        date = words[0]+"-"+words[2]+"-"+words[1];
 
+        System.out.println(date);
 
 
         JSONObject jsonBody = new JSONObject();
