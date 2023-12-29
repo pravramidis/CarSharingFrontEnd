@@ -79,6 +79,8 @@ public class UserRegistration extends AppCompatActivity{
                 String phoneNumber = editTextPhoneNumber.getText().toString();
                 String email = editTextEmail.getText().toString();
 
+
+
                 if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || name.isEmpty() || date.isEmpty() || licenseId.isEmpty() || phoneNumber.isEmpty()) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
                     toast.show();
