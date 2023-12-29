@@ -131,6 +131,14 @@ public class ProfileFragment extends Fragment {
                             }
                             else {
                                 GlobalVariables.getInstance().setUsername(newUsername);
+                                username.setText(newUsername);
+                                name.setText(newName);
+                                email.setText(newEmail);
+                                license.setText(newLicense);
+                                phoneNumber.setText(newPhoneNumber);
+                                birthday.setText(newDate);
+                                password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                                password.setText(newPassword);
                             }
                         }
                         catch (Exception exception) {
@@ -182,6 +190,8 @@ public class ProfileFragment extends Fragment {
                             String currId = response.getString("License_id");
                             String currPhoneNum = response.getString("Phone_number");
                             String currBirthday = response.getString("Date_of_birth");
+                            String[] parts = currBirthday.split("T");
+                            currBirthday = parts[0];
                             String currPassword = response.getString("Password");
 
                             name.setText(currName);
