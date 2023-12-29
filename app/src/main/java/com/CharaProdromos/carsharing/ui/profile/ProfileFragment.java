@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment {
         updateButton = root.findViewById(R.id.buttonUpdate);
 
         String user = GlobalVariables.getInstance().getUsername();
-        //httpRequestGetUserInfo(user);
+        httpRequestGetUserInfo(user);
         username.setText(user);
 
 
@@ -77,12 +77,13 @@ public class ProfileFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        System.out.println(response.toString());
 
                         try {
                             String currName = response.getString("Full_Name");
                             String currEmail = response.getString("Email");
                             String currId = response.getString("License_id");
-                            String currPhoneNum = response.getString("Phone_Number");
+                            String currPhoneNum = response.getString("Phone_number");
                             String currBirthday = response.getString("Date_of_birth");
                             String currPassword = response.getString("Password");
 
@@ -92,10 +93,12 @@ public class ProfileFragment extends Fragment {
 
 
 
+
                         }
                         catch (Exception exception) {
 
-
+                            System.out.println("Error in profile info");
+                            exception.printStackTrace();
                         }
                     }
                 },
