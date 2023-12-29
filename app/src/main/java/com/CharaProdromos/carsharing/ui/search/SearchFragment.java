@@ -22,6 +22,8 @@ import com.CharaProdromos.carsharing.databinding.FragmentSearchBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 
+import org.json.JSONObject;
+
 
 public class SearchFragment extends Fragment {
 
@@ -40,13 +42,13 @@ public class SearchFragment extends Fragment {
         MaterialButton searchButton = root.findViewById(R.id.searchButton);
 
         MaterialButton type = root.findViewById(R.id.typeButton);
-        MaterialButton model = root.findViewById(R.id.modelButton);
+        MaterialButton fuel = root.findViewById(R.id.fuelButton);
         MaterialButton color = root.findViewById(R.id.colorButton);
         MaterialButton brand = root.findViewById(R.id.brandButton);
         MaterialButton gearbox = root.findViewById(R.id.gearboxButton);
         MaterialButton capacity = root.findViewById(R.id.capacityButton);
         clickFiltersListener(type);
-        clickFiltersListener(model);
+        clickFiltersListener(fuel);
         clickFiltersListener(color);
         clickFiltersListener(brand);
         clickFiltersListener(gearbox);
@@ -57,7 +59,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println(GlobalVariables.getInstance().getFilters());
-
                 ResultsFragment resultsFragment = new ResultsFragment();
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, resultsFragment);
@@ -92,6 +93,8 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+
 
     @Override
     public void onDestroyView() {

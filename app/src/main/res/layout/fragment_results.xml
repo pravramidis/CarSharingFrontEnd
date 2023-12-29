@@ -5,14 +5,25 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        app:layout_constraintBottom_toTopOf="@id/backToFilters"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/carButtonContainer"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-    </LinearLayout>
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/backToFilters"
+        >
+
+
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <!-- Data Rows (Populated Dynamically) -->
+
+        </TableLayout>
+    </ScrollView>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id = "@+id/results_guide"
