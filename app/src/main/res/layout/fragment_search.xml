@@ -8,6 +8,9 @@
     android:background="@drawable/search1"
     tools:context=".MainActivity">
 
+
+
+
     <TextView
         android:id="@+id/searchTitle"
         android:layout_width="match_parent"
@@ -130,6 +133,7 @@
                 app:strokeWidth="4dp"
                 android:textStyle="bold"
                 android:text="Search"/>
+    <!--    </ScrollView>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-<!--    </ScrollView>-->
+
