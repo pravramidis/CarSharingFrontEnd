@@ -72,15 +72,14 @@ public class FiltersFragment extends Fragment {
         JSONObject globalResponse = GlobalVariables.getInstance().getFilters();
 
 
-        CheckBox[] finalCheckBoxArray = checkBoxArray;
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (finalCheckBoxArray != null) {
+                if (checkBoxArray != null) {
                     JSONArray array = new JSONArray();
-                    for (int i = 0; i < finalCheckBoxArray.length; i++) {
-                        String text = finalCheckBoxArray[i].getText().toString();
-                        if (finalCheckBoxArray[i].isChecked()) {
+                    for (int i = 0; i < checkBoxArray.length; i++) {
+                        String text = checkBoxArray[i].getText().toString();
+                        if (checkBoxArray[i].isChecked()) {
                             JSONObject jsonObject = new JSONObject();
                             try {
                                 jsonObject.put(text, "True");
@@ -101,6 +100,7 @@ public class FiltersFragment extends Fragment {
                             }
                         }
                     }
+                    System.out.println("Filters after edit");
                     GlobalVariables.getInstance().editFilters(request, array);
                     System.out.println(GlobalVariables.getInstance().getFilters());
                 }
@@ -170,7 +170,9 @@ public class FiltersFragment extends Fragment {
     }
 
     private void updateFilters(JSONObject response) {
+        System.out.println("Filters before update");
         JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
+        System.out.println(currentFilters);
         JSONObject tempObj = new JSONObject();
         String tag;
 
