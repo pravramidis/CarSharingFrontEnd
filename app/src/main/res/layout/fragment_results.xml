@@ -17,9 +17,72 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/resultPhoto"
+                android:textColor="@color/black"
+                android:text="Photo"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/resultModel"
+                android:clickable="true"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Model"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/resultBrand"
+                android:clickable="true"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:text="Brand"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/resultPrice"
+                android:clickable="true"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:text="Price"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="20dp"
+                android:id="@+id/resultDistance"
+                android:clickable="true"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                android:text="Distance"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            </TableRow>
 
 
-            <!-- Data Rows (Populated Dynamically) -->
+            <!-- Data Rows (Populated Dynamicall) -->
 
         </TableLayout>
     </ScrollView>

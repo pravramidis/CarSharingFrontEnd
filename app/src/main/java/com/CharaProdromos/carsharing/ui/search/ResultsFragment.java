@@ -145,6 +145,7 @@ public class ResultsFragment extends Fragment {
         String plate;
         double xCoordinates;
         double yCoordinates;
+        double price;
 
 
         try {
@@ -153,6 +154,7 @@ public class ResultsFragment extends Fragment {
                 model = jsonObject.getString("Model");
                 brand = jsonObject.getString("Brand");
                 plate = jsonObject.getString("Plate_number");
+                price = jsonObject.getDouble("Price");
 //                type = jsonObject.getString("Type");
 //                color = jsonObject.getString("Color");
 //                capacity = jsonObject.getInt("Capacity");
@@ -188,6 +190,7 @@ public class ResultsFragment extends Fragment {
                         1.0f
                 ));
                 textModel.setGravity(Gravity.CENTER_VERTICAL);
+                textModel.setGravity(Gravity.CENTER_HORIZONTAL);
                 textModel.setPadding(8, 8, 8, 8);
                 tableRow[i].addView(textModel);
 
@@ -201,11 +204,13 @@ public class ResultsFragment extends Fragment {
                 ));
                 textBrand.setPadding(8, 8, 8, 8);
                 textBrand.setGravity(Gravity.CENTER_VERTICAL);
+                textBrand.setGravity(Gravity.CENTER_HORIZONTAL);
                 tableRow[i].addView(textBrand);
 
                 TextView textPrice = new TextView(requireContext());
-                textPrice.setText("2$/min");
+                textPrice.setText(price+"$/min");
                 textPrice.setGravity(Gravity.CENTER_VERTICAL);
+                textPrice.setGravity(Gravity.CENTER_HORIZONTAL);
                 textPrice.setTextColor(Color.BLACK);
                 textPrice.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
@@ -217,6 +222,7 @@ public class ResultsFragment extends Fragment {
 
                 TextView textDistance = new TextView(requireContext());
                 textDistance.setGravity(Gravity.CENTER_VERTICAL);
+                textDistance.setGravity(Gravity.CENTER_HORIZONTAL);
                 textDistance.setTextColor(Color.BLACK);
                 textDistance.setLayoutParams(new TableRow.LayoutParams(
                         TableRow.LayoutParams.MATCH_PARENT,
