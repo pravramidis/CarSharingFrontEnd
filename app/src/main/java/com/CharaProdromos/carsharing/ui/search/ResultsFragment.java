@@ -22,6 +22,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.databinding.FragmentResultsBinding;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
@@ -30,6 +35,7 @@ import org.json.JSONObject;
 
 public class ResultsFragment extends Fragment {
     private FragmentResultsBinding binding;
+    private TableRow[] table;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,13 +48,13 @@ public class ResultsFragment extends Fragment {
 //        CheckBox checkBox = new CheckBox(requireContext());
 //        checkboxContainer.addView(checkBox);
 
-        JSONObject cars = httpRequestCars();
-        try {
-            JSONArray carsArray = cars.getJSONArray("Cars");
-            TableRow[] table = createTable(carsArray, root);
-        } catch (JSONException e) {
-            System.out.println("Failed to get cars");
-        }
+        httpRequestCars(root);
+//        try {
+//            JSONArray carsArray = cars.getJSONArray("Cars");
+//            TableRow[] table = createTable(carsArray, root);
+//        } catch (JSONException e) {
+//            System.out.println("Failed to get cars");
+//        }
 
         MaterialButton back= root.findViewById(R.id.backToFilters);
 
@@ -81,45 +87,47 @@ public class ResultsFragment extends Fragment {
     }
 
 
-    private JSONObject httpRequestCars() {
-
-        JSONObject response = new JSONObject();
-        System.out.println(response.toString());
-        JSONArray jsonArray = new JSONArray();
-
+    private void httpRequestCars(View root) {
+        JSONObject jsonBody = new JSONObject();
         try {
-            JSONObject value1 = new JSONObject();
-            JSONObject value2 = new JSONObject();
-            JSONObject value3 = new JSONObject();
-            JSONObject value4 = new JSONObject();
-            JSONObject value5 = new JSONObject();
-            value1.put("Plate", "ION123");
-            value1.put("Model", "Captur");
-            value1.put("Brand", "Renault");
-            value2.put("Plate", "NOI321");
-            value2.put("Model", "Hurracan");
-            value2.put("Brand", "Lamborghini");
-            value3.put("Plate", "NOI321");
-            value3.put("Model", "Hurracan");
-            value3.put("Brand", "Lamborghini");
-            value4.put("Plate", "NOI321");
-            value4.put("Model", "Hurracan");
-            value4.put("Brand", "Lamborghini");
-            value5.put("Plate", "NOI321");
-            value5.put("Model", "Hurracan");
-            value5.put("Brand", "Lamborghini");
+            jsonBody.put("request", GlobalVariables.getInstance().getFilters());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Search request");
+        System.out.println(jsonBody);
 
-            jsonArray.put(value1);
-            jsonArray.put(value2);
-            jsonArray.put(value3);
-            jsonArray.put(value4);
-            jsonArray.put(value5);
-            response.put("Cars", jsonArray);
-        }
-        catch (Exception ex) {
-            System.out.println("Failed to put objects in the json");
-        }
-        return response;
+        String serverAddress = this.getString(R.string.serverAddress);
+        System.out.println(jsonBody.toString());
+        String url = serverAddress + "/vehicles/search";
+        System.out.println(url);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println("response to cars with filters");
+                        System.out.println(response);
+                        try {
+                            JSONArray carsArray = response.getJSONArray("cars");
+                            table = createTable(carsArray, root);
+                        } catch (JSONException e) {
+                            System.out.println("Failed to get cars");
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("why error");
+                        String text = "Fail "+ error.toString();
+                        System.out.println(text);
+                    }
+                });
+
+
+        // Add the request to the RequestQueue
+        Volley.newRequestQueue(root.getContext()).add(jsonObjectRequest);
+        System.out.println("Return filters");
     }
 
 
@@ -144,7 +152,7 @@ public class ResultsFragment extends Fragment {
                 jsonObject = jsonArray.getJSONObject(i);
                 model = jsonObject.getString("Model");
                 brand = jsonObject.getString("Brand");
-                plate = jsonObject.getString("Plate");
+                plate = jsonObject.getString("Plate_number");
 //                type = jsonObject.getString("Type");
 //                color = jsonObject.getString("Color");
 //                capacity = jsonObject.getInt("Capacity");

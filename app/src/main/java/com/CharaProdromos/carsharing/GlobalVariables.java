@@ -77,13 +77,13 @@ public class GlobalVariables {
         this.filters = new JSONObject();
         JSONArray initArray = new JSONArray();
         try {
-            filters.put("TYPE", initArray);
-            filters.put("FUEL_TYPE", initArray);
-            filters.put("MODEL", initArray);
-            filters.put("COLOR", initArray);
-            filters.put("BRAND", initArray);
-            filters.put("GEARBOX", initArray);
-            filters.put("CAPACITY", initArray);
+            filters.put("Type", initArray);
+            filters.put("Fuel_Type", initArray);
+            filters.put("Model", initArray);
+            filters.put("Color", initArray);
+            filters.put("Brand", initArray);
+            filters.put("Gearbox", initArray);
+            filters.put("Capacity", initArray);
         }
         catch (Exception ex) {
             System.out.println("Failed to init json");

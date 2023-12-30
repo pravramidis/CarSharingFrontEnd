@@ -56,16 +56,6 @@ public class FiltersFragment extends Fragment {
 
         JSONObject response;
         httpFiltersRequest(request, root);
-//        updateFilters(response);
-//        JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
-//        try {
-//            System.out.println(response);
-//            JSONArray array = currentFilters.getJSONArray(request);
-//            checkBoxArray = createBoxes(array, root);
-//        }
-//        catch (Exception ex) {
-//            System.out.println("Failed to get response json array");
-//        }
 
         MaterialButton apply = root.findViewById(R.id.buttonApply);
 
