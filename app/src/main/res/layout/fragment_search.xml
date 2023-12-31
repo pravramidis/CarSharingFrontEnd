@@ -33,7 +33,7 @@
         android:layout_height="0dp"
         android:columnCount="2"
         android:rowCount="3"
-        app:layout_constraintBottom_toTopOf="@+id/searchButton"
+        app:layout_constraintBottom_toTopOf="@+id/clearFiltersButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchTitle"
@@ -103,7 +103,7 @@
             android:layout_gravity="fill"
             android:layout_margin="10dp"
             android:text="Capacity"
-            app:layout_constraintBottom_toTopOf="@id/searchButton"
+            app:layout_constraintBottom_toTopOf="@id/clearFiltersButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:cornerRadius="24dp"/>
 
@@ -115,7 +115,24 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.90"/>
 
-            <!-- Rectangle Button below the 3 rows -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clearFiltersButton"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.7"
+                android:layout_height="60dp"
+                app:cornerRadius="32dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+                app:layout_constraintBottom_toTopOf="@id/searchButton"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/mySecondary"
+                app:strokeColor="@color/white"
+                app:strokeWidth="4dp"
+                android:textStyle="bold"
+                android:text="Clear Filters"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/searchButton"
                 android:layout_width="0dp"
@@ -125,7 +142,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="32dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+                app:layout_constraintTop_toBottomOf="@+id/clearFiltersButton"
                 app:layout_constraintBottom_toTopOf="@id/search_guide"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/mySecondary"

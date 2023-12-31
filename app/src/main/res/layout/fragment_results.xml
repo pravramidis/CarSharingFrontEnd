@@ -84,7 +84,7 @@
             </TableRow>
 
 
-            <!-- Data Rows (Populated Dynamicall) -->
+            <!-- Data Rows (Populated Dynamically) -->
 
         </TableLayout>
     </ScrollView>

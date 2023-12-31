@@ -47,6 +47,7 @@ public class SearchFragment extends Fragment {
         MaterialButton brand = root.findViewById(R.id.brandButton);
         MaterialButton gearbox = root.findViewById(R.id.gearboxButton);
         MaterialButton capacity = root.findViewById(R.id.capacityButton);
+        MaterialButton clear = root.findViewById(R.id.clearFiltersButton);
         clickFiltersListener(type);
         clickFiltersListener(fuel);
         clickFiltersListener(color);
@@ -67,6 +68,14 @@ public class SearchFragment extends Fragment {
             }
 
         });
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalVariables.getInstance().initFilters();
+            }
+        });
+
         return root;
     }
 
