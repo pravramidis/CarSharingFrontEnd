@@ -72,6 +72,12 @@ public class FiltersFragment extends Fragment {
                         if (checkBoxArray[i].isChecked()) {
                             JSONObject jsonObject = new JSONObject();
                             try {
+                                if (text.equals("Manual")) {
+                                    text = "1";
+                                }
+                                else if (text.equals("Automatic")) {
+                                    text = "0";
+                                }
                                 jsonObject.put(text, "True");
                                 array.put(jsonObject);
                             }
@@ -227,8 +233,15 @@ public class FiltersFragment extends Fragment {
             for (int i = 0; i < arrayLen; i++) {
                 jsonObject = jsonArray.getJSONObject(i);
                 String text = jsonObject.keys().next();
+                String displayText = text;
+                if (text.equals("1")) {
+                    displayText = "Manual";
+                }
+                else if (text.equals("0")) {
+                    displayText = "Automatic";
+                }
                 checkBoxArray[i] = new CheckBox(requireContext());
-                checkBoxArray[i].setText(text);
+                checkBoxArray[i].setText(displayText);
                 System.out.println(jsonObject.get(text));
                 if (jsonObject.get(text) == "True") {
                     checkBoxArray[i].setChecked(true);
