@@ -127,7 +127,7 @@ public class ResultsFragment extends Fragment {
                         try {
                             JSONArray carsArray = response.getJSONArray("cars");
 //                            table = createTable(carsArray, root);
-                            createVehicleTable(carsArray);
+                            createVehicleTable(carsArray, root);
                             Collections.sort(cars, new priceComparator());
                             table = displayTable(root);
                         } catch (JSONException e) {
@@ -150,7 +150,7 @@ public class ResultsFragment extends Fragment {
         System.out.println("Return filters");
     }
 
-    private  void createVehicleTable(JSONArray jsonArray) {
+    private  void createVehicleTable(JSONArray jsonArray, View root) {
         int arrayLen = jsonArray.length();
         JSONObject jsonObject;
         String model;
@@ -173,7 +173,7 @@ public class ResultsFragment extends Fragment {
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
 
 
-                cars.add(new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model));
+                cars.add(new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, root));
             }
         } catch (Exception ex) {
             System.out.println("json exception");

@@ -25,7 +25,7 @@ public class Vehicle {
     int Capacity;
     double costMinute;
 
-    public Vehicle(String plate, double x_coordinates, double y_coordinates, double priceMin, String brand, String model) {
+    public Vehicle(String plate, double x_coordinates, double y_coordinates, double priceMin, String brand, String model, View root) {
         this.plate = plate;
         this.x_coordinates = x_coordinates;
         this.y_coordinates = y_coordinates;
@@ -33,6 +33,8 @@ public class Vehicle {
         this.model = model;
 
         this.costMinute = priceMin;
+
+//        this.distanceFromUser = distanceFromUser(x_coordinates, y_coordinates,);
     }
 
     public static double distanceFromUser(double x_coordinates, double y_coordinates, double x_userLocation, double y_userLocation) {
@@ -71,4 +73,5 @@ public class Vehicle {
     public String getModel() {
         return this.model;
     }
+    public double getDistance() {return this.distanceFromUser;}
 }
