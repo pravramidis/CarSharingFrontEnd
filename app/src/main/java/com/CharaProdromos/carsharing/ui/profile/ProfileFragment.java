@@ -77,6 +77,17 @@ public class ProfileFragment extends Fragment {
 
         });
 
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowCarFragment showCarFragment = new ShowCarFragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, showCarFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
 
 
         return root;
