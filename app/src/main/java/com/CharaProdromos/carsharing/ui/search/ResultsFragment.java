@@ -43,6 +43,8 @@ public class ResultsFragment extends Fragment {
     private FragmentResultsBinding binding;
     private TableRow[] table;
 
+    private boolean priceFlag = true;
+
     private List<Vehicle> cars = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,18 +53,7 @@ public class ResultsFragment extends Fragment {
         binding = FragmentResultsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
-//        LinearLayout checkboxContainer = root.findViewById(R.id.carButtonContainer);
-//        CheckBox checkBox = new CheckBox(requireContext());
-//        checkboxContainer.addView(checkBox);
-
         httpRequestCars(root);
-//        try {
-//            JSONArray carsArray = cars.getJSONArray("Cars");
-//            TableRow[] table = createTable(carsArray, root);
-//        } catch (JSONException e) {
-//            System.out.println("Failed to get cars");
-//        }
 
         MaterialButton back= root.findViewById(R.id.backToFilters);
 
@@ -75,6 +66,24 @@ public class ResultsFragment extends Fragment {
                 transaction.replace(R.id.container, searchFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+            }
+        });
+
+        TextView price = root.findViewById(R.id.resultPrice);
+
+        price.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                if (priceFlag == true) {
+                    priceFlag = false;
+                    Collections.sort(cars, new priceComparator());
+                    table = displayTable(root);
+                }
+                else {
+                    priceFlag = true;
+                    Collections.sort(cars, new priceComparatorOpposite());
+                    table = displayTable(root);
+                }
+
             }
         });
 
@@ -118,7 +127,9 @@ public class ResultsFragment extends Fragment {
                         try {
                             JSONArray carsArray = response.getJSONArray("cars");
 //                            table = createTable(carsArray, root);
-                            table = createVehicleTable(carsArray, root);
+                            createVehicleTable(carsArray);
+                            Collections.sort(cars, new priceComparator());
+                            table = displayTable(root);
                         } catch (JSONException e) {
                             System.out.println("Failed to get cars");
                         }
@@ -139,9 +150,8 @@ public class ResultsFragment extends Fragment {
         System.out.println("Return filters");
     }
 
-    private  TableRow[] createVehicleTable(JSONArray jsonArray, View root) {
+    private  void createVehicleTable(JSONArray jsonArray) {
         int arrayLen = jsonArray.length();
-        TableRow[] tableRow = new TableRow[arrayLen];
         JSONObject jsonObject;
         String model;
         String brand;
@@ -149,7 +159,6 @@ public class ResultsFragment extends Fragment {
         double xCoordinates;
         double yCoordinates;
         double price;
-        TableLayout rowContainer = root.findViewById(R.id.tableLayout);
 
 
         try {
@@ -164,16 +173,28 @@ public class ResultsFragment extends Fragment {
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
 
 
-                cars.add(new Vehicle(plate ,xCoordinates, yCoordinates, price, brand, model));
+                cars.add(new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model));
             }
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("json exception");
             ex.printStackTrace();
         }
+    }
 
-        Collections.sort(cars, new priceComparator());
+    private void clearTable(View root) {
+        TableLayout rowContainer = root.findViewById(R.id.tableLayout);
+        View firstView = rowContainer.getChildAt(0);
+        rowContainer.removeAllViews();
 
+        if (firstView != null) {
+            rowContainer.addView(firstView);
+        }
+    }
+
+    private TableRow[] displayTable(View root) {
+        TableRow[] tableRow = new TableRow[cars.size()];
+        TableLayout rowContainer = root.findViewById(R.id.tableLayout);
+        clearTable(root);
         int i = 0;
         for (Vehicle car: cars){
             tableRow[i] = new TableRow(requireContext());
@@ -259,6 +280,13 @@ public class ResultsFragment extends Fragment {
         @Override
         public int compare(Vehicle v1, Vehicle v2) {
             return Double.compare(v1.getCostMinute(), v2.getCostMinute());
+        }
+    }
+
+    class priceComparatorOpposite implements Comparator<Vehicle> {
+        @Override
+        public int compare(Vehicle v1, Vehicle v2) {
+            return -Double.compare(v1.getCostMinute(), v2.getCostMinute());
         }
     }
 }
