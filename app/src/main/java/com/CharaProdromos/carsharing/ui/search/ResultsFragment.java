@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
+import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentResultsBinding;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,9 +34,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class ResultsFragment extends Fragment {
     private FragmentResultsBinding binding;
     private TableRow[] table;
+
+    private List<Vehicle> cars = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -109,7 +117,8 @@ public class ResultsFragment extends Fragment {
                         System.out.println(response);
                         try {
                             JSONArray carsArray = response.getJSONArray("cars");
-                            table = createTable(carsArray, root);
+//                            table = createTable(carsArray, root);
+                            table = createVehicleTable(carsArray, root);
                         } catch (JSONException e) {
                             System.out.println("Failed to get cars");
                         }
@@ -130,118 +139,126 @@ public class ResultsFragment extends Fragment {
         System.out.println("Return filters");
     }
 
-
-    private TableRow[] createTable(JSONArray jsonArray, View root) {
+    private  TableRow[] createVehicleTable(JSONArray jsonArray, View root) {
         int arrayLen = jsonArray.length();
         TableRow[] tableRow = new TableRow[arrayLen];
-        TableLayout rowContainer = root.findViewById(R.id.tableLayout);
         JSONObject jsonObject;
-        String type;
         String model;
-        String color;
         String brand;
-        int capacity;
-        String fuel;
         String plate;
         double xCoordinates;
         double yCoordinates;
         double price;
+        TableLayout rowContainer = root.findViewById(R.id.tableLayout);
 
 
         try {
             for (int i = 0; i < arrayLen; i++) {
                 jsonObject = jsonArray.getJSONObject(i);
-                model = jsonObject.getString("Model");
-                brand = jsonObject.getString("Brand");
                 plate = jsonObject.getString("Plate_number");
                 price = jsonObject.getDouble("Price");
-//                type = jsonObject.getString("Type");
-//                color = jsonObject.getString("Color");
-//                capacity = jsonObject.getInt("Capacity");
-//                fuel = jsonObject.getString("Fuel Type");
-//                xCoordinates = jsonObject.getDouble("XCoords");
-//                yCoordinates = jsonObject.getDouble("YCoords");
+                brand = jsonObject.getString("Brand");
+                model = jsonObject.getString("Model");
 
-                tableRow[i] = new TableRow(requireContext());
-                carListener(tableRow[i], plate);
-                tableRow[i].setGravity(Gravity.CENTER_VERTICAL);
-                ImageView imageView = new ImageView(requireContext());
-                imageView.setImageResource(R.drawable.lambo);
-                TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        1.0f
-                );
-                layoutParams.width = 200;
-                layoutParams.height = 200;
-                layoutParams.gravity = Gravity.CENTER;
-                imageView.setLayoutParams(layoutParams);
-                imageView.setMaxWidth(20);
-                imageView.setPadding(8, 8, 8, 8);
-                tableRow[i].addView(imageView);
-                tableRow[i].setClickable(true);
+                xCoordinates = jsonObject.getDouble("X_Coordinates");
+                yCoordinates = jsonObject.getDouble("Y_Coordinates");
 
-                TextView textModel = new TextView(requireContext());
-                textModel.setText(model);
-                textModel.setTextColor(Color.BLACK);
-                textModel.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1.0f
-                ));
-                textModel.setGravity(Gravity.CENTER_VERTICAL);
-                textModel.setGravity(Gravity.CENTER_HORIZONTAL);
-                textModel.setPadding(8, 8, 8, 8);
-                tableRow[i].addView(textModel);
 
-                TextView textBrand = new TextView(requireContext());
-                textBrand.setText(brand);
-                textBrand.setTextColor(Color.BLACK);
-                textBrand.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1.0f
-                ));
-                textBrand.setPadding(8, 8, 8, 8);
-                textBrand.setGravity(Gravity.CENTER_VERTICAL);
-                textBrand.setGravity(Gravity.CENTER_HORIZONTAL);
-                tableRow[i].addView(textBrand);
-
-                TextView textPrice = new TextView(requireContext());
-                textPrice.setText(price+"$/min");
-                textPrice.setGravity(Gravity.CENTER_VERTICAL);
-                textPrice.setGravity(Gravity.CENTER_HORIZONTAL);
-                textPrice.setTextColor(Color.BLACK);
-                textPrice.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                1.0f
-                ));
-                textPrice.setPadding(8, 8, 8, 8);
-                tableRow[i].addView(textPrice);
-
-                TextView textDistance = new TextView(requireContext());
-                textDistance.setGravity(Gravity.CENTER_VERTICAL);
-                textDistance.setGravity(Gravity.CENTER_HORIZONTAL);
-                textDistance.setTextColor(Color.BLACK);
-                textDistance.setLayoutParams(new TableRow.LayoutParams(
-                        TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT,
-                        1.0f
-                ));
-                textDistance.setText("1km");
-                textDistance.setPadding(8, 8, 8, 8);
-                tableRow[i].addView(textDistance);
-
-                rowContainer.addView(tableRow[i]);
+                cars.add(new Vehicle(plate ,xCoordinates, yCoordinates, price, brand, model));
             }
         }
-        catch (Exception ex) {
+        catch(Exception ex){
             System.out.println("json exception");
             ex.printStackTrace();
         }
 
+        Collections.sort(cars, new priceComparator());
+
+        int i = 0;
+        for (Vehicle car: cars){
+            tableRow[i] = new TableRow(requireContext());
+            carListener(tableRow[i], car.getPlate());
+            tableRow[i].setGravity(Gravity.CENTER_VERTICAL);
+            ImageView imageView = new ImageView(requireContext());
+            imageView.setImageResource(R.drawable.lambo);
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    1.0f
+            );
+            layoutParams.width = 200;
+            layoutParams.height = 200;
+            layoutParams.gravity = Gravity.CENTER;
+            imageView.setLayoutParams(layoutParams);
+            imageView.setMaxWidth(20);
+            imageView.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(imageView);
+            tableRow[i].setClickable(true);
+
+            TextView textModel = new TextView(requireContext());
+            textModel.setText(car.getModel());
+            textModel.setTextColor(Color.BLACK);
+            textModel.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            textModel.setGravity(Gravity.CENTER_VERTICAL);
+            textModel.setGravity(Gravity.CENTER_HORIZONTAL);
+            textModel.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(textModel);
+
+            TextView textBrand = new TextView(requireContext());
+            textBrand.setText(car.getBrand());
+            textBrand.setTextColor(Color.BLACK);
+            textBrand.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            textBrand.setPadding(8, 8, 8, 8);
+            textBrand.setGravity(Gravity.CENTER_VERTICAL);
+            textBrand.setGravity(Gravity.CENTER_HORIZONTAL);
+            tableRow[i].addView(textBrand);
+
+            TextView textPrice = new TextView(requireContext());
+            textPrice.setText(car.getCostMinute()+"$/min");
+            textPrice.setGravity(Gravity.CENTER_VERTICAL);
+            textPrice.setGravity(Gravity.CENTER_HORIZONTAL);
+            textPrice.setTextColor(Color.BLACK);
+            textPrice.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            textPrice.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(textPrice);
+
+            TextView textDistance = new TextView(requireContext());
+            textDistance.setGravity(Gravity.CENTER_VERTICAL);
+            textDistance.setGravity(Gravity.CENTER_HORIZONTAL);
+            textDistance.setTextColor(Color.BLACK);
+            textDistance.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            textDistance.setText("1km");
+            textDistance.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(textDistance);
+
+            rowContainer.addView(tableRow[i]);
+            i++;
+
+        }
         return tableRow;
 
+    }
+
+    class priceComparator implements Comparator<Vehicle> {
+        @Override
+        public int compare(Vehicle v1, Vehicle v2) {
+            return Double.compare(v1.getCostMinute(), v2.getCostMinute());
+        }
     }
 }
