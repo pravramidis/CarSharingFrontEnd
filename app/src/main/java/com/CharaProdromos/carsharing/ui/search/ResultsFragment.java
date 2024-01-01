@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,6 +24,7 @@ import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentResultsBinding;
+import com.CharaProdromos.carsharing.ui.search.ShowCarFragment;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -94,17 +96,25 @@ public class ResultsFragment extends Fragment {
     }
 
     private void carListener(TableRow row, String plate) {
+
+
         row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("User wants this car: plate:"+ plate);
+                GlobalVariables.getInstance().setPlateNumber(plate);
+                ShowCarFragment showCarFragment = new ShowCarFragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, showCarFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
 
             }
         });
     }
 
 
-    private void httpRequestCars(View root) {
+   private void httpRequestCars(View root) {
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("request", GlobalVariables.getInstance().getFilters());

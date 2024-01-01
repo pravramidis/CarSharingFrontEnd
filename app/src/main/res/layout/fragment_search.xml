@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/search1"
+    android:background="@drawable/filt5"
     tools:context=".MainActivity">
 
 
@@ -17,9 +17,9 @@
         android:layout_height="wrap_content"
         android:text="Apply Filters"
         android:textAlignment="center"
-        android:textSize="32sp"
+        android:textSize="34sp"
         android:textStyle="bold"
-        android:textColor="@color/myPrimary"
+        android:textColor="#5B3171"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -49,7 +49,9 @@
             android:text="Type"
             app:cornerRadius="24dp"
             android:drawableTop="@drawable/filter_type"
-            app:layout_constraintDimensionRatio="1:1"/>
+            app:layout_constraintDimensionRatio="1:1"
+            android:backgroundTint="#5B3171"
+            />
 
 
         <com.google.android.material.button.MaterialButton
@@ -60,7 +62,9 @@
             android:layout_gravity="fill"
             android:layout_margin="10dp"
             app:cornerRadius="24dp"
-            android:text="Fuel Type"/>
+            android:text="Fuel Type"
+            android:backgroundTint="#5B3171"
+            />
 
         <!-- Second Row of Buttons -->
         <com.google.android.material.button.MaterialButton
@@ -71,7 +75,9 @@
             android:layout_gravity="fill"
             android:layout_margin="10dp"
             app:cornerRadius="24dp"
-            android:text="Color"/>
+            android:text="Color"
+            android:backgroundTint="#5B3171"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:drawableTop="@drawable/brand3"
@@ -81,7 +87,9 @@
             android:layout_gravity="fill"
             android:layout_margin="10dp"
             app:cornerRadius="24dp"
-            android:text="Brand"/>
+            android:text="Brand"
+            android:backgroundTint="#5B3171"
+            />
 
         <!-- Third Row of Buttons -->
         <com.google.android.material.button.MaterialButton
@@ -93,7 +101,8 @@
             android:layout_margin="10dp"
             app:cornerRadius="24dp"
             android:text="Gearbox"
-             />
+            android:backgroundTint="#5B3171"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:drawableTop="@drawable/filter_capacity"
@@ -105,7 +114,9 @@
             android:text="Capacity"
             app:layout_constraintBottom_toTopOf="@id/clearFiltersButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:cornerRadius="24dp"/>
+            app:cornerRadius="24dp"
+            android:backgroundTint="#5B3171"
+            />
 
     </GridLayout>
         <androidx.constraintlayout.widget.Guideline
@@ -127,9 +138,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/gridLayout"
                 app:layout_constraintBottom_toTopOf="@id/searchButton"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/mySecondary"
+                android:backgroundTint="#7A5A8C"
                 app:strokeColor="@color/white"
-                app:strokeWidth="4dp"
+                app:strokeWidth="2dp"
                 android:textStyle="bold"
                 android:text="Clear Filters"/>
 
@@ -145,9 +156,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/clearFiltersButton"
                 app:layout_constraintBottom_toTopOf="@id/search_guide"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/mySecondary"
+                android:backgroundTint="#5B3171"
                 app:strokeColor="@color/white"
-                app:strokeWidth="4dp"
+                app:strokeWidth="2dp"
                 android:textStyle="bold"
                 android:text="Search"/>
     <!--    </ScrollView>-->

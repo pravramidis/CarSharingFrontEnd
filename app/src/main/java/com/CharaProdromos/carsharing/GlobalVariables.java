@@ -13,6 +13,7 @@ public class GlobalVariables {
     private String id;
     private String birthday;
     private String email;
+    private String plateNumber;
 
     private JSONObject filters = null;
 
@@ -47,6 +48,8 @@ public class GlobalVariables {
         return birthday;
     }
 
+    public String getPlateNumber() { return plateNumber;}
+
 
 
     public void setUsername(String someGlobalVar) {
@@ -70,6 +73,8 @@ public class GlobalVariables {
     public void setBirthday(String someGlobalVar) {
         this.birthday = someGlobalVar;
     }
+
+    public void setPlateNumber(String someGlobalVar) {this.plateNumber = someGlobalVar;}
 
     public JSONObject getFilters() {return filters;}
 

@@ -68,10 +68,6 @@ public class EditProfileFragment extends Fragment{
             updateButtonClick();
 
         }));
-
-
-
-
         return root;
     }
 
