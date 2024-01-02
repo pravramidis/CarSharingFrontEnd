@@ -20,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,10 +59,25 @@ public class ShowCarFragment extends Fragment{
         hourlyText = root.findViewById(R.id.radioButton2);
         dailyText = root.findViewById(R.id.radioButton3);
 
+        MaterialButton bookButton = root.findViewById(R.id.buttonBookNow);
+
         String carPlate = GlobalVariables.getInstance().getPlateNumber();
         System.out.println("Plate is: "+carPlate);
         plate.setText(carPlate);
         httpRequestCarInfo(carPlate);
+
+        bookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                StartTripFragment startFragment = new StartTripFragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, startFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+
+        });
 
 
 
