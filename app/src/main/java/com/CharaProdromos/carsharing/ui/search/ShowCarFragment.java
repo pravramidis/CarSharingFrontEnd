@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
+import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentShowCarBinding;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class ShowCarFragment extends Fragment{
+    Vehicle currCar;
 
     TextView title;
     TextView plate;
@@ -70,7 +72,7 @@ public class ShowCarFragment extends Fragment{
             @Override
             public void onClick(View v) {
 
-                StartTripFragment startFragment = new StartTripFragment();
+                StartTripFragment startFragment = new StartTripFragment(currCar);
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, startFragment);
                 transaction.addToBackStack(null);
@@ -111,10 +113,12 @@ public class ShowCarFragment extends Fragment{
                             String carModel = response.getString("Model");
                             String carType = response.getString("Type");
                             String carFuelType = response.getString("Fuel_Type");
-
+                            String carAvail = response.getString("Available");
                             String priceMin = response.getString("PriceMin");
                             String priceHourly = response.getString("PriceHourly");
                             String priceDaily = response.getString("PriceDaily");
+
+                            currCar = new Vehicle(plateNum,carBrand,carModel,carAvail);
 
                             priceMin = priceMin + "€ /minute";
                             priceHourly = priceHourly + "€ /hour";

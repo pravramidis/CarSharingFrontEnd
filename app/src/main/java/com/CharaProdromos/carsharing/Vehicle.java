@@ -25,6 +25,20 @@ public class Vehicle {
     int Capacity;
     double costMinute;
 
+    String avail;
+
+    String time;
+
+    String finalPrice;
+
+
+    public Vehicle(String plate, String brand, String model, String avail) {
+        this.plate = plate;
+        this.brand = brand;
+        this.model = model;
+        this.avail =avail;
+    }
+
     public Vehicle(String plate, double x_coordinates, double y_coordinates, double priceMin, String brand, String model, View root) {
         this.plate = plate;
         this.x_coordinates = x_coordinates;
@@ -74,4 +88,6 @@ public class Vehicle {
         return this.model;
     }
     public double getDistance() {return this.distanceFromUser;}
+
+    public void setTime(String time) { this.time = time;}
 }

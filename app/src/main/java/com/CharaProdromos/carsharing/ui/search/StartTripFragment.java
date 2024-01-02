@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,9 +17,13 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentProfileBinding;
 import com.CharaProdromos.carsharing.databinding.FragmentStartTripBinding;
 import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class StartTripFragment extends Fragment {
     TextView code;
@@ -28,6 +33,10 @@ public class StartTripFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private boolean isTimerRunning = false;
 
+    public StartTripFragment(Vehicle car) {
+
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -36,9 +45,12 @@ public class StartTripFragment extends Fragment {
         View root = binding.getRoot();
 
 
+
+        String carPlate = GlobalVariables.getInstance().getPlateNumber();
         MaterialButton startButton = root.findViewById(R.id.buttonStart);
         code = root.findViewById(R.id.codeText);
         timer = root.findViewById(R.id.timerText);
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,9 +58,10 @@ public class StartTripFragment extends Fragment {
                     Random random = new Random();
                     Integer fourDigitCode = 1000 + random.nextInt(9000);
                     code.setText(fourDigitCode.toString());
-
                     startButton.setText("END TRIP");
                     startTimer();
+                    httpRequestAvailabity(carPlate);
+
                 }
                 else {
                     if (isTimerRunning) {
@@ -66,6 +79,20 @@ public class StartTripFragment extends Fragment {
         });
 
         return root;
+    }
+
+    private void httpRequestAvailabity(String plateNum) {
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("Plate_number", plateNum);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String serverAddress = this.getString(R.string.serverAddress);
+        System.out.println(jsonBody.toString());
+        String url = serverAddress + "/vehicles/carAvail";
+        System.out.println(url);
+
     }
 
     private void startTimer() {
