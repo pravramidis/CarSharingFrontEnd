@@ -1,6 +1,16 @@
 package com.CharaProdromos.carsharing.ui.search;
+import static androidx.core.content.ContextCompat.getSystemService;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +25,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
+import com.CharaProdromos.*;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentResultsBinding;
@@ -30,22 +42,43 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.core.content.ContextCompat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class ResultsFragment extends Fragment {
     private FragmentResultsBinding binding;
     private TableRow[] table;
 
     private boolean priceFlag = true;
+    private boolean distanceFlag = true;
+    private static final int PERMISSION_ID = 123;
+    private double userXCoordinates;
+    private double userYCoordinates;
+
+    FusedLocationProviderClient mFusedLocationClient;
 
     private List<Vehicle> cars = new ArrayList<>();
 
@@ -56,6 +89,9 @@ public class ResultsFragment extends Fragment {
         View root = binding.getRoot();
 
         httpRequestCars(root);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
+        getLastLocation();
 
         MaterialButton back= root.findViewById(R.id.backToFilters);
 
@@ -83,6 +119,24 @@ public class ResultsFragment extends Fragment {
                 else {
                     priceFlag = true;
                     Collections.sort(cars, new priceComparatorOpposite());
+                    table = displayTable(root);
+                }
+
+            }
+        });
+
+        TextView distance = root.findViewById(R.id.resultDistance);
+
+        distance.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                if (distanceFlag == true) {
+                    distanceFlag = false;
+                    Collections.sort(cars, new distanceComparator());
+                    table = displayTable(root);
+                }
+                else {
+                    distanceFlag = true;
+                    Collections.sort(cars, new distanceComparatorOpposite());
                     table = displayTable(root);
                 }
 
@@ -181,9 +235,10 @@ public class ResultsFragment extends Fragment {
 
                 xCoordinates = jsonObject.getDouble("X_Coordinates");
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
-
-
-                cars.add(new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, root));
+                getLastLocation();
+                Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, root);
+                tempVehicle.setDistanceFromUser(userXCoordinates, userYCoordinates);
+                cars.add(tempVehicle);
             }
         } catch (Exception ex) {
             System.out.println("json exception");
@@ -253,7 +308,7 @@ public class ResultsFragment extends Fragment {
             tableRow[i].addView(textBrand);
 
             TextView textPrice = new TextView(requireContext());
-            textPrice.setText(car.getCostMinute()+"$/min");
+            textPrice.setText(car.getCostMinute()+"€/min");
             textPrice.setGravity(Gravity.CENTER_VERTICAL);
             textPrice.setGravity(Gravity.CENTER_HORIZONTAL);
             textPrice.setTextColor(Color.BLACK);
@@ -274,7 +329,11 @@ public class ResultsFragment extends Fragment {
                     TableRow.LayoutParams.WRAP_CONTENT,
                     1.0f
             ));
-            textDistance.setText("1km");
+            Double dist = car.getDistance();
+            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+            decimalFormat.setRoundingMode(java.math.RoundingMode.HALF_UP);
+            String formatDist = decimalFormat.format(dist);
+            textDistance.setText(formatDist+"km");
             textDistance.setPadding(8, 8, 8, 8);
             tableRow[i].addView(textDistance);
 
@@ -285,6 +344,128 @@ public class ResultsFragment extends Fragment {
         return tableRow;
 
     }
+
+
+    @SuppressLint("MissingPermission")
+    private void getLastLocation() {
+        // check if permissions are given
+        if (checkPermissions()) {
+
+            // check if location is enabled
+            if (isLocationEnabled()) {
+
+                // getting last
+                // location from
+                // FusedLocationClient
+                // object
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location == null) {
+                            requestNewLocationData();
+                        } else {
+//                            latitudeTextView.setText(location.getLatitude() + "");
+//                            longitTextView.setText(location.getLongitude() + "");
+                            userXCoordinates =location.getLongitude();
+                            userYCoordinates =location.getLatitude();
+                            System.out.println(userXCoordinates);
+                            System.out.println((userYCoordinates));
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(this.getContext(), "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            // if permissions aren't available,
+            // request for permissions
+            requestPermissions();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+
+        // Initializing LocationRequest
+        // object with appropriate methods
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(5);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        // setting LocationRequest
+        // on FusedLocationClient
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+    }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+//            latitudeTextView.setText("Latitude: " + mLastLocation.getLatitude() + "");
+//            longitTextView.setText("Longitude: " + mLastLocation.getLongitude() + "");
+            userYCoordinates = mLastLocation.getLatitude();
+            userXCoordinates = mLastLocation.getLongitude();
+            System.out.println(userXCoordinates);
+            System.out.println((userYCoordinates));
+
+        }
+    };
+
+    // method to check for permissions
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission
+                (this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission
+                (this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        // If we want background location
+        // on Android 10.0 and higher,
+        // use:
+//         ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+    // method to request for permissions
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this.getActivity(), new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+    }
+
+    // method to check
+    // if location is enabled
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    // If everything is alright then
+    @Override
+    public void
+    onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkPermissions()) {
+            getLastLocation();
+        }
+    }
+
 
     class priceComparator implements Comparator<Vehicle> {
         @Override
@@ -299,4 +480,19 @@ public class ResultsFragment extends Fragment {
             return -Double.compare(v1.getCostMinute(), v2.getCostMinute());
         }
     }
+
+    class distanceComparator implements Comparator<Vehicle> {
+        @Override
+        public int compare(Vehicle v1, Vehicle v2) {
+            return Double.compare(v1.getDistance(), v2.getDistance());
+        }
+    }
+
+    class distanceComparatorOpposite implements Comparator<Vehicle> {
+        @Override
+        public int compare(Vehicle v1, Vehicle v2) {
+            return -Double.compare(v1.getDistance(), v2.getDistance());
+        }
+    }
+
 }
