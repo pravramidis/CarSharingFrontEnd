@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StartTripFragment extends Fragment {
+    Vehicle car;
     TextView code;
     TextView timer;
 
@@ -34,7 +35,7 @@ public class StartTripFragment extends Fragment {
     private boolean isTimerRunning = false;
 
     public StartTripFragment(Vehicle car) {
-
+        this.car = car;
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -68,7 +69,8 @@ public class StartTripFragment extends Fragment {
                         countDownTimer.cancel();
                         isTimerRunning = false;
                     }
-                    PaymentFragment payFragment = new PaymentFragment();
+                    car.setTime(timer.getText().toString());
+                    PaymentFragment payFragment = new PaymentFragment(car);
                     FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.container, payFragment);
                     transaction.addToBackStack(null);
@@ -107,11 +109,12 @@ public class StartTripFragment extends Fragment {
                         TimeUnit.MILLISECONDS.toMinutes(timeElapsed) % 60,
                         TimeUnit.MILLISECONDS.toSeconds(timeElapsed) % 60);
                 timer.setText(hms);
+
             }
 
             @Override
             public void onFinish() {
-                // Timer finished logic (if applicable)
+
             }
         }.start();
         isTimerRunning = true;

@@ -25,10 +25,10 @@
         android:id="@+id/timerText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:text="00:00:00"
+        android:layout_marginTop="48dp"
         android:background="@color/myPrimary"
+        android:gravity="center_horizontal"
+        android:text="00:00:00"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="48sp"
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="@id/right_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/left_guideline"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"

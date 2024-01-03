@@ -29,6 +29,8 @@ public class Vehicle {
 
     String time;
 
+    String rate;
+
     String finalPrice;
 
 
@@ -87,7 +89,13 @@ public class Vehicle {
     public String getModel() {
         return this.model;
     }
+
+    public String getTime() { return this.time; }
     public double getDistance() {return this.distanceFromUser;}
 
+    public String getRate() { return this.rate;  }
+
     public void setTime(String time) { this.time = time;}
+
+    public void setRate(String rate) { this.rate =rate;  }
 }

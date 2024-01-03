@@ -61,6 +61,8 @@ public class ShowCarFragment extends Fragment{
         hourlyText = root.findViewById(R.id.radioButton2);
         dailyText = root.findViewById(R.id.radioButton3);
 
+        minuteText.setChecked(true);
+
         MaterialButton bookButton = root.findViewById(R.id.buttonBookNow);
 
         String carPlate = GlobalVariables.getInstance().getPlateNumber();
@@ -71,6 +73,17 @@ public class ShowCarFragment extends Fragment{
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String rate;
+                if(minuteText.isChecked()) {
+                    rate = minuteText.getText().toString();
+                }
+                else if(hourlyText.isChecked()) {
+                    rate = hourlyText.getText().toString();
+                }
+                else {
+                    rate = dailyText.getText().toString();
+                }
+                currCar.setRate(rate);
 
                 StartTripFragment startFragment = new StartTripFragment(currCar);
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
