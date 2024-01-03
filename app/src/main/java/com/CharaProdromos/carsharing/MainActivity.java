@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.CharaProdromos.carsharing.ui.home.HomeFragment;
+import com.CharaProdromos.carsharing.ui.map.MapFragment;
 import com.CharaProdromos.carsharing.ui.profile.ProfileFragment;
 import com.CharaProdromos.carsharing.ui.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         String tagHome = "homeFragment";
         Fragment profileFragment = new ProfileFragment();
         String tagProfile = "profileFragment";
+        Fragment mapFragment = new MapFragment();
+        String tagMap = "mapFragment";
 
 
         navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -98,6 +101,13 @@ public class MainActivity extends AppCompatActivity {
                 else if (item.getItemId() == R.id.navigation_profile) {
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.container, profileFragment, tagProfile);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                    return true;
+                }
+                else if (item.getItemId() == R.id.navigation_map) {
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.container, mapFragment, tagMap);
                     transaction.addToBackStack(null);
                     transaction.commit();
                     return true;
