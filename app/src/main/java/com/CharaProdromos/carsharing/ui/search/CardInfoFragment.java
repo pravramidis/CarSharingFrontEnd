@@ -31,6 +31,9 @@ public class CardInfoFragment extends Fragment{
 
 
         EditText expiryDate = root.findViewById(R.id.expiry_date);
+        EditText cvv = root.findViewById(R.id.cvv);
+        EditText cardNumber = root.findViewById(R.id.card_number);
+        EditText name = root.findViewById(R.id.cardholder_name);
         expiryDate.addTextChangedListener(new TextWatcher() {
             private String lastInput = "";
 
@@ -62,6 +65,11 @@ public class CardInfoFragment extends Fragment{
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(expiryDate.getText().toString().length() != 5 || cvv.getText().toString().isEmpty() || cardNumber.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
 
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Successful payment", Toast.LENGTH_LONG);
                 toast.show();
