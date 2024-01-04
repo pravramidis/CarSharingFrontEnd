@@ -48,7 +48,7 @@ public class PaymentFragment extends Fragment {
 
         String[] time = car.getTime().split(":",3);
         String totalPrice = getTotalPrice(time, car.getRate());
-        totalPrice = totalPrice +" €";
+        totalPrice = "  "+totalPrice +" €  ";
         finalPrice.setText(totalPrice);
 
         payButton.setOnClickListener(new View.OnClickListener() {

@@ -1,14 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/profile_background">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/date_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/date_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.27" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Card"
-        android:textSize="38sp"
+        android:layout_marginTop="20dp"
+        android:text="Add your card details"
+        android:textAlignment="center"
+        android:textColor="@color/myPrimary"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/left_guideline"
+        app:layout_constraintEnd_toEndOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/top_guideline"
+        app:cardCornerRadius="28dp"
+        android:id="@+id/card_view"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="28dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/card_background"
+            >
+
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/date_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/empty"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="            "
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:maxLength="5"
+                    android:textSize="18sp"/>
+
+                <EditText
+                    android:id="@+id/expiry_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="MM/YY"
+                    android:inputType="number"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:maxLength="5"
+                    android:textSize="18sp"/>
+
+
+
+                <!-- CVV -->
+                <EditText
+                    android:id="@+id/cvv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="CVV"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:inputType="numberDecimal"
+                    android:maxLength="3"
+                    android:textSize="18sp"/>
+
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/card_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Card Number"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:inputType="numberDecimal"
+                android:maxLength="16"
+                android:textSize="18sp"/>
+
+            <EditText
+                android:id="@+id/cardholder_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cardholder Name"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:inputType="textPersonName"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonPay"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.6"
+        android:layout_height="60dp"
+        android:text="Pay now"
+        app:cornerRadius="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/myPrimary"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/card_view"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
