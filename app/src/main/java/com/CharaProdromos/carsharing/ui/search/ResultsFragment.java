@@ -156,8 +156,7 @@ public class ResultsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println("User wants this car: plate:"+ plate);
-                GlobalVariables.getInstance().setPlateNumber(plate);
-                ShowCarFragment showCarFragment = new ShowCarFragment();
+                ShowCarFragment showCarFragment = new ShowCarFragment(plate);
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, showCarFragment);
                 transaction.addToBackStack(null);

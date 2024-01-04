@@ -29,6 +29,8 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 public class ShowCarFragment extends Fragment{
+
+    String plateNum;
     Vehicle currCar;
 
     TextView title;
@@ -43,6 +45,9 @@ public class ShowCarFragment extends Fragment{
     RadioButton dailyText;
 
     private FragmentShowCarBinding binding;
+    public ShowCarFragment (String plateNum) {
+        this.plateNum = plateNum;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +70,7 @@ public class ShowCarFragment extends Fragment{
 
         MaterialButton bookButton = root.findViewById(R.id.buttonBookNow);
 
-        String carPlate = GlobalVariables.getInstance().getPlateNumber();
+        String carPlate = plateNum;
         System.out.println("Plate is: "+carPlate);
         plate.setText(carPlate);
         httpRequestCarInfo(carPlate);

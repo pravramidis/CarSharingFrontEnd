@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
@@ -185,14 +187,26 @@ public class MapFragment extends Fragment {
 
                 GeoPoint carPoint = new GeoPoint(yCoordinates, xCoordinates);
 
+                View markerView = getLayoutInflater().inflate(R.layout.map_pin, null);
+
+//                TextView titleTextView = markerView.findViewById(R.id.titleTextView);
+//                TextView subtitleTextView = markerView.findViewById(R.id.subtitleTextView);
+//                MaterialButton customButton = markerView.findViewById(R.id.customButton);
+//
+//                titleTextView.setText(brand + " " + model);
+//                subtitleTextView.setText("Price: " + price+"€/min");
+
                 Marker marker = new Marker(map);
                 marker.setPosition(carPoint);
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 int iconResource = R.drawable.baseline_directions_car_24;
                 marker.setIcon(getResources().getDrawable(iconResource));
+
+                System.out.println("Got before create");
+                MarkerInfo markerInfo = new MarkerInfo(marker, map, plate, price, brand, model);
+                marker.setInfoWindow(markerInfo);
+
                 map.getOverlays().add(marker);
-                marker.setTitle(brand+" "+model);
-//                marker.setTextIcon(String.valueOf(price));
 
             }
         } catch (Exception ex) {
@@ -200,6 +214,8 @@ public class MapFragment extends Fragment {
             ex.printStackTrace();
         }
     }
+
+
 
     public void onResume() {
         super.onResume();
