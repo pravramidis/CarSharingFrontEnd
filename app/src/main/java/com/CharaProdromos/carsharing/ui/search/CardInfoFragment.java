@@ -65,6 +65,33 @@ public class CardInfoFragment extends Fragment{
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                System.out.println("month: "+expiryDate.getText().toString().substring(0,2));
+//                System.out.println("year: "+expiryDate.getText().toString().substring(3,4));
+
+                if(expiryDate.getText().toString().isEmpty() || cvv.getText().toString().isEmpty() || cardNumber.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+
+                if(expiryDate.getText().length() !=5 ||Integer.parseInt(expiryDate.getText().toString().substring(0,2)) > 12 || Integer.parseInt(expiryDate.getText().toString().substring(3,5)) < 24 ||
+                        Integer.parseInt(expiryDate.getText().toString().substring(3,5)) == 24 && Integer.parseInt(expiryDate.getText().toString().substring(0,2)) < 2) {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Incorrect expiration date", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+
+                if(cvv.getText().length()<3) {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Incorrect CVV", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+
+                if(cardNumber.getText().length()<16) {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Incorrect card number", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
                 if(expiryDate.getText().toString().length() != 5 || cvv.getText().toString().isEmpty() || cardNumber.getText().toString().isEmpty() || name.getText().toString().isEmpty()) {
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Please fill all fields", Toast.LENGTH_LONG);
                     toast.show();

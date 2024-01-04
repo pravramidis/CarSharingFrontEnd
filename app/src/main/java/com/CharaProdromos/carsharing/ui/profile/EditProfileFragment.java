@@ -133,6 +133,9 @@ public class EditProfileFragment extends Fragment{
                                 birthday.setText(newDate);
                                 password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                                 password.setText(newPassword);
+                                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Successful profile update", Toast.LENGTH_LONG);
+                                toast.show();
+
                             }
                         }
                         catch (Exception exception) {

@@ -56,7 +56,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fuelButton"
-            android:drawableTop="@drawable/mod2"
+            android:drawableTop="@drawable/fuel_icon"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
