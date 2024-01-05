@@ -37,9 +37,11 @@ public class MarkerInfo extends MarkerInfoWindow {
     MapView mapView;
 
     String color;
+    Double userX;
 
+    Double userY;
 
-    public MarkerInfo(Marker marker, MapView mapView, String plate, Double price, String brand,String model, String color) {
+    public MarkerInfo(Marker marker, MapView mapView, String plate, Double price, String brand,String model, String color, Double userX, Double userY) {
         super(R.layout.map_pin, mapView);
         System.out.println("Got before create");
         this.brand = brand;
@@ -49,6 +51,8 @@ public class MarkerInfo extends MarkerInfoWindow {
         this.plate = plate;
         this.mapView = mapView;
         this.color = color;
+        this.userX = userX;
+        this.userY = userY;
     }
 
     @Override
@@ -72,7 +76,7 @@ public class MarkerInfo extends MarkerInfoWindow {
             @Override
             public void onClick(View v) {
 
-                ShowCarFragment showCarFragment = new ShowCarFragment(plate);
+                ShowCarFragment showCarFragment = new ShowCarFragment(plate, userX, userY);
                 AppCompatActivity activity = (AppCompatActivity) mapView.getContext();
                 FragmentTransaction transaction =  activity.getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, showCarFragment);

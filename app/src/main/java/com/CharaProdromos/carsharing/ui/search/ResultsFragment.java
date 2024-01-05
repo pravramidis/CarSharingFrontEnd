@@ -156,7 +156,7 @@ public class ResultsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println("User wants this car: plate:"+ plate);
-                ShowCarFragment showCarFragment = new ShowCarFragment(plate);
+                ShowCarFragment showCarFragment = new ShowCarFragment(plate, userXCoordinates, userYCoordinates);
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, showCarFragment);
                 transaction.addToBackStack(null);
@@ -237,7 +237,7 @@ public class ResultsFragment extends Fragment {
                 xCoordinates = jsonObject.getDouble("X_Coordinates");
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
                 getLastLocation();
-                Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, color ,root);
+                Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, color, "doesn't matter");
 
                 tempVehicle.setDistanceFromUser(userXCoordinates, userYCoordinates);
                 cars.add(tempVehicle);

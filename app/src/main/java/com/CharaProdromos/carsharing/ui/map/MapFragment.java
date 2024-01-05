@@ -211,7 +211,7 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
                 marker.setIcon(getResources().getDrawable(iconResource));
 
                 System.out.println("Got before create");
-                MarkerInfo markerInfo = new MarkerInfo(marker, map, plate, price, brand, model, color);
+                MarkerInfo markerInfo = new MarkerInfo(marker, map, plate, price, brand, model, color, userXCoordinates, userYCoordinates);
                 marker.setInfoWindow(markerInfo);
 
                 map.getOverlays().add(marker);

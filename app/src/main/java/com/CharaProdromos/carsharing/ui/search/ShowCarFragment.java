@@ -31,6 +31,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
+
 public class ShowCarFragment extends Fragment{
 
     String plateNum;
@@ -49,10 +51,19 @@ public class ShowCarFragment extends Fragment{
     RadioButton hourlyText;
     RadioButton dailyText;
 
+    TextView distanceText;
+
     Context context;
 
+    Double userXCoordinate;
+    Double userYCoordinate;
+
+
     private FragmentShowCarBinding binding;
-    public ShowCarFragment (String plateNum) {
+    public ShowCarFragment (String plateNum, Double userXCoordinate, Double userYCoordinate) {
+        this.userXCoordinate = userXCoordinate;
+        this.userYCoordinate = userYCoordinate;
+
         this.plateNum = plateNum;
     }
 
@@ -74,6 +85,7 @@ public class ShowCarFragment extends Fragment{
         dailyText = root.findViewById(R.id.radioButton3);
         image = root.findViewById(R.id.carImage);
         context = root.getContext();
+        distanceText = root.findViewById(R.id.distanceText);
 
         minuteText.setChecked(true);
 
@@ -142,11 +154,14 @@ public class ShowCarFragment extends Fragment{
                             String carFuelType = response.getString("Fuel_Type");
                             String carAvail = response.getString("Available");
                             String priceMin = response.getString("PriceMin");
+                            Double priceMinDouble = response.getDouble("PriceMin");
                             String priceHourly = response.getString("PriceHourly");
                             String priceDaily = response.getString("PriceDaily");
                             String carColor = response.getString("Color");
+                            Double carX = response.getDouble("X_Coordinates");
+                            Double carY = response.getDouble("Y_Coordinates");
 
-                            currCar = new Vehicle(plateNum,carBrand,carModel,carAvail);
+                            currCar = new Vehicle(plate.getText().toString(), carX, carY, priceMinDouble, carBrand, carModel, carColor, carAvail);
 
                             priceMin = priceMin + "€ /minute";
                             priceHourly = priceHourly + "€ /hour";
@@ -158,6 +173,15 @@ public class ShowCarFragment extends Fragment{
                             String iconString = carBrand.toLowerCase() + "_" + carModel.toLowerCase() + "_" + carColor.toLowerCase();
                             int drawableResourceId = getResources().getIdentifier(iconString, "drawable", context.getPackageName());
                             image.setImageResource(drawableResourceId);
+                            currCar.setDistanceFromUser(userXCoordinate, userYCoordinate);
+
+                            Double dist = currCar.getDistance();
+                            DecimalFormat decimalFormat = new DecimalFormat("#.##");
+                            decimalFormat.setRoundingMode(java.math.RoundingMode.HALF_UP);
+                            String formatDist = decimalFormat.format(dist);
+                            distanceText.setText(formatDist + " km Away");
+
+
 
 
                             if (carGearbox.equals("1")) {
