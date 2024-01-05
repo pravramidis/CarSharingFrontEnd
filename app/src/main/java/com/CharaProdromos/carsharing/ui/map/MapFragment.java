@@ -50,14 +50,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 import java.util.Collections;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements MapEventsReceiver {
     private MapView map;
     private FragmentMapBinding binding;
     private IMapController mapController;
@@ -98,11 +101,11 @@ public class MapFragment extends Fragment {
 //        getActivity().setContentView(R.layout.activity_main);
 
 
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (isStoragePermissionGranted()) {
-
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            if (isStoragePermissionGranted()) {
+//
+//            }
+//        }
 
 
         map = root.findViewById(R.id.mapView);
@@ -111,6 +114,9 @@ public class MapFragment extends Fragment {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(15);
+
+        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this.getContext(), this);
+        map.getOverlays().add(0, mapEventsOverlay);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
         getLastLocation();
@@ -372,4 +378,16 @@ public class MapFragment extends Fragment {
         LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+
+    @Override public boolean singleTapConfirmedHelper(GeoPoint p) {
+        InfoWindow.closeAllInfoWindowsOn(map);
+        return true;
+    }
+
+    @Override public boolean longPressHelper(GeoPoint p) {
+        //DO NOTHING FOR NOW:
+        return false;
+    }
+
+
 }

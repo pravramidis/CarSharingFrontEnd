@@ -22,6 +22,7 @@ import com.CharaProdromos.carsharing.ui.search.ShowCarFragment;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 
 import java.lang.ref.WeakReference;
@@ -33,7 +34,7 @@ public class MarkerInfo extends MarkerInfoWindow {
     Double price;
     String brand;
     String model;
-    View mapView;
+    MapView mapView;
 
     String color;
 
@@ -53,6 +54,7 @@ public class MarkerInfo extends MarkerInfoWindow {
     @Override
     public void onOpen(Object item) {
         System.out.println("Got here");
+        InfoWindow.closeAllInfoWindowsOn(mapView);
 
         TextView titleTextView = mView.findViewById(R.id.titleTextView);
         TextView subtitleTextView = mView.findViewById(R.id.subtitleTextView);
