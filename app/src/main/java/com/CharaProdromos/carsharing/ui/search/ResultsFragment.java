@@ -219,6 +219,7 @@ public class ResultsFragment extends Fragment {
         String model;
         String brand;
         String plate;
+        String color;
         double xCoordinates;
         double yCoordinates;
         double price;
@@ -231,11 +232,13 @@ public class ResultsFragment extends Fragment {
                 price = jsonObject.getDouble("Price");
                 brand = jsonObject.getString("Brand");
                 model = jsonObject.getString("Model");
+                color =  jsonObject.getString("Color");
 
                 xCoordinates = jsonObject.getDouble("X_Coordinates");
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
                 getLastLocation();
-                Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, root);
+                Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, color ,root);
+
                 tempVehicle.setDistanceFromUser(userXCoordinates, userYCoordinates);
                 cars.add(tempVehicle);
             }
@@ -259,13 +262,17 @@ public class ResultsFragment extends Fragment {
         TableRow[] tableRow = new TableRow[cars.size()];
         TableLayout rowContainer = root.findViewById(R.id.tableLayout);
         clearTable(root);
+
         int i = 0;
         for (Vehicle car: cars){
             tableRow[i] = new TableRow(requireContext());
             carListener(tableRow[i], car.getPlate());
+            String iconString =
+                    car.getBrand().toLowerCase() + "_" + car.getModel().toLowerCase() + "_" + car.getColor().toLowerCase();
             tableRow[i].setGravity(Gravity.CENTER_VERTICAL);
             ImageView imageView = new ImageView(requireContext());
-            imageView.setImageResource(R.drawable.lambo);
+            int drawableResourceId = getResources().getIdentifier(iconString, "drawable", root.getContext().getPackageName());
+            imageView.setImageResource(drawableResourceId);
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.MATCH_PARENT,

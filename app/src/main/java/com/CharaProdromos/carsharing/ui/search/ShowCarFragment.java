@@ -1,9 +1,12 @@
 package com.CharaProdromos.carsharing.ui.search;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.ConditionVariable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,9 +43,13 @@ public class ShowCarFragment extends Fragment{
     TextView gearbox;
     TextView capacity;
 
+    ImageView image;
+
     RadioButton minuteText;
     RadioButton hourlyText;
     RadioButton dailyText;
+
+    Context context;
 
     private FragmentShowCarBinding binding;
     public ShowCarFragment (String plateNum) {
@@ -65,6 +72,8 @@ public class ShowCarFragment extends Fragment{
         minuteText = root.findViewById(R.id.radioButton1);
         hourlyText = root.findViewById(R.id.radioButton2);
         dailyText = root.findViewById(R.id.radioButton3);
+        image = root.findViewById(R.id.carImage);
+        context = root.getContext();
 
         minuteText.setChecked(true);
 
@@ -135,6 +144,7 @@ public class ShowCarFragment extends Fragment{
                             String priceMin = response.getString("PriceMin");
                             String priceHourly = response.getString("PriceHourly");
                             String priceDaily = response.getString("PriceDaily");
+                            String carColor = response.getString("Color");
 
                             currCar = new Vehicle(plateNum,carBrand,carModel,carAvail);
 
@@ -145,6 +155,9 @@ public class ShowCarFragment extends Fragment{
                             minuteText.setText(priceMin);
                             hourlyText.setText(priceHourly);
                             dailyText.setText(priceDaily);
+                            String iconString = carBrand.toLowerCase() + "_" + carModel.toLowerCase() + "_" + carColor.toLowerCase();
+                            int drawableResourceId = getResources().getIdentifier(iconString, "drawable", context.getPackageName());
+                            image.setImageResource(drawableResourceId);
 
 
                             if (carGearbox.equals("1")) {

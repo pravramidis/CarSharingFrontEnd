@@ -169,6 +169,7 @@ public class MapFragment extends Fragment {
         String model;
         String brand;
         String plate;
+        String color;
         double xCoordinates;
         double yCoordinates;
         double price;
@@ -181,6 +182,7 @@ public class MapFragment extends Fragment {
                 price = jsonObject.getDouble("Price");
                 brand = jsonObject.getString("Brand");
                 model = jsonObject.getString("Model");
+                color = jsonObject.getString("Color");
 
                 xCoordinates = jsonObject.getDouble("X_Coordinates");
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
@@ -203,7 +205,7 @@ public class MapFragment extends Fragment {
                 marker.setIcon(getResources().getDrawable(iconResource));
 
                 System.out.println("Got before create");
-                MarkerInfo markerInfo = new MarkerInfo(marker, map, plate, price, brand, model);
+                MarkerInfo markerInfo = new MarkerInfo(marker, map, plate, price, brand, model, color);
                 marker.setInfoWindow(markerInfo);
 
                 map.getOverlays().add(marker);

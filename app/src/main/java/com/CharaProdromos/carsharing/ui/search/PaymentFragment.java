@@ -80,7 +80,6 @@ public class PaymentFragment extends Fragment {
 
         System.out.println("hours: "+hours);
         System.out.println("mins: "+minutes);
-
         System.out.println("seconds: "+seconds);
 
 

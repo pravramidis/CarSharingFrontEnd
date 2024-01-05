@@ -41,12 +41,13 @@ public class Vehicle {
         this.avail =avail;
     }
 
-    public Vehicle(String plate, double x_coordinates, double y_coordinates, double priceMin, String brand, String model, View root) {
+    public Vehicle(String plate, double x_coordinates, double y_coordinates, double priceMin, String brand, String model, String color, View root) {
         this.plate = plate;
         this.x_coordinates = x_coordinates;
         this.y_coordinates = y_coordinates;
         this.brand = brand;
         this.model = model;
+        this.color = color;
 
         this.costMinute = priceMin;
 
@@ -89,6 +90,8 @@ public class Vehicle {
     public String getModel() {
         return this.model;
     }
+
+    public  String getColor() {return this.color;}
 
     public String getTime() { return this.time; }
     public double getDistance() {return this.distanceFromUser;}
