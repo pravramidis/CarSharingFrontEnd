@@ -1,6 +1,7 @@
 package com.CharaProdromos.carsharing.ui.search;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -242,6 +243,7 @@ public class FiltersFragment extends Fragment {
                 }
                 checkBoxArray[i] = new CheckBox(requireContext());
                 checkBoxArray[i].setText(displayText);
+                checkBoxArray[i].setTextSize(20);
                 System.out.println(jsonObject.get(text));
                 if (jsonObject.get(text) == "True") {
                     checkBoxArray[i].setChecked(true);

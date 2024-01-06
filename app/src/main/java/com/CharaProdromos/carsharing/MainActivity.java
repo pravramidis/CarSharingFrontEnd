@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
         String tagHome = "homeFragment";
         Fragment profileFragment = new ProfileFragment();
         String tagProfile = "profileFragment";
-        Fragment mapFragment = new MapFragment();
-        String tagMap = "mapFragment";
+
 
 
         navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -106,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 else if (item.getItemId() == R.id.navigation_map) {
+                    Fragment mapFragment = new MapFragment();
+                    String tagMap = "mapFragment";
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.container, mapFragment, tagMap);
                     transaction.addToBackStack(null);
