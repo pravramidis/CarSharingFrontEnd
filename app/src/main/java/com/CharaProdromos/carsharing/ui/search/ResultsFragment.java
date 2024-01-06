@@ -213,7 +213,7 @@ public class ResultsFragment extends Fragment {
         System.out.println("Return filters");
     }
 
-    private  void createVehicleTable(JSONArray jsonArray, View root) {
+    public  void createVehicleTable(JSONArray jsonArray, View root) {
         int arrayLen = jsonArray.length();
         JSONObject jsonObject;
         String model;
@@ -356,14 +356,8 @@ public class ResultsFragment extends Fragment {
     private void getLastLocation() {
         // check if permissions are given
         if (checkPermissions()) {
-
             // check if location is enabled
             if (isLocationEnabled()) {
-
-                // getting last
-                // location from
-                // FusedLocationClient
-                // object
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
@@ -386,8 +380,6 @@ public class ResultsFragment extends Fragment {
                 startActivity(intent);
             }
         } else {
-            // if permissions aren't available,
-            // request for permissions
             requestPermissions();
         }
     }
@@ -414,8 +406,6 @@ public class ResultsFragment extends Fragment {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
-//            latitudeTextView.setText("Latitude: " + mLastLocation.getLatitude() + "");
-//            longitTextView.setText("Longitude: " + mLastLocation.getLongitude() + "");
             userYCoordinates = mLastLocation.getLatitude();
             userXCoordinates = mLastLocation.getLongitude();
             System.out.println(userXCoordinates);
