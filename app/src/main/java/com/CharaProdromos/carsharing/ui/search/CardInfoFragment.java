@@ -13,14 +13,31 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.annotation.NonNull;
 
+import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
+import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentCardInfoBinding;
 import com.CharaProdromos.carsharing.ui.home.HomeFragment;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.time.LocalDate;
+import java.util.Date;
 
 
 public class CardInfoFragment extends Fragment{
+
+    Vehicle car;
     private FragmentCardInfoBinding binding;
+
+    public CardInfoFragment(Vehicle car) { this.car =car; }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -98,6 +115,10 @@ public class CardInfoFragment extends Fragment{
                     return;
                 }
 
+
+                httpRequestAddToHistory(car);
+                httpRequestAvailabity(car,"1");
+
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Successful payment", Toast.LENGTH_LONG);
                 toast.show();
                 HomeFragment homeFragment = new HomeFragment();
@@ -109,6 +130,103 @@ public class CardInfoFragment extends Fragment{
         });
 
         return root;
+    }
+    private void httpRequestAvailabity(Vehicle car, String value) {
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("plate", car.getPlate());
+            jsonBody.put("value", value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String serverAddress = this.getString(R.string.serverAddress);
+        System.out.println(jsonBody.toString());
+        String url = serverAddress + "/vehicles/availability";
+        System.out.println(url);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+
+
+
+                        } catch (Exception exception) {
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle errors
+                        // You can log the error or show a message to the user
+
+                        String text = "Fail"+ error.toString();
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),text, Toast.LENGTH_LONG);
+                        System.out.println("Fail"+ error.toString());
+                        toast.show();
+                    }
+                });
+        Volley.newRequestQueue(getActivity().getApplicationContext()).add(jsonObjectRequest);
+
+    }
+
+    private void httpRequestAddToHistory(Vehicle car) {
+        JSONObject jsonBody = new JSONObject();
+        String user = GlobalVariables.getInstance().getUsername();
+        Date currentDate = new Date();
+        String[] date = currentDate.toString().split(" ");
+        String payDate = date[0] +" "+ date[1]+" " +date[2]+" " +date[3]+" "+date[5];
+        String type = car.getRate();
+        String[] temp = type.split("/");
+        type = temp[1];
+        try {
+            jsonBody.put("PlateNum", car.getPlate());
+            jsonBody.put("Type",type);
+            jsonBody.put("Price", car.getFinalPrice());
+            jsonBody.put("Duration", car.getTime());
+            jsonBody.put("Date", payDate );
+            jsonBody.put("Username",user);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String serverAddress = this.getString(R.string.serverAddress);
+        System.out.println(jsonBody.toString());
+        String url = serverAddress + "/histories/booking";
+        System.out.println(url);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+
+
+
+                        } catch (Exception exception) {
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle errors
+                        // You can log the error or show a message to the user
+
+                        String text = "Fail"+ error.toString();
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),text, Toast.LENGTH_LONG);
+                        System.out.println("Fail"+ error.toString());
+                        toast.show();
+                    }
+                });
+        Volley.newRequestQueue(getActivity().getApplicationContext()).add(jsonObjectRequest);
+
     }
 
 }

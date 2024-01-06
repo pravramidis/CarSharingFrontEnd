@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
@@ -20,6 +21,11 @@ import java.util.concurrent.TimeUnit;
 import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentProfileBinding;
 import com.CharaProdromos.carsharing.databinding.FragmentStartTripBinding;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONException;
@@ -61,7 +67,7 @@ public class StartTripFragment extends Fragment {
                     code.setText(fourDigitCode.toString());
                     startButton.setText("END TRIP");
                     startTimer();
-                    httpRequestAvailabity(carPlate);
+                    httpRequestAvailabity(car,"0");
 
                 }
                 else {
@@ -83,19 +89,50 @@ public class StartTripFragment extends Fragment {
         return root;
     }
 
-    private void httpRequestAvailabity(String plateNum) {
+    private void httpRequestAvailabity(Vehicle car, String value) {
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("Plate_number", plateNum);
+            jsonBody.put("plate", car.getPlate());
+            jsonBody.put("value", value);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         String serverAddress = this.getString(R.string.serverAddress);
         System.out.println(jsonBody.toString());
-        String url = serverAddress + "/vehicles/carAvail";
+        String url = serverAddress + "/vehicles/availability";
         System.out.println(url);
 
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+
+
+
+                        } catch (Exception exception) {
+
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Handle errors
+                        // You can log the error or show a message to the user
+
+                        String text = "Fail"+ error.toString();
+                        Toast toast = Toast.makeText(getActivity().getApplicationContext(),text, Toast.LENGTH_LONG);
+                        System.out.println("Fail"+ error.toString());
+                        toast.show();
+                    }
+                });
+        Volley.newRequestQueue(getActivity().getApplicationContext()).add(jsonObjectRequest);
+
     }
+
+
 
     private void startTimer() {
         countDownTimer = new CountDownTimer(Long.MAX_VALUE, 1000) {

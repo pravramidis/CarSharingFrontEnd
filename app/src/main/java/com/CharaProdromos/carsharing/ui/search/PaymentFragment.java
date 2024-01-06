@@ -48,13 +48,14 @@ public class PaymentFragment extends Fragment {
 
         String[] time = car.getTime().split(":",3);
         String totalPrice = getTotalPrice(time, car.getRate());
+        car.setFinalPrice(totalPrice);
         totalPrice = "  "+totalPrice +" €  ";
         finalPrice.setText(totalPrice);
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CardInfoFragment cardFragment = new CardInfoFragment();
+                CardInfoFragment cardFragment = new CardInfoFragment(car);
                 FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, cardFragment);
                 transaction.addToBackStack(null);

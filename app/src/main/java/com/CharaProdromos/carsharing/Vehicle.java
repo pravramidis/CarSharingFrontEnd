@@ -32,6 +32,7 @@ public class Vehicle {
     String rate;
 
     String finalPrice;
+    String tripDuration;
 
 
 //    public Vehicle(String plate, String brand, String model, String avail) {
@@ -99,7 +100,15 @@ public class Vehicle {
 
     public String getRate() { return this.rate;  }
 
+    public String getFinalPrice() { return this.finalPrice; }
+
+    public String getTripDuration() { return this.tripDuration; }
+
     public void setTime(String time) { this.time = time;}
 
     public void setRate(String rate) { this.rate =rate;  }
+
+    public void setFinalPrice(String price) { this.finalPrice = price; }
+
+    public void setTripDuration(String duration) { this.tripDuration=duration; }
 }
