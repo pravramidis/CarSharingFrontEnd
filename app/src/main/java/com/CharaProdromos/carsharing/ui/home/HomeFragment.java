@@ -225,6 +225,8 @@ public class HomeFragment extends Fragment {
                 xCoordinates = jsonObject.getDouble("X_Coordinates");
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
                 Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, color, "doesn't matter");
+                getLastLocation(tempVehicle);
+//                tempVehicle.setDistanceFromUser(userXCoordinates, userYCoordinates);
                 cars.add(tempVehicle);
 
             }
@@ -266,9 +268,10 @@ public class HomeFragment extends Fragment {
 
 
     @SuppressLint("MissingPermission")
-    private void getLastLocation() {
+    private void getLastLocation(Vehicle car) {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
+                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
@@ -278,6 +281,7 @@ public class HomeFragment extends Fragment {
                         } else {
                             userXCoordinates =location.getLongitude();
                             userYCoordinates =location.getLatitude();
+                            car.setDistanceFromUser(userXCoordinates, userYCoordinates);
                             System.out.println(userXCoordinates);
                             System.out.println((userYCoordinates));
                         }
