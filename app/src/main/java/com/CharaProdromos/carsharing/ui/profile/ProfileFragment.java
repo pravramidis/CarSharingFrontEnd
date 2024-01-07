@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import com.CharaProdromos.carsharing.GlobalVariables;
+import com.CharaProdromos.carsharing.History;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.UserLogin;
 import com.CharaProdromos.carsharing.UserRegistration;
@@ -77,16 +78,16 @@ public class ProfileFragment extends Fragment {
 
         });
 
-//        history.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ShowCarFragment showCarFragment = new ShowCarFragment();
-//                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.container, showCarFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-//            }
-//        });
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HistoryFragment historyFragment = new HistoryFragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, historyFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
 
 

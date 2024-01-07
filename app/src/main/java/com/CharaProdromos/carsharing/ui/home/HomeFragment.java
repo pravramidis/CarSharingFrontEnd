@@ -160,9 +160,9 @@ public class HomeFragment extends Fragment {
                                 layoutParams.height = GridLayout.LayoutParams.MATCH_PARENT;
                                 layoutParams.columnSpec = GridLayout.spec(i, 1.0f);  // Column weight
                                 layoutParams.rowSpec = GridLayout.spec(0, 1.0f);  // Row weight
-                                layoutParams.width = 300;
-                                layoutParams.height = 300;
-                                layoutParams.bottomMargin = -70;
+                                layoutParams.width = 250;
+                                layoutParams.height = 250;
+                                layoutParams.bottomMargin = 0;
                                 layoutParams.setGravity(Gravity.CENTER);
                                 imageView.setLayoutParams(layoutParams);
 
@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment {
                                 TextView costText = new TextView(requireContext());
                                 costText.setText(Double.toString(car.getCostMinute()) + "€/min");
                                 GridLayout.LayoutParams costTextParams = new GridLayout.LayoutParams();
-                                costTextParams.width = 300;
+                                costTextParams.width = 250;
                                 costTextParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
                                 costTextParams.columnSpec = GridLayout.spec(i, 1.0f);
                                 costTextParams.rowSpec = GridLayout.spec(1, GridLayout.CENTER);

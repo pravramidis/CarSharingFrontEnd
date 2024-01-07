@@ -179,6 +179,7 @@
                 android:textColor="@color/myPrimary"
                 android:textSize="24sp"
                 android:gravity="center_horizontal"
+                android:paddingBottom="10dp"
                 />
 
             <GridLayout
