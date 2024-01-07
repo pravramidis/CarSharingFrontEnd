@@ -61,8 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         System.out.println("init fragments");
         String tagSearch = "searchFragment";
-        Fragment homeFragment = new HomeFragment();
-        String tagHome = "homeFragment";
+
         Fragment profileFragment = new ProfileFragment();
         String tagProfile = "profileFragment";
 
@@ -76,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 Fragment searchFragment =fragmentManager.findFragmentByTag("searchFragment");
 
                 if (item.getItemId() == R.id.navigation_home) {
+                    Fragment homeFragment = new HomeFragment();
+                    String tagHome = "homeFragment";
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.container, homeFragment, tagHome);
                     transaction.addToBackStack(null);
