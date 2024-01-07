@@ -100,16 +100,17 @@ public class ShowCarFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 String rate;
-//                String distanceString = distanceText.getText().toString();
-//                distanceString = distanceString.replaceAll("[^0-9.]", "");
-//                Double distance = Double.valueOf(distanceString);
-//                System.out.println("Distance");
-//                System.out.println(distance);
-//                if (distance > 0.05) {
-//                    String text = "Successful login";
-//                    Toast toast = Toast.makeText(root.getContext(), text, Toast.LENGTH_LONG);
-//                    toast.show();
-//                }
+                String distanceString = distanceText.getText().toString();
+                distanceString = distanceString.replaceAll("[^0-9.]", "");
+                Double distance = Double.valueOf(distanceString);
+                System.out.println("Distance");
+                System.out.println(distance);
+                if (distance > 0.05) {
+                    String text = "Car is too far away";
+                    Toast toast = Toast.makeText(root.getContext(), text, Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
 
                 if(minuteText.isChecked()) {
                     rate = minuteText.getText().toString();
