@@ -3,6 +3,7 @@
     android:id="@+id/filter_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/filt5"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -13,7 +14,7 @@
         android:textAlignment="center"
         android:textSize="32dp"
         android:textStyle="bold"
-        android:textColor="@color/black"
+        android:textColor="#5B3171"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/FilterOption"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,13 +24,13 @@
 
     <TextView
         android:id="@+id/FilterOption"
+        android:textColor="#5B3171"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Choose"
         android:textAlignment="center"
         android:textSize="32dp"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintStart_toEndOf="@id/FilterTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -68,7 +69,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonApply"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintWidth_percent="0.7"
         android:layout_height="60dp"
         android:text="Apply Choices"
         app:cornerRadius="32dp"
@@ -76,7 +77,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/filter_guide"
         android:layout_marginTop="32dp"
-
+        android:textColor="@color/white"
+        android:backgroundTint="#5B3171"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        android:textStyle="bold"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

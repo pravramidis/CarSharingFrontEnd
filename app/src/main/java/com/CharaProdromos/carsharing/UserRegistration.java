@@ -57,7 +57,7 @@ public class UserRegistration extends AppCompatActivity{
         EditText editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         EditText editTextName = findViewById(R.id.editTextName);
         EditText editTextDateofBirth = editTextName;
-        EditText editTextLicenseId = findViewById(R.id.editTextLicenseId);
+        EditText editTextLicenseId = findViewById(R.id.editTextLicenceId);
         EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         EditText editTextEmail = findViewById(R.id.editTextEmail);
         Button registerButton = findViewById(R.id.buttonRegister);
