@@ -294,7 +294,7 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
                             Marker marker = new Marker(map);
                             marker.setPosition(startPoint);
                             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                            int iconResource = R.drawable.profile_icon;
+                            int iconResource = R.drawable.baseline_person_24_red;
                             marker.setIcon(getResources().getDrawable(iconResource));
                             map.getOverlays().add(marker);
                             System.out.println(userXCoordinates);

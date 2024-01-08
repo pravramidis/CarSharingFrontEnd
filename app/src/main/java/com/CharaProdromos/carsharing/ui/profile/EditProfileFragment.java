@@ -199,13 +199,6 @@ public class EditProfileFragment extends Fragment{
                             password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                             password.setText(currPassword);
 
-
-
-
-
-
-
-
                         }
                         catch (Exception exception) {
 
