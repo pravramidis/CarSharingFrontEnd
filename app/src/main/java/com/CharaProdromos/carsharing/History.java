@@ -23,4 +23,5 @@ public class History {
     public String getDate() { return this.date; }
     public String getDuration() { return this.duration; }
     public String getType() { return this.type; }
+    public String getPrice() { return this.price;}
 }

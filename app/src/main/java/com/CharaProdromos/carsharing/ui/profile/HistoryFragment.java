@@ -149,19 +149,29 @@ public class HistoryFragment extends Fragment {
 
     private CardView[] displayTable(View root) {
         System.out.println("Got in display");
-        CardView[] cardViews = new CardView[bookings.size()];
-        TableRow[] tableRow = new TableRow[bookings.size()];
+        CardView[] cardViews = new CardView[bookings.size()+1];
+        TableRow[] tableRow = new TableRow[bookings.size()+1];
         TableLayout rowContainer = root.findViewById(R.id.tableLayout);
 
 
-        int i=0;
-        for (History booking: bookings) {
+        //int i=0;
+        for (int i=0; i<bookings.size()+1; i++) {
 
             tableRow[i] = new TableRow(requireContext());
             // existing code to setup tableRow with ImageView and TextViews
 
             TextView date = new TextView(requireContext());
-            date.setText(booking.getDate());
+            String tempDate;
+            if(i==0) {
+                tempDate = "Payment Date";
+
+            }
+            else {
+                tempDate = bookings.get(bookings.size()-i).getDate();
+                String[] fullDate = tempDate.split(" ");
+                tempDate = fullDate[2] + "/" + monthDecode(fullDate[1]) + "/" + fullDate[4];
+            }
+            date.setText(tempDate);
             date.setTextColor(Color.WHITE);
             date.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
@@ -172,6 +182,81 @@ public class HistoryFragment extends Fragment {
             date.setGravity(Gravity.CENTER_HORIZONTAL);
             date.setPadding(8, 8, 8, 8);
             tableRow[i].addView(date);
+
+            TextView plate = new TextView(requireContext());
+            if(i==0) {
+                plate.setText("Plate Number");
+            }
+            else {
+                plate.setText(bookings.get(bookings.size()-i).getPlate());
+            }
+
+            plate.setTextColor(Color.WHITE);
+            plate.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            plate.setGravity(Gravity.CENTER_VERTICAL);
+            plate.setGravity(Gravity.CENTER_HORIZONTAL);
+            plate.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(plate);
+
+            TextView duration = new TextView(requireContext());
+            if(i==0) {
+                duration.setText("Trip Duration");
+            }
+            else {
+                duration.setText(bookings.get(bookings.size()-i).getDuration());
+            }
+            duration.setTextColor(Color.WHITE);
+            duration.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            duration.setGravity(Gravity.CENTER_VERTICAL);
+            duration.setGravity(Gravity.CENTER_HORIZONTAL);
+            duration.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(duration);
+
+            TextView rate = new TextView(requireContext());
+            if(i==0) {
+                rate.setText("Booking rate");
+            }
+            else {
+                rate.setText(bookings.get(bookings.size()-i).getType());
+            }
+            rate.setTextColor(Color.WHITE);
+            rate.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            rate.setGravity(Gravity.CENTER_VERTICAL);
+            rate.setGravity(Gravity.CENTER_HORIZONTAL);
+            rate.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(rate);
+
+            TextView price = new TextView(requireContext());
+            if(i==0) {
+                price.setText("Total Price");
+            }
+            else {
+                price.setText(bookings.get(bookings.size()-i).getPrice() + "€");
+            }
+            price.setTextColor(Color.WHITE);
+            price.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1.0f
+            ));
+            price.setGravity(Gravity.CENTER_VERTICAL);
+            price.setGravity(Gravity.CENTER_HORIZONTAL);
+            price.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(price);
+
+
 
             // Create a CardView and add the TableRow to it
             CardView cardView = new CardView(requireContext());
@@ -186,8 +271,53 @@ public class HistoryFragment extends Fragment {
 
             cardViews[i] = cardView;
             rowContainer.addView(cardView);
+            //i++;
         }
         return cardViews;
+    }
+
+    private String monthDecode(String monthName) {
+        System.out.println(monthName);
+        switch (monthName) {
+            case "Jan": {
+                return "1";
+            }
+            case "Feb": {
+                return "2";
+            }
+            case "Mar": {
+                return "3";
+            }
+            case "Apr": {
+                return "4";
+            }
+            case "May": {
+                return "5";
+            }
+            case "Jun": {
+                return "6";
+            }
+            case "Jul": {
+                return "7";
+            }
+            case "Aug": {
+                return "8";
+            }
+            case "Sep": {
+                return "9";
+            }
+            case "Oct": {
+                return "10";
+            }
+            case "Nov": {
+                return "11";
+            }
+            case "Dec": {
+                return "12";
+            }
+        }
+        //never gets here
+        return "-1";
     }
 
 }
