@@ -3,8 +3,9 @@
     android:id="@+id/filter_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/filt5"
+    android:background="@drawable/filters_background"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    
 
     <TextView
         android:id="@+id/FilterTitle"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Choose "
         android:textAlignment="center"
-        android:textSize="32dp"
+        android:textSize="38sp"
         android:textStyle="bold"
         android:textColor="#5B3171"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +21,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="28dp"
         />
 
     <TextView
@@ -29,11 +32,13 @@
         android:layout_height="wrap_content"
         android:text="Choose"
         android:textAlignment="center"
-        android:textSize="32dp"
+        android:textSize="38sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/FilterTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="28dp"
+        android:layout_marginBottom="28dp"
         />
 
     <ScrollView
@@ -45,16 +50,21 @@
         android:layout_height="wrap_content"
         >
 
+
+
     <LinearLayout
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/checkboxContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp">
     </LinearLayout>
 
     </ScrollView>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id = "@+id/filter_guide"
@@ -64,21 +74,29 @@
         app:layout_constraintWidth_percent="0.85"
         android:textAlignment="center"
         app:layout_constraintGuide_percent="0.90"/>
+    <androidx.constraintlayout.widget.Guideline
+        android:id = "@+id/filter_guide2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintWidth_percent="0.85"
+        android:textAlignment="center"
+        app:layout_constraintGuide_percent="0.50"/>
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonApply"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintWidth_percent="0.65"
         android:layout_height="60dp"
         android:text="Apply Choices"
         app:cornerRadius="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/filter_guide"
+        app:layout_constraintBottom_toBottomOf="@+id/filter_guide2"
         android:layout_marginTop="32dp"
         android:textColor="@color/white"
-        android:backgroundTint="#5B3171"
+        android:backgroundTint="@color/myThird"
         app:strokeColor="@color/white"
         app:strokeWidth="2dp"
         android:textStyle="bold"

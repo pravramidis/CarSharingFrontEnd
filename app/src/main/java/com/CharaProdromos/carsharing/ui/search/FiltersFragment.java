@@ -243,9 +243,10 @@ public class FiltersFragment extends Fragment {
                 }
                 checkBoxArray[i] = new CheckBox(requireContext());
                 checkBoxArray[i].setText(displayText);
-                checkBoxArray[i].setTextSize(20);
+                checkBoxArray[i].setTextSize(22);
+
                 System.out.println(jsonObject.get(text));
-                if (jsonObject.get(text) == "True") {
+                if (jsonObject.get(text).equals("True")) {
                     checkBoxArray[i].setChecked(true);
                 }
                 checkBoxArray[i].setTextSize(20);
