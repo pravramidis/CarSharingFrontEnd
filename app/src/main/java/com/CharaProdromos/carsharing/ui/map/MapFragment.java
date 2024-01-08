@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
@@ -30,6 +32,7 @@ import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentMapBinding;
 import com.CharaProdromos.carsharing.databinding.FragmentSearchBinding;
 import com.CharaProdromos.carsharing.ui.search.ResultsFragment;
+import com.CharaProdromos.carsharing.ui.search.ShowCarFragment;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -71,41 +74,35 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
 
     FusedLocationProviderClient mFusedLocationClient;
 
+    private boolean userAsCenter;
+
     private static final String TAG = "OsmActivity";
+    private String plate;
 
 
     private static final int PERMISSION_REQUEST_CODE = 1;
+    public MapFragment(boolean userAsCenter) {
+        this.userAsCenter = userAsCenter;
+    }
+
+    public MapFragment(boolean userAsCenter, String plate) {
+        this.userAsCenter = userAsCenter;
+        this.plate = plate;
+    }
+
+
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
 
-        //handle permissions first, before map is created. not depicted here
-
-
-        //load/initialize the osmdroid configuration, this can be done
         Context ctx = getActivity().getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-        //setting this before the layout is inflated is a good idea
-        //it 'should' ensure that the map has a writable location for the map cache, even without permissions
-        //if no tiles are displayed, you can try overriding the cache path using Configuration.getInstance().setCachePath
-        //see also StorageUtils
-        //note, the load method also sets the HTTP User Agent to your application's package name, abusing osm's tile servers will get you banned based on this string
 
         //inflate and create the map
         binding = FragmentMapBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-//        setContentView(R.layout.map);
-//        getActivity().setContentView(R.layout.activity_main);
-
-
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            if (isStoragePermissionGranted()) {
-//
-//            }
-//        }
 
 
         map = root.findViewById(R.id.mapView);
@@ -119,8 +116,8 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
         map.getOverlays().add(0, mapEventsOverlay);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
-        getLastLocation();
 
+        getLastLocation();
         httpRequestCars(root);
 
 
@@ -195,6 +192,11 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
 
                 GeoPoint carPoint = new GeoPoint(yCoordinates, xCoordinates);
 
+                if (plate.equals(this.plate) && userAsCenter == false) {
+                    mapController.setZoom(18.0);
+                    mapController.setCenter(carPoint);
+                }
+
                 View markerView = getLayoutInflater().inflate(R.layout.map_pin, null);
 
 //                TextView titleTextView = markerView.findViewById(R.id.titleTextView);
@@ -227,22 +229,14 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
 
     public void onResume() {
         super.onResume();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         if (map != null)
-            map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
+            map.onResume();
     }
 
     public void onPause() {
         super.onPause();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().save(this, prefs);
         if (map != null)
-            map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
+            map.onPause();
     }
 
 
@@ -290,12 +284,12 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
                         if (location == null) {
                             requestNewLocationData();
                         } else {
-//                            latitudeTextView.setText(location.getLatitude() + "");
-//                            longitTextView.setText(location.getLongitude() + "");
                             userXCoordinates =location.getLongitude();
                             userYCoordinates =location.getLatitude();
                             GeoPoint startPoint = new GeoPoint(userYCoordinates, userXCoordinates);
-                            mapController.setCenter(startPoint);
+                            if (userAsCenter) {
+                                mapController.setCenter(startPoint);
+                            }
 
                             Marker marker = new Marker(map);
                             marker.setPosition(startPoint);
@@ -314,8 +308,6 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
                 startActivity(intent);
             }
         } else {
-            // if permissions aren't available,
-            // request for permissions
             requestPermissions();
         }
     }

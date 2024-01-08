@@ -34,14 +34,6 @@ public class Vehicle {
     String finalPrice;
     String tripDuration;
 
-
-//    public Vehicle(String plate, String brand, String model, String avail) {
-//        this.plate = plate;
-//        this.brand = brand;
-//        this.model = model;
-//        this.avail =avail;
-//    }
-
     public Vehicle(String plate, double x_coordinates, double y_coordinates, double priceMin, String brand, String model, String color, String available) {
         this.plate = plate;
         this.x_coordinates = x_coordinates;

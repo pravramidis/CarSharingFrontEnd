@@ -362,6 +362,23 @@
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/viewOnMap"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.7"
+            android:layout_height="60dp"
+            android:text="VIEW IN MAP"
+            app:cornerRadius="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:textColor="@color/white"
+            android:backgroundTint="#322C4C"
+
+
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/card_view3"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonBookNow"
             android:layout_width="0dp"
             app:layout_constraintWidth_percent="0.7"
@@ -376,7 +393,7 @@
 
 
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/card_view3"/>
+            app:layout_constraintTop_toBottomOf="@id/viewOnMap"/>
 
 <!--        <TextView-->
 <!--            android:layout_width="match_parent"-->

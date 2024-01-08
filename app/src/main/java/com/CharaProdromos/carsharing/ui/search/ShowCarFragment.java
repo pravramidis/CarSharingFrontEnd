@@ -19,6 +19,7 @@ import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentShowCarBinding;
+import com.CharaProdromos.carsharing.ui.map.MapFragment;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -58,6 +59,8 @@ public class ShowCarFragment extends Fragment{
     Double userXCoordinate;
     Double userYCoordinate;
 
+    MaterialButton viewOnMap;
+
 
     private FragmentShowCarBinding binding;
     public ShowCarFragment (String plateNum, Double userXCoordinate, Double userYCoordinate) {
@@ -86,8 +89,11 @@ public class ShowCarFragment extends Fragment{
         image = root.findViewById(R.id.carImage);
         context = root.getContext();
         distanceText = root.findViewById(R.id.distanceText);
+        viewOnMap = root.findViewById(R.id.viewOnMap);
 
         minuteText.setChecked(true);
+
+        carLocationListener(viewOnMap, distanceText, plateNum);
 
         MaterialButton bookButton = root.findViewById(R.id.buttonBookNow);
 
@@ -136,6 +142,35 @@ public class ShowCarFragment extends Fragment{
 
 
         return root;
+    }
+
+    private void carLocationListener(MaterialButton button, TextView text, String plate) {
+
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("User wants to see this car on a map: plate:"+ plate);
+                MapFragment mapFragment = new MapFragment(false, plate);
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, mapFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("User wants to see this car on a map: plate:"+ plate);
+                MapFragment mapFragment = new MapFragment(false, plate);
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, mapFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+
+            }
+        });
     }
 
 

@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
                 else if (item.getItemId() == R.id.navigation_map) {
-                    Fragment mapFragment = new MapFragment();
+                    Fragment mapFragment = new MapFragment(true);
                     String tagMap = "mapFragment";
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.container, mapFragment, tagMap);
