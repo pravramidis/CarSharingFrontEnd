@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -71,6 +72,7 @@ import com.google.android.gms.tasks.Task;
 public class ResultsFragment extends Fragment {
     private FragmentResultsBinding binding;
     private TableRow[] table;
+    private CardView[] cardViews;
 
     private boolean priceFlag = true;
     private boolean distanceFlag = true;
@@ -114,12 +116,12 @@ public class ResultsFragment extends Fragment {
                 if (priceFlag == true) {
                     priceFlag = false;
                     Collections.sort(cars, new priceComparator());
-                    table = displayTable(root);
+                    cardViews = displayTable(root);
                 }
                 else {
                     priceFlag = true;
                     Collections.sort(cars, new priceComparatorOpposite());
-                    table = displayTable(root);
+                    cardViews = displayTable(root);
                 }
 
             }
@@ -132,12 +134,12 @@ public class ResultsFragment extends Fragment {
                 if (distanceFlag == true) {
                     distanceFlag = false;
                     Collections.sort(cars, new distanceComparator());
-                    table = displayTable(root);
+                    cardViews = displayTable(root);
                 }
                 else {
                     distanceFlag = true;
                     Collections.sort(cars, new distanceComparatorOpposite());
-                    table = displayTable(root);
+                    cardViews = displayTable(root);
                 }
 
             }
@@ -192,7 +194,7 @@ public class ResultsFragment extends Fragment {
 //                            table = createTable(carsArray, root);
                             createVehicleTable(carsArray, root);
                             Collections.sort(cars, new priceComparator());
-                            table = displayTable(root);
+                            cardViews = displayTable(root);
                         } catch (JSONException e) {
                             System.out.println("Failed to get cars");
                         }
@@ -258,7 +260,9 @@ public class ResultsFragment extends Fragment {
         }
     }
 
-    private TableRow[] displayTable(View root) {
+    private CardView[] displayTable(View root) {
+        System.out.println("Got in display");
+        CardView[] cardViews = new CardView[cars.size()];
         TableRow[] tableRow = new TableRow[cars.size()];
         TableLayout rowContainer = root.findViewById(R.id.tableLayout);
         clearTable(root);
@@ -269,31 +273,30 @@ public class ResultsFragment extends Fragment {
             carListener(tableRow[i], car.getPlate());
             String iconString =
                     car.getBrand().toLowerCase() + "_" + car.getModel().toLowerCase() + "_" + car.getColor().toLowerCase();
-            tableRow[i].setGravity(Gravity.CENTER_VERTICAL);
+//            tableRow[i].setGravity(Gravity.CENTER_VERTICAL);
             ImageView imageView = new ImageView(requireContext());
+//            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             int drawableResourceId = getResources().getIdentifier(iconString, "drawable", root.getContext().getPackageName());
             imageView.setImageResource(drawableResourceId);
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    1.0f
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER
             );
-            layoutParams.width = 200;
-            layoutParams.height = 200;
+            layoutParams.height = 100;
+            imageView.setMaxWidth(100);
             layoutParams.gravity = Gravity.CENTER;
             imageView.setLayoutParams(layoutParams);
-            imageView.setMaxWidth(20);
-            imageView.setPadding(8, 8, 8, 8);
             tableRow[i].addView(imageView);
             tableRow[i].setClickable(true);
 
             TextView textModel = new TextView(requireContext());
             textModel.setText(car.getModel());
-            textModel.setTextColor(Color.BLACK);
+            textModel.setTextColor(Color.WHITE);
             textModel.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
-                    1.0f
+                    Gravity.CENTER
             ));
             textModel.setGravity(Gravity.CENTER_VERTICAL);
             textModel.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -302,11 +305,11 @@ public class ResultsFragment extends Fragment {
 
             TextView textBrand = new TextView(requireContext());
             textBrand.setText(car.getBrand());
-            textBrand.setTextColor(Color.BLACK);
+            textBrand.setTextColor(Color.WHITE);
             textBrand.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
-                    1.0f
+                    Gravity.CENTER
             ));
             textBrand.setPadding(8, 8, 8, 8);
             textBrand.setGravity(Gravity.CENTER_VERTICAL);
@@ -317,37 +320,61 @@ public class ResultsFragment extends Fragment {
             textPrice.setText(car.getCostMinute()+"€/min");
             textPrice.setGravity(Gravity.CENTER_VERTICAL);
             textPrice.setGravity(Gravity.CENTER_HORIZONTAL);
-            textPrice.setTextColor(Color.BLACK);
+            textPrice.setTextColor(Color.WHITE);
             textPrice.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
-                    1.0f
+                    Gravity.CENTER
             ));
             textPrice.setPadding(8, 8, 8, 8);
             tableRow[i].addView(textPrice);
 
             TextView textDistance = new TextView(requireContext());
-            textDistance.setGravity(Gravity.CENTER_VERTICAL);
-            textDistance.setGravity(Gravity.CENTER_HORIZONTAL);
-            textDistance.setTextColor(Color.BLACK);
-            textDistance.setLayoutParams(new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    1.0f
-            ));
             Double dist = car.getDistance();
             DecimalFormat decimalFormat = new DecimalFormat("#.##");
             decimalFormat.setRoundingMode(java.math.RoundingMode.HALF_UP);
             String formatDist = decimalFormat.format(dist);
             textDistance.setText(formatDist+"km");
+            textDistance.setGravity(Gravity.CENTER_VERTICAL);
+            textDistance.setGravity(Gravity.CENTER_HORIZONTAL);
+            textDistance.setTextColor(Color.WHITE);
+            textDistance.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER
+            ));
             textDistance.setPadding(8, 8, 8, 8);
+
             tableRow[i].addView(textDistance);
 
-            rowContainer.addView(tableRow[i]);
+
+            // Create a CardView and add the TableRow to it
+            CardView cardView = new CardView(requireContext());
+            cardView.addView(tableRow[i]);
+            cardView.setCardElevation(4); // adjust elevation
+            cardView.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.myThird)); // adjust background color
+            cardView.setRadius(42); // adjust corner radius
+
+
+//            TableLayout.LayoutParams layoutParamsCard = new TableLayout.LayoutParams(
+//                    TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+
+            TableLayout.LayoutParams layoutParamsCard = new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+
+        //            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+        //                    ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+            layoutParamsCard.setMargins(8, 30, 8, 30); // adjust margins
+            cardView.setLayoutParams(layoutParamsCard);
+
+            cardViews[i] = cardView;
+            rowContainer.addView(cardView);
             i++;
 
+            rowContainer.invalidate();
+            rowContainer.requestLayout();
         }
-        return tableRow;
+        return cardViews;
 
     }
 

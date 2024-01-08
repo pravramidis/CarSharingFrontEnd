@@ -9,7 +9,7 @@
         android:topLeftRadius="30dp"
         android:topRightRadius="30dp" />
 
-    <solid android:color="#CFCFCF" />
+    <solid android:color="@color/myThird" />
 
     <padding
         android:bottom="0dp"
@@ -18,7 +18,7 @@
         android:top="0dp" />
 
     <size
-        android:height="60dp"
-        android:width="270dp" />
+        android:height="0dp"
+        android:width="0dp" />
 
     </shape>
