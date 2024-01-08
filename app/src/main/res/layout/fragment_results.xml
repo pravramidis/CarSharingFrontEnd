@@ -109,7 +109,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/backToFilters"
         android:layout_width="0dp"
-        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintWidth_percent="0.65"
         android:layout_height="60dp"
         android:text="Back To Filters"
         app:cornerRadius="32dp"
