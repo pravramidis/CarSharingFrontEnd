@@ -5,7 +5,7 @@
     android:id="@+id/filter_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/profile_background2">
+    android:background="@drawable/home">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/scroll_guide"
@@ -51,7 +51,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="Available Cars"
                 android:textAlignment="center"
-                android:textColor="#5B3171"
+                android:textColor="#FFFFFF"
                 android:textSize="38sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -84,21 +84,12 @@
                             android:layout_weight="1"
                             android:text="Photo"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/myThird"
                             android:textSize="20dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"/>
 
-                        <TextView
-                            android:id="@+id/resultModel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:clickable="true"
-                            android:text="Model"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="20dp"
-                            android:textStyle="bold" />
+
 
                         <TextView
                             android:id="@+id/resultBrand"
@@ -108,9 +99,23 @@
                             android:clickable="true"
                             android:text="Brand"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/myThird"
                             android:textSize="20dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"/>
+
+                        <TextView
+                            android:id="@+id/resultModel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:clickable="true"
+                            android:text="Model"
+                            android:textAlignment="center"
+                            android:textColor="@color/myThird"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"/>
 
                         <TextView
                             android:id="@+id/resultPrice"
@@ -119,9 +124,9 @@
                             android:layout_weight="1"
                             android:clickable="true"
                             android:contextClickable="true"
-                            android:text="Price"
+                            android:text="Price    (/min)"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/myThird"
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
@@ -134,9 +139,10 @@
                             android:contextClickable="true"
                             android:text="Distance"
                             android:textAlignment="center"
-                            android:textColor="@color/white"
+                            android:textColor="@color/myThird"
                             android:textSize="20dp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"/>
 
                     </TableRow>
             </TableLayout>
@@ -153,6 +159,7 @@
         android:layout_marginTop="32dp"
         android:text="Back To Filters"
         app:cornerRadius="32dp"
+        android:backgroundTint="#7C60AE"
         app:layout_constraintBottom_toBottomOf="@+id/scroll_guide"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

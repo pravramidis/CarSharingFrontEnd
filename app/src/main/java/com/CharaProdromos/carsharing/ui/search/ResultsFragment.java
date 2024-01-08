@@ -278,49 +278,58 @@ public class ResultsFragment extends Fragment {
 //            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             int drawableResourceId = getResources().getIdentifier(iconString, "drawable", root.getContext().getPackageName());
             imageView.setImageResource(drawableResourceId);
-            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    Gravity.CENTER
-            );
-            layoutParams.height = 100;
-            imageView.setMaxWidth(100);
+//            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
+//                    TableRow.LayoutParams.WRAP_CONTENT,
+//                    TableRow.LayoutParams.WRAP_CONTENT,
+//                    Gravity.CENTER
+//            );
+//            layoutParams.height = 100;
+//            imageView.setMaxWidth(100);
+//            layoutParams.gravity = Gravity.CENTER;
+//            imageView.setLayoutParams(layoutParams);
+
+            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(200, 200);
             layoutParams.gravity = Gravity.CENTER;
             imageView.setLayoutParams(layoutParams);
+            imageView.setPadding(16, 8, 8, 8);
             tableRow[i].addView(imageView);
             tableRow[i].setClickable(true);
 
-            TextView textModel = new TextView(requireContext());
-            textModel.setText(car.getModel());
-            textModel.setTextColor(Color.WHITE);
-            textModel.setLayoutParams(new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    Gravity.CENTER
-            ));
-            textModel.setGravity(Gravity.CENTER_VERTICAL);
-            textModel.setGravity(Gravity.CENTER_HORIZONTAL);
-            textModel.setPadding(8, 8, 8, 8);
-            tableRow[i].addView(textModel);
+
 
             TextView textBrand = new TextView(requireContext());
             textBrand.setText(car.getBrand());
-            textBrand.setTextColor(Color.WHITE);
+            textBrand.setTextColor(ContextCompat.getColor(getContext(), R.color.myThird));
             textBrand.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
                     Gravity.CENTER
             ));
-            textBrand.setPadding(8, 8, 8, 8);
+            textBrand.setPadding(8, 70, 8, 8);
             textBrand.setGravity(Gravity.CENTER_VERTICAL);
             textBrand.setGravity(Gravity.CENTER_HORIZONTAL);
             tableRow[i].addView(textBrand);
 
+            TextView textModel = new TextView(requireContext());
+            textModel.setText(car.getModel());
+            textModel.setTextColor(ContextCompat.getColor(getContext(), R.color.myThird));
+            textModel.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER
+            ));
+            //textModel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+
+            textModel.setGravity(Gravity.CENTER_VERTICAL);
+            textModel.setGravity(Gravity.CENTER_HORIZONTAL);
+            textModel.setPadding(8, 8, 8, 8);
+            tableRow[i].addView(textModel);
+
             TextView textPrice = new TextView(requireContext());
-            textPrice.setText(car.getCostMinute()+"€/min");
+            textPrice.setText(car.getCostMinute()+"€");
             textPrice.setGravity(Gravity.CENTER_VERTICAL);
             textPrice.setGravity(Gravity.CENTER_HORIZONTAL);
-            textPrice.setTextColor(Color.WHITE);
+            textPrice.setTextColor(ContextCompat.getColor(getContext(), R.color.myThird));
             textPrice.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
@@ -337,7 +346,7 @@ public class ResultsFragment extends Fragment {
             textDistance.setText(formatDist+"km");
             textDistance.setGravity(Gravity.CENTER_VERTICAL);
             textDistance.setGravity(Gravity.CENTER_HORIZONTAL);
-            textDistance.setTextColor(Color.WHITE);
+            textDistance.setTextColor(ContextCompat.getColor(getContext(), R.color.myThird));
             textDistance.setLayoutParams(new TableRow.LayoutParams(
                     TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.WRAP_CONTENT,
@@ -352,7 +361,7 @@ public class ResultsFragment extends Fragment {
             CardView cardView = new CardView(requireContext());
             cardView.addView(tableRow[i]);
             cardView.setCardElevation(4); // adjust elevation
-            cardView.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.myThird)); // adjust background color
+            cardView.setCardBackgroundColor(Color.WHITE); // adjust background color
             cardView.setRadius(42); // adjust corner radius
 
 
