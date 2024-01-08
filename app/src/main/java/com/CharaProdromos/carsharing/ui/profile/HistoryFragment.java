@@ -10,8 +10,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.CharaProdromos.carsharing.GlobalVariables;
@@ -164,6 +166,7 @@ public class HistoryFragment extends Fragment {
             String tempDate;
             if(i==0) {
                 tempDate = "Payment Date";
+                date.setTextSize(18);
 
             }
             else {
@@ -186,6 +189,7 @@ public class HistoryFragment extends Fragment {
             TextView plate = new TextView(requireContext());
             if(i==0) {
                 plate.setText("Plate Number");
+                plate.setTextSize(18);
             }
             else {
                 plate.setText(bookings.get(bookings.size()-i).getPlate());
@@ -205,6 +209,7 @@ public class HistoryFragment extends Fragment {
             TextView duration = new TextView(requireContext());
             if(i==0) {
                 duration.setText("Trip Duration");
+                duration.setTextSize(18);
             }
             else {
                 duration.setText(bookings.get(bookings.size()-i).getDuration());
@@ -220,27 +225,28 @@ public class HistoryFragment extends Fragment {
             duration.setPadding(8, 8, 8, 8);
             tableRow[i].addView(duration);
 
-            TextView rate = new TextView(requireContext());
-            if(i==0) {
-                rate.setText("Booking rate");
-            }
-            else {
-                rate.setText(bookings.get(bookings.size()-i).getType());
-            }
-            rate.setTextColor(Color.WHITE);
-            rate.setLayoutParams(new TableRow.LayoutParams(
-                    TableRow.LayoutParams.MATCH_PARENT,
-                    TableRow.LayoutParams.WRAP_CONTENT,
-                    1.0f
-            ));
-            rate.setGravity(Gravity.CENTER_VERTICAL);
-            rate.setGravity(Gravity.CENTER_HORIZONTAL);
-            rate.setPadding(8, 8, 8, 8);
-            tableRow[i].addView(rate);
+//            TextView rate = new TextView(requireContext());
+//            if(i==0) {
+//                rate.setText("Booking rate");
+//            }
+//            else {
+//                rate.setText(bookings.get(bookings.size()-i).getType());
+//            }
+//            rate.setTextColor(Color.WHITE);
+//            rate.setLayoutParams(new TableRow.LayoutParams(
+//                    TableRow.LayoutParams.MATCH_PARENT,
+//                    TableRow.LayoutParams.WRAP_CONTENT,
+//                    1.0f
+//            ));
+//            rate.setGravity(Gravity.CENTER_VERTICAL);
+//            rate.setGravity(Gravity.CENTER_HORIZONTAL);
+//            rate.setPadding(8, 8, 8, 8);
+//            tableRow[i].addView(rate);
 
             TextView price = new TextView(requireContext());
             if(i==0) {
                 price.setText("Total Price");
+                price.setTextSize(18);
             }
             else {
                 price.setText(bookings.get(bookings.size()-i).getPrice() + "€");
@@ -262,16 +268,24 @@ public class HistoryFragment extends Fragment {
             CardView cardView = new CardView(requireContext());
             cardView.addView(tableRow[i]);
             cardView.setCardElevation(4); // adjust elevation
-            cardView.setCardBackgroundColor(Color.BLACK); // adjust background color
-            cardView.setRadius(8); // adjust corner radius
-            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
-                    ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(8, 8, 8, 8); // adjust margins
+            cardView.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.myThird)); // adjust background color
+            cardView.setRadius(42); // adjust corner radius
+
+
+            TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(
+                    TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+
+//            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
+//                    ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(8, 30, 8, 30); // adjust margins
             cardView.setLayoutParams(layoutParams);
 
             cardViews[i] = cardView;
             rowContainer.addView(cardView);
             //i++;
+
+            rowContainer.invalidate();
+            rowContainer.requestLayout();
         }
         return cardViews;
     }
