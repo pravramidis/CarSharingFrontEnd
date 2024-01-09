@@ -33,7 +33,9 @@
             android:text="Welcome user!"
             android:textColor="@color/white"
             android:textSize="38sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"/>
 
 
     </LinearLayout>
