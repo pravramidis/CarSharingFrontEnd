@@ -366,13 +366,13 @@
             android:layout_width="0dp"
             app:layout_constraintWidth_percent="0.7"
             android:layout_height="60dp"
-            android:text="VIEW IN MAP"
+            android:text="VIEW ON MAP"
             app:cornerRadius="32dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="32dp"
             android:textColor="@color/white"
-            android:backgroundTint="#322C4C"
+            android:backgroundTint="#5D518F"
 
 
             android:textStyle="bold"

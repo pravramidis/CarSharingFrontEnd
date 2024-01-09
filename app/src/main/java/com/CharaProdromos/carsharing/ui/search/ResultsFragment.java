@@ -251,6 +251,7 @@ public class ResultsFragment extends Fragment {
     }
 
     private void clearTable(View root) {
+        System.out.println("Clear results table");
         TableLayout rowContainer = root.findViewById(R.id.tableLayout);
         View firstView = rowContainer.getChildAt(0);
         rowContainer.removeAllViews();
