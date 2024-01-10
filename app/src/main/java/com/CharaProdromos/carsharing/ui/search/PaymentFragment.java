@@ -1,22 +1,47 @@
 package com.CharaProdromos.carsharing.ui.search;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.annotation.NonNull;
+
+import com.CharaProdromos.carsharing.GlobalVariables;
 import com.CharaProdromos.carsharing.R;
 
 import com.CharaProdromos.carsharing.Vehicle;
 import com.CharaProdromos.carsharing.databinding.FragmentPaymentBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 
 public class PaymentFragment extends Fragment {
     Vehicle car;
+    FusedLocationProviderClient mFusedLocationClient;
+    private static final int PERMISSION_ID = 123;
+    TextView finalPrice;
+    TextView penaltyText;
+    Double penalty;
 
     private FragmentPaymentBinding binding;
 
@@ -38,7 +63,9 @@ public class PaymentFragment extends Fragment {
         TextView plate = root.findViewById(R.id.plateText);
         TextView brand = root.findViewById(R.id.brandText);
         TextView model = root.findViewById(R.id.modelText);
-        TextView finalPrice = root.findViewById(R.id.finalPrice);
+        finalPrice = root.findViewById(R.id.finalPrice);
+        penaltyText = root.findViewById(R.id.penaltyText);
+
 
         rate.setText(car.getRate());
         duration.setText(car.getTime());
@@ -46,11 +73,13 @@ public class PaymentFragment extends Fragment {
         brand.setText(car.getBrand());
         model.setText(car.getModel());
 
-        String[] time = car.getTime().split(":",3);
-        String totalPrice = getTotalPrice(time, car.getRate());
-        car.setFinalPrice(totalPrice);
-        totalPrice = "  "+totalPrice +" €  ";
-        finalPrice.setText(totalPrice);
+        getLastLocationAndUpdateVehicle(car);
+
+//        String[] time = car.getTime().split(":",3);
+//        String totalPrice = getTotalPrice(time, car.getRate());
+//        car.setFinalPrice(totalPrice);
+//        totalPrice = "  "+totalPrice +" €  ";
+//        finalPrice.setText(totalPrice);
 
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,10 +148,103 @@ public class PaymentFragment extends Fragment {
             minutes++;
         }
         System.out.println(minutes);
-        price = minutes*price;
+        price = (minutes*price) ;
+        System.out.println(penalty);
+        if (penalty != 0) {
+            System.out.println(penalty);
+            price += penalty;
+        }
         finalPrice = String.valueOf(price);
 
         return finalPrice;
+    }
+    @SuppressLint("MissingPermission")
+    private void getLastLocationAndUpdateVehicle(Vehicle car) {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+                mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location == null) {
+                            requestNewLocationData();
+                        } else {
+                            Double userXCoordinates =location.getLongitude();
+                            Double userYCoordinates =location.getLatitude();
+                            penalty = 0.0;
+                            if (userXCoordinates > GlobalVariables.getInstance().getBottomRightLimit_X()
+                                    || userXCoordinates < GlobalVariables.getInstance().getTopLeftLimit_X()
+                                    || userYCoordinates < GlobalVariables.getInstance().getBottomRightLimit_Y()
+                                    || userYCoordinates > GlobalVariables.getInstance().getTopLeftLimit_Y()) {
+
+                                penalty = GlobalVariables.getInstance().getPenalty();
+                            }
+
+                            penaltyText.setText(penalty.toString() + " €" );
+
+                            String[] time = car.getTime().split(":",3);
+                            String totalPrice = getTotalPrice(time, car.getRate());
+                            car.setFinalPrice(totalPrice);
+                            totalPrice = "  "+totalPrice +" €  ";
+                            finalPrice.setText(totalPrice);
+
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(this.getContext(), "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            requestPermissions();
+        }
+    }
+
+
+
+
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(5);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getContext());
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+    }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+        }
+    };
+
+    // method to check for permissions
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission
+                (this.getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission
+                (this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    // method to request for permissions
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this.getActivity(), new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+    }
+
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 }
 

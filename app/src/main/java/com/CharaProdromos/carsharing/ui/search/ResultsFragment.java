@@ -90,6 +90,7 @@ public class ResultsFragment extends Fragment {
         binding = FragmentResultsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        clearTable(root);
         httpRequestCars(root);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());

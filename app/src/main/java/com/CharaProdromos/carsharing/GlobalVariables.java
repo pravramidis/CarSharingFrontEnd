@@ -15,6 +15,13 @@ public class GlobalVariables {
     private String email;
     private String plateNumber;
 
+    private Double topLeftLimit_X;
+    private Double topLeftLimit_Y;
+    private Double bottomRightLimit_X;
+    private Double bottomRightLimit_Y;
+
+    private Double penalty;
+
     private JSONObject filters = null;
 
     private GlobalVariables() {}
@@ -50,7 +57,32 @@ public class GlobalVariables {
 
     public String getPlateNumber() { return plateNumber;}
 
+    public Double getTopLeftLimit_X() {
+        return  topLeftLimit_X;
+    }
+    public  Double getTopLeftLimit_Y() {
+        return topLeftLimit_Y;
+    }
+    public Double getBottomRightLimit_X() {
+        return bottomRightLimit_X;
+    }
 
+    public Double getBottomRightLimit_Y() {
+        return bottomRightLimit_Y;
+    }
+
+    public Double getPenalty() {
+        return penalty;
+    }
+
+
+    public void setMapLimits(Double penalty, Double topLeftLimit_X, Double topLeftLimit_Y, Double bottomRightLimit_X, Double bottomRightLimit_Y) {
+        this.topLeftLimit_X = topLeftLimit_X;
+        this.topLeftLimit_Y = topLeftLimit_Y;
+        this.bottomRightLimit_X = bottomRightLimit_X;
+        this.bottomRightLimit_Y = bottomRightLimit_Y;
+        this.penalty = penalty;
+    }
 
     public void setUsername(String someGlobalVar) {
         this.username = someGlobalVar;

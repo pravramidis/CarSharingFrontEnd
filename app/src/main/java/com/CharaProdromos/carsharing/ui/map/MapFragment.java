@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -51,17 +52,22 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class MapFragment extends Fragment implements MapEventsReceiver {
     private MapView map;
@@ -116,6 +122,17 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
         map.getOverlays().add(0, mapEventsOverlay);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
+
+        System.out.println("Got before points");
+        GeoPoint topLeft = new GeoPoint(GlobalVariables.getInstance().getTopLeftLimit_Y(), GlobalVariables.getInstance().getTopLeftLimit_X());
+        GeoPoint topRight = new GeoPoint(GlobalVariables.getInstance().getBottomRightLimit_Y(), GlobalVariables.getInstance().getTopLeftLimit_X());
+        GeoPoint bottomLeft = new GeoPoint(GlobalVariables.getInstance().getTopLeftLimit_Y(), GlobalVariables.getInstance().getBottomRightLimit_X());
+        GeoPoint bottomRight = new GeoPoint(GlobalVariables.getInstance().getBottomRightLimit_Y(), GlobalVariables.getInstance().getBottomRightLimit_X());
+
+        drawPolyline(topLeft, topRight);
+        drawPolyline(topLeft, bottomLeft);
+        drawPolyline(bottomRight, bottomLeft);
+        drawPolyline(bottomRight, topRight);
 
         getLastLocation();
         httpRequestCars(root);
@@ -197,14 +214,7 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
                     mapController.setCenter(carPoint);
                 }
 
-                View markerView = getLayoutInflater().inflate(R.layout.map_pin, null);
 
-//                TextView titleTextView = markerView.findViewById(R.id.titleTextView);
-//                TextView subtitleTextView = markerView.findViewById(R.id.subtitleTextView);
-//                MaterialButton customButton = markerView.findViewById(R.id.customButton);
-//
-//                titleTextView.setText(brand + " " + model);
-//                subtitleTextView.setText("Price: " + price+"€/min");
 
                 Marker marker = new Marker(map);
                 marker.setPosition(carPoint);
@@ -237,6 +247,25 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
         super.onPause();
         if (map != null)
             map.onPause();
+    }
+
+    private void drawPolyline(GeoPoint startPoint, GeoPoint endPoint) {
+        System.out.println("in draw line");
+        System.out.println(startPoint);
+        System.out.println(endPoint);
+        // Create a polyline with the specified points
+        Polyline line = new Polyline();
+        List<GeoPoint> points = new ArrayList<>();
+        points.add(startPoint);
+        points.add(endPoint);
+        line.setPoints(points);
+        line.setColor(Color.BLUE);
+        line.setWidth(5);
+
+        // Add the polyline to the map's overlay
+        FolderOverlay folderOverlay = new FolderOverlay();
+        folderOverlay.add(line);
+        map.getOverlays().add(folderOverlay);
     }
 
 
