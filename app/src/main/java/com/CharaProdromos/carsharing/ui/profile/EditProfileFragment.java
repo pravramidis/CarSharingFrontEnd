@@ -26,6 +26,9 @@ import com.google.android.material.button.MaterialButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class EditProfileFragment extends Fragment{
     ImageView profilePic;
@@ -85,6 +88,8 @@ public class EditProfileFragment extends Fragment{
             toast.show();
             return;
         }
+
+
 
         httpRequestUpdateInfo(newUsername, newPassword, newName, newDate, newLicense, newPhoneNumber, newEmail);
 
@@ -181,6 +186,7 @@ public class EditProfileFragment extends Fragment{
                     public void onResponse(JSONObject response) {
                         System.out.println(response.toString());
 
+
                         try {
                             String currName = response.getString("Full_Name");
                             String currEmail = response.getString("Email");
@@ -189,6 +195,7 @@ public class EditProfileFragment extends Fragment{
                             String currBirthday = response.getString("Date_of_birth");
                             String[] parts = currBirthday.split("T");
                             currBirthday = parts[0];
+
                             String currPassword = response.getString("Password");
 
                             name.setText(currName);

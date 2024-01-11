@@ -185,8 +185,11 @@ public class PaymentFragment extends Fragment {
 
                             String[] time = car.getTime().split(":",3);
                             String totalPrice = getTotalPrice(time, car.getRate());
-                            car.setFinalPrice(totalPrice);
-                            totalPrice = "  "+totalPrice +" €  ";
+                            Double doublePrice = Double.parseDouble(totalPrice);
+                            String formatedPrice = String.format("%.2f", doublePrice);
+
+                            car.setFinalPrice(formatedPrice);
+                            totalPrice = "  "+formatedPrice +" €  ";
                             finalPrice.setText(totalPrice);
 
                         }
