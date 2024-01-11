@@ -99,6 +99,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 delete.setVisibility(View.GONE);
+                history.setVisibility(View.GONE);
+                logout.setVisibility(View.GONE);
+                edit.setVisibility(View.GONE);
                 deleteMsg.setVisibility(View.VISIBLE);
 
 
@@ -110,6 +113,9 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 deleteMsg.setVisibility(View.GONE);
                 delete.setVisibility(View.VISIBLE);
+                history.setVisibility(View.VISIBLE);
+                logout.setVisibility(View.VISIBLE);
+                edit.setVisibility(View.VISIBLE);
             }
         });
 
@@ -117,6 +123,10 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 deleteMsg.setVisibility(View.GONE);
+                delete.setVisibility(View.VISIBLE);
+                history.setVisibility(View.VISIBLE);
+                logout.setVisibility(View.VISIBLE);
+                edit.setVisibility(View.VISIBLE);
                 httpRequestDeleteAcc();
 
             }
