@@ -3,6 +3,7 @@ package com.CharaProdromos.carsharing;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +18,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class UserLogin extends AppCompatActivity{
     private Context context;
+    private boolean flagPassword = true;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +36,23 @@ public class UserLogin extends AppCompatActivity{
         EditText loginTextPassword =findViewById(R.id.loginTextPassword);
         Button loginButton = findViewById(R.id.loginButton);
         Button registerButton = findViewById(R.id.RegisterNowButton);
-        System.out.println("hrenew");
-        System.out.println("hrenew");
+        ImageView showPassword = findViewById(R.id.passWordImage);
         loginButton.setEnabled(true);
         registerButton.setEnabled(true);
+
+        showPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (flagPassword == true) {
+                    loginTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+                    flagPassword = false;
+                }
+                else {
+                    loginTextPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    flagPassword = true;
+                }
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -60,6 +76,7 @@ public class UserLogin extends AppCompatActivity{
 
         });
     }
+
     private void httpRequestAuthenticateUser(String username, String password) {
         JSONObject jsonBody = new JSONObject();
         try {
