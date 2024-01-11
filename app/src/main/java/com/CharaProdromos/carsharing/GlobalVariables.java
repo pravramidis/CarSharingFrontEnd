@@ -115,7 +115,7 @@ public class GlobalVariables {
         JSONArray initArray = new JSONArray();
         try {
             filters.put("Type", initArray);
-            filters.put("Fuel_Type", initArray);
+            filters.put("Fuel Type", initArray);
             filters.put("Model", initArray);
             filters.put("Color", initArray);
             filters.put("Brand", initArray);
