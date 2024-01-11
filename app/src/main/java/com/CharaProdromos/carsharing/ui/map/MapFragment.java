@@ -106,7 +106,6 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
         Context ctx = getActivity().getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
 
-        //inflate and create the map
         binding = FragmentMapBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -222,7 +221,6 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
                 int iconResource = R.drawable.baseline_directions_car_24;
                 marker.setIcon(getResources().getDrawable(iconResource));
 
-                System.out.println("Got before create");
                 MarkerInfo markerInfo = new MarkerInfo(marker, map, plate, price, brand, model, color, userXCoordinates, userYCoordinates);
                 marker.setInfoWindow(markerInfo);
 
@@ -250,9 +248,6 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
     }
 
     private void drawPolyline(GeoPoint startPoint, GeoPoint endPoint) {
-        System.out.println("in draw line");
-        System.out.println(startPoint);
-        System.out.println(endPoint);
         // Create a polyline with the specified points
         Polyline line = new Polyline();
         List<GeoPoint> points = new ArrayList<>();
@@ -363,8 +358,6 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             Location mLastLocation = locationResult.getLastLocation();
-//            latitudeTextView.setText("Latitude: " + mLastLocation.getLatitude() + "");
-//            longitTextView.setText("Longitude: " + mLastLocation.getLongitude() + "");
             userYCoordinates = mLastLocation.getLatitude();
             userXCoordinates = mLastLocation.getLongitude();
             System.out.println(userXCoordinates);
@@ -380,10 +373,6 @@ public class MapFragment extends Fragment implements MapEventsReceiver {
                 && ActivityCompat.checkSelfPermission
                 (this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        // If we want background location
-        // on Android 10.0 and higher,
-        // use:
-//         ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     // method to request for permissions

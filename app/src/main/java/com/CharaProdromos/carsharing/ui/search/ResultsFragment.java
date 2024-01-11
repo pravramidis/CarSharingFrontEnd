@@ -192,7 +192,6 @@ public class ResultsFragment extends Fragment {
                         System.out.println(response);
                         try {
                             JSONArray carsArray = response.getJSONArray("cars");
-//                            table = createTable(carsArray, root);
                             createVehicleTable(carsArray, root);
                             Collections.sort(cars, new priceComparator());
                             cardViews = displayTable(root);
@@ -275,20 +274,9 @@ public class ResultsFragment extends Fragment {
             carListener(tableRow[i], car.getPlate());
             String iconString =
                     car.getBrand().toLowerCase() + "_" + car.getModel().toLowerCase() + "_" + car.getColor().toLowerCase();
-//            tableRow[i].setGravity(Gravity.CENTER_VERTICAL);
             ImageView imageView = new ImageView(requireContext());
-//            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             int drawableResourceId = getResources().getIdentifier(iconString, "drawable", root.getContext().getPackageName());
             imageView.setImageResource(drawableResourceId);
-//            TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(
-//                    TableRow.LayoutParams.WRAP_CONTENT,
-//                    TableRow.LayoutParams.WRAP_CONTENT,
-//                    Gravity.CENTER
-//            );
-//            layoutParams.height = 100;
-//            imageView.setMaxWidth(100);
-//            layoutParams.gravity = Gravity.CENTER;
-//            imageView.setLayoutParams(layoutParams);
 
             TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(200, 200);
             layoutParams.gravity = Gravity.CENTER;
@@ -320,7 +308,6 @@ public class ResultsFragment extends Fragment {
                     TableRow.LayoutParams.WRAP_CONTENT,
                     Gravity.CENTER
             ));
-            //textModel.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
             textModel.setGravity(Gravity.CENTER_VERTICAL);
             textModel.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -359,22 +346,17 @@ public class ResultsFragment extends Fragment {
             tableRow[i].addView(textDistance);
 
 
-            // Create a CardView and add the TableRow to it
             CardView cardView = new CardView(requireContext());
             cardView.addView(tableRow[i]);
-            cardView.setCardElevation(4); // adjust elevation
-            cardView.setCardBackgroundColor(Color.WHITE); // adjust background color
-            cardView.setRadius(42); // adjust corner radius
+            cardView.setCardElevation(4);
+            cardView.setCardBackgroundColor(Color.WHITE);
+            cardView.setRadius(42);
 
 
-//            TableLayout.LayoutParams layoutParamsCard = new TableLayout.LayoutParams(
-//                    TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
             TableLayout.LayoutParams layoutParamsCard = new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
-        //            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
-        //                    ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
             layoutParamsCard.setMargins(8, 30, 8, 30); // adjust margins
             cardView.setLayoutParams(layoutParamsCard);
 
@@ -403,8 +385,6 @@ public class ResultsFragment extends Fragment {
                         if (location == null) {
                             requestNewLocationData();
                         } else {
-//                            latitudeTextView.setText(location.getLatitude() + "");
-//                            longitTextView.setText(location.getLongitude() + "");
                             userXCoordinates =location.getLongitude();
                             userYCoordinates =location.getLatitude();
                             System.out.println(userXCoordinates);
@@ -459,10 +439,6 @@ public class ResultsFragment extends Fragment {
                 && ActivityCompat.checkSelfPermission
                 (this.getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        // If we want background location
-        // on Android 10.0 and higher,
-        // use:
-//         ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
 
     // method to request for permissions

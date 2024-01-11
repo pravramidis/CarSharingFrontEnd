@@ -75,8 +75,6 @@ public class HistoryFragment extends Fragment {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        System.out.println("response to users history");
-                        System.out.println(response);
                         try {
                             JSONArray historyArray = response.getJSONArray("rows");
 //                            table = createTable(carsArray, root);
@@ -84,6 +82,7 @@ public class HistoryFragment extends Fragment {
                             cardViews = displayTable(root);
                         } catch (JSONException e) {
                             System.out.println("Failed to get history");
+                            e.printStackTrace();
                         }
                     }
                 },
@@ -116,7 +115,6 @@ public class HistoryFragment extends Fragment {
 
 
         try {
-            System.out.println("Got in create");
             for (int i = 0; i < arrayLen; i++) {
                 jsonObject = jsonArray.getJSONObject(i);
                 plate = jsonObject.getString("FK2_Plate_number");
@@ -130,7 +128,6 @@ public class HistoryFragment extends Fragment {
                 History tempHistory = new History(username, plate, String.valueOf(price), date, duration, type);
 
                 bookings.add(tempHistory);
-                System.out.println("Got out of create");
             }
         } catch (Exception ex) {
             System.out.println("json exception");
@@ -150,7 +147,6 @@ public class HistoryFragment extends Fragment {
 
 
     private CardView[] displayTable(View root) {
-        System.out.println("Got in display");
         CardView[] cardViews = new CardView[bookings.size()+1];
         TableRow[] tableRow = new TableRow[bookings.size()+1];
         TableLayout rowContainer = root.findViewById(R.id.tableLayout);
@@ -160,7 +156,6 @@ public class HistoryFragment extends Fragment {
         for (int i=0; i<bookings.size()+1; i++) {
 
             tableRow[i] = new TableRow(requireContext());
-            // existing code to setup tableRow with ImageView and TextViews
 
             TextView date = new TextView(requireContext());
             String tempDate;
@@ -225,24 +220,6 @@ public class HistoryFragment extends Fragment {
             duration.setPadding(8, 8, 8, 8);
             tableRow[i].addView(duration);
 
-//            TextView rate = new TextView(requireContext());
-//            if(i==0) {
-//                rate.setText("Booking rate");
-//            }
-//            else {
-//                rate.setText(bookings.get(bookings.size()-i).getType());
-//            }
-//            rate.setTextColor(Color.WHITE);
-//            rate.setLayoutParams(new TableRow.LayoutParams(
-//                    TableRow.LayoutParams.MATCH_PARENT,
-//                    TableRow.LayoutParams.WRAP_CONTENT,
-//                    1.0f
-//            ));
-//            rate.setGravity(Gravity.CENTER_VERTICAL);
-//            rate.setGravity(Gravity.CENTER_HORIZONTAL);
-//            rate.setPadding(8, 8, 8, 8);
-//            tableRow[i].addView(rate);
-
             TextView price = new TextView(requireContext());
             if(i==0) {
                 price.setText("Total Price");
@@ -264,25 +241,21 @@ public class HistoryFragment extends Fragment {
 
 
 
-            // Create a CardView and add the TableRow to it
             CardView cardView = new CardView(requireContext());
             cardView.addView(tableRow[i]);
-            cardView.setCardElevation(4); // adjust elevation
+            cardView.setCardElevation(4);
             cardView.setCardBackgroundColor(ContextCompat.getColor(getContext(), R.color.myThird)); // adjust background color
-            cardView.setRadius(42); // adjust corner radius
+            cardView.setRadius(42);
 
 
             TableLayout.LayoutParams layoutParams = new TableLayout.LayoutParams(
                     TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
-//            ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams(
-//                    ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(8, 30, 8, 30); // adjust margins
             cardView.setLayoutParams(layoutParams);
 
             cardViews[i] = cardView;
             rowContainer.addView(cardView);
-            //i++;
 
             rowContainer.invalidate();
             rowContainer.requestLayout();

@@ -75,12 +75,6 @@ public class PaymentFragment extends Fragment {
 
         getLastLocationAndUpdateVehicle(car);
 
-//        String[] time = car.getTime().split(":",3);
-//        String totalPrice = getTotalPrice(time, car.getRate());
-//        car.setFinalPrice(totalPrice);
-//        totalPrice = "  "+totalPrice +" €  ";
-//        finalPrice.setText(totalPrice);
-
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +167,7 @@ public class PaymentFragment extends Fragment {
                             Double userXCoordinates =location.getLongitude();
                             Double userYCoordinates =location.getLatitude();
                             penalty = 0.0;
+                            //Checks if user is outside of city limits
                             if (userXCoordinates > GlobalVariables.getInstance().getBottomRightLimit_X()
                                     || userXCoordinates < GlobalVariables.getInstance().getTopLeftLimit_X()
                                     || userYCoordinates < GlobalVariables.getInstance().getBottomRightLimit_Y()

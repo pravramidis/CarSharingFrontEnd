@@ -48,10 +48,8 @@ public class ProfileFragment extends Fragment {
 
         String user = GlobalVariables.getInstance().getUsername();
 
-        // Find the TextView by its ID
         TextView hiTextView = root.findViewById(R.id.textView);
 
-        // Set the welcome message with the username
         String welcomeString = "Hi " + user + "!";
         hiTextView.setText(welcomeString);
 

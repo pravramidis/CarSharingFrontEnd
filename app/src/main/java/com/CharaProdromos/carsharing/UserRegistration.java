@@ -37,8 +37,7 @@ import java.util.Date;
 
 public class UserRegistration extends AppCompatActivity{
     private Context context;
-//    private Button registerButton = findViewById(R.id.buttonRegister);
-    
+
 
     private DatePickerDialog datePickerDialog;
     private MaterialButton dateButton;
@@ -62,14 +61,10 @@ public class UserRegistration extends AppCompatActivity{
         EditText editTextEmail = findViewById(R.id.editTextEmail);
         Button registerButton = findViewById(R.id.buttonRegister);
 
-        System.out.println("hrenew");
-        System.out.println("hrenew");
         registerButton.setEnabled(true);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("in dfafdaf ");
-                // Get the username and password from EditText fields
                 String username = editTextUsername.getText().toString();
                 String password = editTextPassword.getText().toString();
                 String confirmPassword = editTextConfirmPassword.getText().toString();
@@ -122,7 +117,6 @@ public class UserRegistration extends AppCompatActivity{
                     toast.show();
                     return;
                 }
-                // Execute AsyncTask to perform the HTTP request
                 httpRequestRegistration(username, password, name, date, licenseId, phoneNumber, email);
             }
         });
@@ -309,8 +303,6 @@ public class UserRegistration extends AppCompatActivity{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Handle errors
-                        // You can log the error or show a message to the user
 
                         String text = "Fail"+ error.toString();
                         Toast toast = Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG);

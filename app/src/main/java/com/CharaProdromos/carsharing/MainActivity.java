@@ -45,13 +45,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Intent intent = new Intent(MainActivity.this, UserLogin.class);
-//        startActivity(intent);
-//        Intent intent = new Intent(MainActivity.this, Map.class);
-//        startActivity(intent);
-//        System.out.println("hremain");
-//
-//
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -63,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_search, R.id.navigation_map, R.id.navigation_profile)
                 .build();
@@ -129,34 +121,11 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
 
-//                switch (item.getItemId()) {
-//                    case R.id.navigation_home:
-////                        fragment = new HomeFragment();
-//                        break;
-//
-//                    case R.id.navigation_search:
-////                        fragment = new FiltersFragment();
-//                        break;
-//
-//                    // Add more cases for other menu items
-//
-//                    default:
-//                        break;
-//                }
-
-//                if (fragment != null) {
-//                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.container, fragment, "FragmentTag"); // Add a tag here
-//                    transaction.addToBackStack(null);
-//                    transaction.commit();
-//                    return true;
-//                }
-//
                 return false;
             }
         });
     }
-
+    //request happens at the start of the program because the limits don't change
     private void httpRequestMapLimits(View root) {
         JSONObject jsonBody = new JSONObject();
         try {

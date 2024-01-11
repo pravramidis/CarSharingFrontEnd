@@ -119,9 +119,6 @@ public class StartTripFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Handle errors
-                        // You can log the error or show a message to the user
-
                         String text = "Fail"+ error.toString();
                         Toast toast = Toast.makeText(getActivity().getApplicationContext(),text, Toast.LENGTH_LONG);
                         System.out.println("Fail"+ error.toString());

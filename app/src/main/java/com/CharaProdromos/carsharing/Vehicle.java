@@ -45,7 +45,6 @@ public class Vehicle {
 
         this.costMinute = priceMin;
 
-//        this.distanceFromUser = distanceFromUser(x_coordinates, y_coordinates);
     }
 
     public static double distanceFromUser(double x_coordinates, double y_coordinates, double x_userLocation, double y_userLocation) {

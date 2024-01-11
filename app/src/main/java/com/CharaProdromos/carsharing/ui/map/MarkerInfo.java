@@ -43,7 +43,6 @@ public class MarkerInfo extends MarkerInfoWindow {
 
     public MarkerInfo(Marker marker, MapView mapView, String plate, Double price, String brand,String model, String color, Double userX, Double userY) {
         super(R.layout.map_pin, mapView);
-        System.out.println("Got before create");
         this.brand = brand;
         this.price = price;
         this.brand = brand;
@@ -57,7 +56,6 @@ public class MarkerInfo extends MarkerInfoWindow {
 
     @Override
     public void onOpen(Object item) {
-        System.out.println("Got here");
         InfoWindow.closeAllInfoWindowsOn(mapView);
 
         TextView titleTextView = mView.findViewById(R.id.titleTextView);

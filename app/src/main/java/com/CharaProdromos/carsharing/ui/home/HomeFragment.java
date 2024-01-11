@@ -84,10 +84,8 @@ public class HomeFragment extends Fragment {
 
         String user = GlobalVariables.getInstance().getUsername();
 
-        // Find the TextView by its ID
         TextView welcomeTextView = root.findViewById(R.id.welcomeText);
 
-        // Set the welcome message with the username
         String welcomeString = "Welcome, " + user + "!";
         welcomeTextView.setText(welcomeString);
 
@@ -226,7 +224,6 @@ public class HomeFragment extends Fragment {
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
                 Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, color, "doesn't matter");
                 getLastLocation(tempVehicle);
-//                tempVehicle.setDistanceFromUser(userXCoordinates, userYCoordinates);
                 cars.add(tempVehicle);
 
             }

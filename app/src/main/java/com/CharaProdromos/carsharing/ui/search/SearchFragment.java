@@ -84,7 +84,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String request = button.getText().toString();
-                System.out.println(request);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 Fragment requestFragment =fragmentManager.findFragmentByTag(request+"Fragment");
                 if (requestFragment != null) {

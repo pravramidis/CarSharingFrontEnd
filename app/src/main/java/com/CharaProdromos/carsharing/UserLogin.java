@@ -114,8 +114,6 @@ public class UserLogin extends AppCompatActivity{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Handle errors
-                        // You can log the error or show a message to the user
 
                         String text = "Server Error"+ error.toString();
                         Toast toast = Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG);

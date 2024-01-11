@@ -167,9 +167,7 @@ public class FiltersFragment extends Fragment {
     }
 
     private void updateFilters(JSONObject response) {
-        System.out.println("Filters before update");
         JSONObject currentFilters = GlobalVariables.getInstance().getFilters();
-        System.out.println(currentFilters);
         JSONObject tempObj = new JSONObject();
         String tag;
 
@@ -201,8 +199,6 @@ public class FiltersFragment extends Fragment {
         }
 
         System.out.println("Updated filters");
-
-        System.out.println(GlobalVariables.getInstance().getFilters());
     }
 
     private boolean findIfChecked(JSONArray array, String key) {
