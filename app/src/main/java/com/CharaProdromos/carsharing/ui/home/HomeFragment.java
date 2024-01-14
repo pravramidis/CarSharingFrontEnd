@@ -128,6 +128,56 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private void displayCars(View root) {
+        Collections.sort(cars, new distanceComparator());
+        System.out.println("Cars should appear");
+        for(Vehicle car: cars) {
+            System.out.println(car.getPlate() + ": " + car.getDistance());
+        }
+
+        int i = 0;
+        GridLayout grid = root.findViewById(R.id.homeContainer);
+        for(Vehicle car: cars) {
+            if (i == 3) {
+                break;
+            }
+            ImageView imageView = new ImageView(requireContext());
+            String iconString =
+                    car.getBrand().toLowerCase() + "_" + car.getModel().toLowerCase() + "_" + car.getColor().toLowerCase();
+            int drawableResourceId = getResources().getIdentifier(iconString, "drawable", root.getContext().getPackageName());
+            imageView.setImageResource(drawableResourceId);
+            GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+            layoutParams.height = GridLayout.LayoutParams.MATCH_PARENT;
+            layoutParams.columnSpec = GridLayout.spec(i, 1.0f);  // Column weight
+            layoutParams.rowSpec = GridLayout.spec(0, 1.0f);  // Row weight
+            layoutParams.width = 250;
+            layoutParams.height = 250;
+            layoutParams.bottomMargin = 0;
+            layoutParams.setGravity(Gravity.CENTER);
+            imageView.setLayoutParams(layoutParams);
+
+            grid.addView(imageView);
+
+            TextView costText = new TextView(requireContext());
+            costText.setText(Double.toString(car.getCostMinute()) + "€/min");
+            GridLayout.LayoutParams costTextParams = new GridLayout.LayoutParams();
+            costTextParams.width = 250;
+            costTextParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+            costTextParams.columnSpec = GridLayout.spec(i, 1.0f);
+            costTextParams.rowSpec = GridLayout.spec(1, GridLayout.CENTER);
+            layoutParams.setGravity(Gravity.CENTER);
+            costText.setLayoutParams(costTextParams);
+            costText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            int primaryColor = ContextCompat.getColor(requireContext(), R.color.myPrimary);
+            costText.setTextColor(primaryColor);
+
+            carListener(costText, imageView, car.getPlate());
+
+            grid.addView(costText);
+            i++;
+        }
+    }
+
     private void httpRequestGetCoordinates(View root) {
 
         String serverAddress = this.getString(R.string.serverAddress);
@@ -140,51 +190,54 @@ public class HomeFragment extends Fragment {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray vehiclesArray = response.getJSONArray("cars");
-                            createVehicleTable(vehiclesArray);
-                            Collections.sort(cars, new distanceComparator());
-                            System.out.println("Cars should appear");
-                            System.out.println(cars);
-                            int i = 0;
-                            GridLayout grid = root.findViewById(R.id.homeContainer);
-                            for(Vehicle car: cars) {
-                                if (i == 3) {
-                                    break;
-                                }
-                                ImageView imageView = new ImageView(requireContext());
-                                String iconString =
-                                        car.getBrand().toLowerCase() + "_" + car.getModel().toLowerCase() + "_" + car.getColor().toLowerCase();
-                                int drawableResourceId = getResources().getIdentifier(iconString, "drawable", root.getContext().getPackageName());
-                                imageView.setImageResource(drawableResourceId);
-                                GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
-                                layoutParams.height = GridLayout.LayoutParams.MATCH_PARENT;
-                                layoutParams.columnSpec = GridLayout.spec(i, 1.0f);  // Column weight
-                                layoutParams.rowSpec = GridLayout.spec(0, 1.0f);  // Row weight
-                                layoutParams.width = 250;
-                                layoutParams.height = 250;
-                                layoutParams.bottomMargin = 0;
-                                layoutParams.setGravity(Gravity.CENTER);
-                                imageView.setLayoutParams(layoutParams);
-
-                                grid.addView(imageView);
-
-                                TextView costText = new TextView(requireContext());
-                                costText.setText(Double.toString(car.getCostMinute()) + "€/min");
-                                GridLayout.LayoutParams costTextParams = new GridLayout.LayoutParams();
-                                costTextParams.width = 250;
-                                costTextParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-                                costTextParams.columnSpec = GridLayout.spec(i, 1.0f);
-                                costTextParams.rowSpec = GridLayout.spec(1, GridLayout.CENTER);
-                                layoutParams.setGravity(Gravity.CENTER);
-                                costText.setLayoutParams(costTextParams);
-                                costText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                int primaryColor = ContextCompat.getColor(requireContext(), R.color.myPrimary);
-                                costText.setTextColor(primaryColor);
-
-                                carListener(costText, imageView, car.getPlate());
-
-                                grid.addView(costText);
-                                i++;
-                            }
+                            createVehicleTable(vehiclesArray, root);
+//                            Collections.sort(cars, new distanceComparator());
+//                            System.out.println("Cars should appear");
+//                            for(Vehicle car: cars) {
+//                                System.out.println(car.getPlate() + ": " + car.getDistance());
+//                            }
+//
+//                            int i = 0;
+//                            GridLayout grid = root.findViewById(R.id.homeContainer);
+//                            for(Vehicle car: cars) {
+//                                if (i == 3) {
+//                                    break;
+//                                }
+//                                ImageView imageView = new ImageView(requireContext());
+//                                String iconString =
+//                                        car.getBrand().toLowerCase() + "_" + car.getModel().toLowerCase() + "_" + car.getColor().toLowerCase();
+//                                int drawableResourceId = getResources().getIdentifier(iconString, "drawable", root.getContext().getPackageName());
+//                                imageView.setImageResource(drawableResourceId);
+//                                GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+//                                layoutParams.height = GridLayout.LayoutParams.MATCH_PARENT;
+//                                layoutParams.columnSpec = GridLayout.spec(i, 1.0f);  // Column weight
+//                                layoutParams.rowSpec = GridLayout.spec(0, 1.0f);  // Row weight
+//                                layoutParams.width = 250;
+//                                layoutParams.height = 250;
+//                                layoutParams.bottomMargin = 0;
+//                                layoutParams.setGravity(Gravity.CENTER);
+//                                imageView.setLayoutParams(layoutParams);
+//
+//                                grid.addView(imageView);
+//
+//                                TextView costText = new TextView(requireContext());
+//                                costText.setText(Double.toString(car.getCostMinute()) + "€/min");
+//                                GridLayout.LayoutParams costTextParams = new GridLayout.LayoutParams();
+//                                costTextParams.width = 250;
+//                                costTextParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+//                                costTextParams.columnSpec = GridLayout.spec(i, 1.0f);
+//                                costTextParams.rowSpec = GridLayout.spec(1, GridLayout.CENTER);
+//                                layoutParams.setGravity(Gravity.CENTER);
+//                                costText.setLayoutParams(costTextParams);
+//                                costText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//                                int primaryColor = ContextCompat.getColor(requireContext(), R.color.myPrimary);
+//                                costText.setTextColor(primaryColor);
+//
+//                                carListener(costText, imageView, car.getPlate());
+//
+//                                grid.addView(costText);
+//                                i++;
+//                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -200,7 +253,7 @@ public class HomeFragment extends Fragment {
         Volley.newRequestQueue(root.getContext()).add(jsonObjectRequest);
     }
 
-    private void createVehicleTable(JSONArray jsonArray) {
+    private void createVehicleTable(JSONArray jsonArray, View root) {
         int arrayLen = jsonArray.length();
         JSONObject jsonObject;
         String model;
@@ -224,7 +277,7 @@ public class HomeFragment extends Fragment {
                 xCoordinates = jsonObject.getDouble("X_Coordinates");
                 yCoordinates = jsonObject.getDouble("Y_Coordinates");
                 Vehicle tempVehicle = new Vehicle(plate, xCoordinates, yCoordinates, price, brand, model, color, "doesn't matter");
-                getLastLocation(tempVehicle);
+                getLastLocation(tempVehicle, i,root);
                 cars.add(tempVehicle);
 
             }
@@ -266,7 +319,7 @@ public class HomeFragment extends Fragment {
 
 
     @SuppressLint("MissingPermission")
-    private void getLastLocation(Vehicle car) {
+    private void getLastLocation(Vehicle car, int currNum, View root) {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
                 mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
@@ -280,8 +333,10 @@ public class HomeFragment extends Fragment {
                             userXCoordinates =location.getLongitude();
                             userYCoordinates =location.getLatitude();
                             car.setDistanceFromUser(userXCoordinates, userYCoordinates);
-//                            System.out.println(userXCoordinates);
-//                            System.out.println((userYCoordinates));
+                            if (currNum == cars.size()-1) {
+                                System.out.println("About to display cars");
+                                displayCars(root);
+                            }
                         }
                     }
                 });

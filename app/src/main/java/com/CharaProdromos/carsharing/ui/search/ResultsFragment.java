@@ -74,7 +74,7 @@ public class ResultsFragment extends Fragment {
     private TableRow[] table;
     private CardView[] cardViews;
 
-    private boolean priceFlag = true;
+    private boolean priceFlag = false;
     private boolean distanceFlag = true;
     private static final int PERMISSION_ID = 123;
     private double userXCoordinates;
