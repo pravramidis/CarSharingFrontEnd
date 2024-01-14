@@ -91,7 +91,6 @@ public class HomeFragment extends Fragment {
 
         httpRequestGetCoordinates(root);
 
-        Collections.sort(cars, new distanceComparator());
         System.out.println(cars);
 
         MaterialButton findMoreButton = root.findViewById(R.id.buttonSearch);
@@ -142,6 +141,8 @@ public class HomeFragment extends Fragment {
                         try {
                             JSONArray vehiclesArray = response.getJSONArray("cars");
                             createVehicleTable(vehiclesArray);
+                            Collections.sort(cars, new distanceComparator());
+                            System.out.println("Cars should appear");
                             System.out.println(cars);
                             int i = 0;
                             GridLayout grid = root.findViewById(R.id.homeContainer);
@@ -279,8 +280,8 @@ public class HomeFragment extends Fragment {
                             userXCoordinates =location.getLongitude();
                             userYCoordinates =location.getLatitude();
                             car.setDistanceFromUser(userXCoordinates, userYCoordinates);
-                            System.out.println(userXCoordinates);
-                            System.out.println((userYCoordinates));
+//                            System.out.println(userXCoordinates);
+//                            System.out.println((userYCoordinates));
                         }
                     }
                 });

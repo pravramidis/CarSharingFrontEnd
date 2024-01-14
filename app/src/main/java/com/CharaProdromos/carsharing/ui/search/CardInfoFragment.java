@@ -205,13 +205,13 @@ public class CardInfoFragment extends Fragment{
         String payDate = date[0] +" "+ date[1]+" " +date[2]+" " +date[3]+" "+date[5];
         String type = car.getRate();
         String[] temp = type.split("/");
+        type = temp[1];
         if(type.equals("hour")) {
             type = "Hourly";
         }
         else if(type.equals("day")) {
             type = "Daily";
         }
-        type = temp[1];
         try {
             jsonBody.put("PlateNum", car.getPlate());
             jsonBody.put("Type",type);
